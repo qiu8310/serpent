@@ -7,7 +7,7 @@
     "serpent",
     "dev-kits"
   ],
-  "license": "ISC",
+  "license": "GPL-2.0",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
     "type": "git",

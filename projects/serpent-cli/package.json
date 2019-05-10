@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "a cli for serpent",
   "main": "dist/serpent.js",
+  "license": "GPL-2.0",
   "bin": {
     "serpent": "dist/serpent.js"
   },
@@ -54,7 +55,6 @@
     "serpent",
     "cli"
   ],
-  "license": "ISC",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
     "type": "git",

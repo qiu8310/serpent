@@ -16,13 +16,16 @@
 			"path": "projects/serpent-dev-kits"
 		},
 		{
-			"path": "projects/serpent-base"
+			"path": "projects/serpent-template"
 		}
 	],
 	"settings": {
 		"files.exclude": {
+			"LICENSE": true,
       "projects": true,
-			".vscode": false
+			".vscode": false,
+			"*.d.ts": true,
+			"*.map.json": true,
 		},
 		"eslint.validate": [
 			"javascript",

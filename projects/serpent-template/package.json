@@ -1,12 +1,13 @@
 {
-  "name": "@serpent/base",
+  "name": "@serpent/template",
   "version": "0.0.0",
-  "description": "serpent base",
+  "description": "serpent template",
   "keywords": [
     "serpent",
-    "cli"
+    "template"
   ],
   "sideEffects": false,
+  "license": "GPL-2.0",
   "eslintConfig": {
     "env": {
       "node": false,
@@ -49,7 +50,6 @@
     "index": "serpent index",
     "prepare": "npm run precheck && npm run clear && npm run build && npm run index"
   },
-  "license": "ISC",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
     "type": "git",
