@@ -1,5 +1,25 @@
+/* eslint "@typescript-eslint/no-var-requires": "off" */
+const findup = require('mora-scripts/libs/fs/findup')
+const path = require('path')
+
+const rootDir = (function() {
+  try {
+    return path.dirname(findup.pkg())
+  } catch (e) {
+    return '<rootDir>'
+  }
+})()
+
 module.exports = {
-  roots: ['<rootDir>/src'],
+  globals: {
+    'ts-jest': {
+      diagnostics: {
+        warnOnly: true,
+        pathRegex: /\.(spec|test)\.tsx?$/
+      }
+    }
+  },
+  roots: [rootDir + '/src'],
   testEnvironment: 'node',
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx)$',
   transform: {
@@ -7,7 +27,7 @@ module.exports = {
   },
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
   collectCoverage: true,
-  coverageDirectory: '<rootDir>/coverage',
+  coverageDirectory: rootDir + '/coverage',
   coverageReporters: ['text', 'html'],
   coveragePathIgnorePatterns: ['/node_modules/', '/__tests__/'],
   coverageThreshold: {

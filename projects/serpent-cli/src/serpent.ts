@@ -1,10 +1,15 @@
-import * as cli from 'mora-scripts/libs/tty/cli'
-import * as rm from 'mora-scripts/libs/fs/rm'
-import * as exists from 'mora-scripts/libs/fs/exists'
-import * as findup from 'mora-scripts/libs/fs/findup'
-import * as path from 'path'
+#!/usr/bin/env node
 
-cli({
+import cli from 'mora-scripts/libs/tty/cli'
+import cp from 'child_process'
+
+import { index } from './serpent-index'
+import { clean } from './serpent-clean'
+import { jest } from './serpent-jest'
+
+import { getEnv } from './env'
+
+const cmder = cli({
   usage: 'serpent <command> [options]',
   version() {
     return require('../package.json').version
@@ -13,26 +18,32 @@ cli({
   clean: {
     desc: `删除项目根目录下的 dist 文件夹`,
     cmd() {
-      const { distDir } = getEnv()
-      if (exists(distDir)) rm(distDir)
+      clean(getEnv())
     }
   },
+
+  jest: {
+    desc: `用 dev-kits 中的 jest.config.js 来运行 jest 命令`,
+    cmd(res) {
+      const { cmd, args } = jest(res._, getEnv())
+      const child = cp.spawn(cmd, args, { stdio: 'inherit' })
+      child.on('exit', code => (process.exitCode = code || 0))
+    }
+  },
+
   index: {
     desc: `根据项目根目录下的 serpent.json 文件自动生成 index 入口文件`,
-    cmd() {}
+    cmd(res) {
+      index(res._, getEnv())
+    }
   }
 })
 
-function getEnv() {
-  let pkgFile
-  try {
-    pkgFile = findup.pkg()
-  } catch (e) {
-    throw new Error(`无法定位 package.json 文件，请确保在项目中运行 serpent 命令`)
-  }
-  const rootDir = path.dirname(pkgFile)
-  const srcDir = path.join(rootDir, 'src')
-  const distDir = path.join(rootDir, 'dist')
+export { cmder }
 
-  return { rootDir, srcDir, distDir }
+/* istanbul ignore if */
+if (!module.parent) {
+  cmder.parse(function() {
+    this.help()
+  })
 }

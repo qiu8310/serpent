@@ -7,6 +7,10 @@
   "command": {
     "publish": {
       "ignoreChanges": ["*.md"]
+    },
+    "bootstrap": {
+      "ignore": "@serpent/dev-kit",
+      "npmClientArgs": ["--no-package-lock"]
     }
   }
 }

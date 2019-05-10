@@ -1,19 +1,28 @@
 {
+	"extensions": {
+		"recommendations": [
+			"dbaeumer.vscode-eslint",
+			"qiu8310.dot-template-vscode"
+		]
+	},
 	"folders": [
 		{
 			"path": "/Users/Mora/Workspace/serpent"
 		},
 		{
-			"path": "serpent-cli"
+			"path": "projects/serpent-cli"
 		},
 		{
-			"path": "serpent-dev-kits"
+			"path": "projects/serpent-dev-kits"
+		},
+		{
+			"path": "projects/serpent-base"
 		}
 	],
 	"settings": {
 		"files.exclude": {
       "projects": true,
-      ".vscode": false
+			".vscode": false
 		},
 		"eslint.validate": [
 			"javascript",
@@ -33,5 +42,10 @@
 		],
 		"eslint.enable": true,
 		"eslint.autoFixOnSave": true,
+		"cSpell.enabled": true,
+		"cSpell.words": [
+			"dbaeumer",
+			"Parens"
+		],
 	}
 }

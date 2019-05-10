@@ -6,7 +6,9 @@ node_modules
 *.log
 dist
 
-
+# 根目录下会有自动生成的 .d.ts 文件
+*.d.ts
+*.map.json
 
 # 一些和当前项目无关的系统文件
 .AppleDouble
