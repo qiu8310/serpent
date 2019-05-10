@@ -1,0 +1,33 @@
+{
+  "include": ["src"],
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    // "module": "commonjs",
+    "module": "esnext", // We want the compiler to emit all import/export declarations and import() expressions unchanged. We'll let webpack bundle and split our code later.
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "es5", "dom", "es2015.promise", "es2015.core", "es2015.collection", "es2016.array.include"
+    ],
+    "jsx": "react",
+    "sourceMap": false,
+    "declaration": true,
+    "removeComments": false,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": false,
+    "importHelpers": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noImplicitThis": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "keyofStringsOnly": true,
+    "strictBindCallApply": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+  }
+}

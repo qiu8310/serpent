@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"path": "/Users/Mora/Workspace/serpent"
+		},
+		{
+			"path": "serpent-cli"
+		},
+		{
+			"path": "serpent-dev-kits"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+      "projects": true,
+      ".vscode": false
+		},
+		"eslint.validate": [
+			"javascript",
+			"javascriptreact",
+			{
+				"language": "typescript",
+				"autoFix": true
+			},
+			{
+				"language": "typescriptreact",
+				"autoFix": true
+			},
+			{
+				"language": "vue",
+				"autoFix": true
+			}
+		],
+		"eslint.enable": true,
+		"eslint.autoFixOnSave": true,
+	}
+}

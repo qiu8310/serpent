@@ -1,0 +1,20 @@
+{
+  "name": "serpent",
+  "version": "0.0.0",
+  "description": "a mono repository for serpent",
+  "private": true,
+  "keywords": [
+    "serpent"
+  ],
+  "license": "ISC",
+  "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiu8310/serpent"
+  },
+  "devDependencies": {
+    "dot-template-types": "0.0.9",
+    "lerna": "^3.13.4"
+  },
+  "dependencies": {}
+}

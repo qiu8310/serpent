@@ -1,0 +1,10 @@
+.vscode
+jest.config.js
+.prettierrc.json
+
+src
+vendor
+coverage
+__tests__
+
+dist/**/*.js.map

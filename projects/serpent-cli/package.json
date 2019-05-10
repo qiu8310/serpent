@@ -1,0 +1,58 @@
+{
+  "name": "@serpent/cli",
+  "version": "0.0.0",
+  "description": "a cli for serpent",
+  "main": "dist/serpent.js",
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "./node_modules/@serpent/dev-kits/.eslintrc"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    }
+  },
+  "eslintIgnore": [
+    "dist", "coverage"
+  ],
+  "prettier": {
+    "$schema": "http://json.schemastore.org/prettierrc",
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "bracketSpacing": true,
+    "jsxBracketSameLine": false,
+    "endOfLine": "lf",
+    "arrowParens": "avoid",
+    "jsxSingleQuote": true
+  },
+  "scripts": {
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "test": "jest",
+    "precheck": "npm run lint && npm run test",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "prepublishOnly": "npm run precheck && npm run build"
+  },
+  "keywords": [
+    "serpent",
+    "cli"
+  ],
+  "license": "ISC",
+  "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiu8310/serpent"
+  },
+  "dependencies": {
+    "@serpent/dev-kits": "0.0.0",
+    "mora-scripts": "^1.6.41"
+  }
+}
