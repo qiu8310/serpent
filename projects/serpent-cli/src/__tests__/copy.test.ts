@@ -11,8 +11,8 @@ describe('copy', () => {
   beforeEach(() => {
     fromDir = path.join(os.tmpdir(), 'serpent-src-' + Math.random())
     distDir = path.join(os.tmpdir(), 'serpent-dist-' + Math.random())
-    fs.mkdirSync(fromDir, { recursive: true })
-    fs.mkdirSync(distDir, { recursive: true })
+    fs.mkdirSync(fromDir)
+    fs.mkdirSync(distDir)
   })
   afterEach(() => {
     if (fs.existsSync(fromDir)) rm(fromDir)
@@ -25,7 +25,7 @@ describe('copy', () => {
   function createFile(file: string | string[], content = '', useDistDir?: boolean) {
     const fullPath = path.join(useDistDir ? distDir : fromDir, ...toArray(file))
     const dir = path.dirname(fullPath)
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir)
     fs.writeFileSync(fullPath, content)
   }
   function testFile(file: string | string[], content = '', useFromDir?: boolean) {
@@ -63,6 +63,17 @@ describe('copy', () => {
     expect(() => {
       copy(fromDir, distDir)
     }).toThrowError(/目标文件 .* 已经存在/)
+  })
+
+  test('rename', () => {
+    createFile('file', 'hello')
+    copy(fromDir, distDir, {
+      rename(dist) {
+        return dist + '_xxx'
+      }
+    })
+    testNotFile('file')
+    testFile('file_xxx', 'hello')
   })
 
   test('excludes', () => {

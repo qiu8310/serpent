@@ -20,6 +20,9 @@ export namespace copy {
     includes?: (relativePath: string, srcFile: string) => boolean
     /** 在 copy 某个文件时，可以对其内容替换 */
     replacers?: Replacer[]
+
+    /** 返回新的 distFile（不会处理文件夹，所有 distFile 都是 isFile） */
+    rename?: (distFile: string, relativePath: string, srcFile: string) => string
   }
   export type RequiredOptions = Required<Options>
   export type Replacer = JsonReplacer | TextReplacer | ManualReplacer
@@ -74,11 +77,13 @@ export namespace copy {
 const regexpCache: any = {}
 const includes = () => false
 const excludes = () => false
+const rename = (file: string) => file
 
 export function copy(fromDir: string, distDir: string, options: copy.Options = {}) {
   const requiredOptions: copy.RequiredOptions = {
     includes,
     excludes,
+    rename,
     duplicate: 'error',
     replacers: [],
     ...options
@@ -110,7 +115,7 @@ export function copy(fromDir: string, distDir: string, options: copy.Options = {
 
 function writeFile(distFile: string, content: string | Buffer) {
   const dir = path.dirname(distFile)
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+  if (!fs.existsSync(dir)) mkdir(dir)
   fs.writeFileSync(distFile, content)
 }
 
@@ -121,14 +126,14 @@ function walk(
   dir: string,
   options: copy.RequiredOptions
 ) {
-  const { includes, excludes, duplicate } = options
+  const { includes, excludes, duplicate, rename } = options
   fs.readdirSync(dir).forEach(name => {
     const srcFile = path.join(dir, name)
     const relativePath = path.relative(fromDir, srcFile)
     if (includes(relativePath, srcFile) || !excludes(relativePath, srcFile)) {
       const stat = fs.statSync(srcFile)
       if (stat.isFile()) {
-        const distFile = path.join(distDir, relativePath)
+        const distFile = rename(path.join(distDir, relativePath), relativePath, srcFile)
         const fileInfo = { srcFile, distFile, relativePath }
         if (fs.existsSync(distFile)) {
           if (duplicate === 'error') {
@@ -182,4 +187,15 @@ function getTextReplacerRegExp(tagStart: string, tagEnd: string): RegExp {
     )
   }
   return regexpCache[key]
+}
+
+/* istanbul ignore next */
+function mkdir(dir: string, originalDir?: string) {
+  const parent = path.dirname(dir)
+  if (parent !== dir) {
+    if (!fs.existsSync(parent)) mkdir(parent, originalDir || dir)
+    fs.mkdirSync(dir)
+  } else {
+    throw new Error(`无法创建文件夹 ${originalDir}`)
+  }
 }
