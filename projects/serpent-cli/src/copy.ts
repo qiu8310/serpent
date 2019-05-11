@@ -192,7 +192,7 @@ function getTextReplacerRegExp(tagStart: string, tagEnd: string): RegExp {
 /* istanbul ignore next */
 function mkdir(dir: string, originalDir?: string) {
   const parent = path.dirname(dir)
-  if (parent !== dir) {
+  if (parent && parent !== dir) {
     if (!fs.existsSync(parent)) mkdir(parent, originalDir || dir)
     fs.mkdirSync(dir)
   } else {
