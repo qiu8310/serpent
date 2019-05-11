@@ -1,6 +1,10 @@
-/* eslint "@typescript-eslint/no-var-requires": "off" */
+/* eslint "@typescript-eslint/no-var-requires": "off", @typescript-eslint/no-triple-slash-reference: "off" */
+// @ts-check
+/// <reference path='./node_modules/@types/jest/index.d.ts' />
+
 const findup = require('mora-scripts/libs/fs/findup')
 const path = require('path')
+const devKitsRootDir = path.resolve(__dirname)
 
 const rootDir = (function() {
   try {
@@ -10,7 +14,8 @@ const rootDir = (function() {
   }
 })()
 
-module.exports = {
+/** @type {Partial<jest.DefaultOptions>} */
+const config = {
   globals: {
     'ts-jest': {
       diagnostics: {
@@ -26,6 +31,15 @@ module.exports = {
     '^.+\\.tsx?$': require.resolve('ts-jest')
   },
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
+
+  // 在 webpack 中使用
+  // https://jestjs.io/docs/en/webpack
+  moduleNameMapper: {
+    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
+      devKitsRootDir + '/res/fileMock.js',
+    '\\.(css|less|scss|sass)$': devKitsRootDir + '/res/styleMock.js'
+  },
+
   collectCoverage: true,
   coverageDirectory: rootDir + '/coverage',
   coverageReporters: ['text', 'html'],
@@ -43,3 +57,5 @@ module.exports = {
     }
   }
 }
+
+module.exports = config

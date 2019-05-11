@@ -1,8 +1,7 @@
 import rm from 'mora-scripts/libs/fs/rm'
 import exists from 'mora-scripts/libs/fs/exists'
-import { getEnv } from './env'
 
-export function clean(env: ReturnType<typeof getEnv>) {
+export function clean(env: { distDir: string }) {
   const { distDir } = env
-  if (exists(distDir)) rm(distDir)
+  if (exists.directory(distDir)) rm(distDir)
 }

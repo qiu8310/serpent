@@ -7,7 +7,9 @@ import minimatch from 'minimatch'
 import { index2json } from 'index-loader/dist/index2json'
 
 const NAME_FILTER = (name: string) => !name.startsWith('.') && !name.startsWith('_')
-const MODULE_FILE_EXT_REGEXP = /\.tsx?$/
+const MODULE_FILE_EXTS = ['.ts', '.tsx', '.js', '.jsx']
+const isModuleFile = (file: string) => MODULE_FILE_EXTS.some(ext => file.endsWith(ext))
+const removeModuleExt = (file: string) => file.replace(/\.(tsx?|jsx?)$/, '')
 
 export function index(subModules: string[], env: ReturnType<typeof getEnv>) {
   const {
@@ -59,7 +61,7 @@ function generateModule(
   })
 
   if (!exportFiles.length) throw new Error(`模块 "${key}" 下没有任何文件`)
-  const moduleName = key.replace(MODULE_FILE_EXT_REGEXP, '')
+  const moduleName = removeModuleExt(key)
   const moduleFile = path.join(rootDir, moduleName + '.d.ts')
   const moduleContent = getModuleContent(rootDir, exportFiles.map(f => f.replace(srcDir, distDir)))
   clog(
@@ -73,21 +75,14 @@ function generateModule(
 }
 
 function writeFile(file: string, content: string) {
-  if (!exists(file) || fs.readFileSync(file).toString() !== content) {
+  if (!exists.file(file) || fs.readFileSync(file).toString() !== content) {
     fs.writeFileSync(file, content)
   }
 }
 
 function getModuleContent(rootDir: string, exportFiles: string[]) {
   return exportFiles
-    .map(
-      file =>
-        './' +
-        path
-          .relative(rootDir, file)
-          .replace(MODULE_FILE_EXT_REGEXP, '')
-          .replace(/\\/g, '/')
-    )
+    .map(file => removeModuleExt('./' + path.relative(rootDir, file).replace(/\\/g, '/')))
     .map(file => `export * from '${file}'\n`)
     .join('')
 }
@@ -95,12 +90,12 @@ function getModuleContent(rootDir: string, exportFiles: string[]) {
 function getAllExportFiles(file: string) {
   const entries: string[] = []
   const stat = fs.statSync(file)
-  if (stat.isFile() && MODULE_FILE_EXT_REGEXP.test(file)) {
+  if (stat.isFile() && isModuleFile(file)) {
     entries.push(file)
   } else if (stat.isDirectory()) {
-    const indexes = [path.join(file, 'index.ts'), path.join(file, 'index.tsx')]
+    const indexes = MODULE_FILE_EXTS.map(ext => path.join(file, 'index' + ext))
     for (const file of indexes) {
-      if (exists(file)) {
+      if (exists.file(file)) {
         entries.push(file)
         return entries
       }

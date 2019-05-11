@@ -20,6 +20,12 @@
 		}
 	],
 	"settings": {
+		"json.schemas": [
+			{
+				"fileMatch": [ "package.json" ],
+				"url": "http://qiu8310.github.io/package.schema.json"
+			},
+		],
 		"files.exclude": {
 			"LICENSE": true,
       "projects": true,
@@ -47,8 +53,10 @@
 		"eslint.autoFixOnSave": true,
 		"cSpell.enabled": true,
 		"cSpell.words": [
+			"Parens",
+			"browserslist",
 			"dbaeumer",
-			"Parens"
+			"exts"
 		],
 	}
 }
