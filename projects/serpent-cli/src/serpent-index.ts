@@ -2,9 +2,7 @@ import { getEnv } from './env'
 import fs from 'fs'
 import path from 'path'
 import exists from 'mora-scripts/libs/fs/exists'
-import clog from 'mora-scripts/libs/sys/clog'
 import minimatch from 'minimatch'
-import { index2json } from 'index-loader/dist/index2json'
 
 const NAME_FILTER = (name: string) => !name.startsWith('.') && !name.startsWith('_')
 const MODULE_FILE_EXTS = ['.ts', '.tsx', '.js', '.jsx']
@@ -19,19 +17,19 @@ export function index(subModules: string[], env: ReturnType<typeof getEnv>) {
     userConfig: { ignores = [] }
   } = env
 
+  if (subModules.includes('index')) {
+    throw new Error(`"index" 是默认的模块名称，不能用作子模块名`)
+  }
+
   const fileNames = fs.readdirSync(srcDir).filter(NAME_FILTER)
 
   const map: { [key: string]: string[] } = {
     index: []
   }
 
-  if (subModules.includes('index')) {
-    throw new Error(`"index" 是默认的模块名称，不能用作子模块名`)
-  }
-
   subModules.forEach(sub => {
     if (!fileNames.includes(sub)) {
-      throw new Error(`目录 "${srcDir}" 中不存在子模块 "${sub}"`)
+      throw new Error(`目录 "${path.relative(rootDir, srcDir)}" 中不存在子模块 "${sub}"`)
     }
   })
 
@@ -40,7 +38,9 @@ export function index(subModules: string[], env: ReturnType<typeof getEnv>) {
     else map.index.push(path.join(srcDir, n))
   })
 
-  Object.keys(map).forEach(key => generateModule(rootDir, srcDir, distDir, key, map[key], ignores))
+  return Object.keys(map).map(key =>
+    generateModule(rootDir, srcDir, distDir, key, map[key], ignores)
+  )
 }
 
 function generateModule(
@@ -55,7 +55,9 @@ function generateModule(
   entries.forEach(file => {
     let files = getAllExportFiles(file)
     if (ignores.length) {
-      files = files.filter(f => ignores.every(ignore => !minimatch(f, ignore)))
+      files = files.filter(f =>
+        ignores.every(ignore => !minimatch(path.relative(rootDir, f), ignore))
+      )
     }
     exportFiles.push(...files)
   })
@@ -64,19 +66,13 @@ function generateModule(
   const moduleName = removeModuleExt(key)
   const moduleFile = path.join(rootDir, moduleName + '.d.ts')
   const moduleContent = getModuleContent(rootDir, exportFiles.map(f => f.replace(srcDir, distDir)))
-  clog(
-    `%c create ${moduleName} module: %c${moduleName}.d.ts ${moduleName}.map.json`,
-    'green',
-    'bold'
-  )
-  writeFile(moduleFile, moduleContent)
-  const json = index2json(moduleFile)
-  writeFile(path.join(rootDir, moduleName + '.map.json'), JSON.stringify(json, null, 2))
-}
+  const jsonFile = path.join(rootDir, moduleName + '.map.json')
 
-function writeFile(file: string, content: string) {
-  if (!exists.file(file) || fs.readFileSync(file).toString() !== content) {
-    fs.writeFileSync(file, content)
+  return {
+    moduleName,
+    moduleFile,
+    moduleContent,
+    jsonFile
   }
 }
 

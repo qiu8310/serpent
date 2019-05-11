@@ -2,6 +2,10 @@
 
 import cli from 'mora-scripts/libs/tty/cli'
 import cp from 'child_process'
+import fs from 'fs'
+import { index2json } from 'index-loader/dist/index2json'
+import exists from 'mora-scripts/libs/fs/exists'
+import clog from 'mora-scripts/libs/sys/clog'
 
 import { index } from './serpent-index'
 import { clean } from './serpent-clean'
@@ -35,10 +39,27 @@ cli({
     index: {
       desc: `根据项目根目录下的 serpent.json 文件自动生成 index 入口文件`,
       cmd(res) {
-        index(res._, getEnv())
+        index(res._, getEnv()).forEach(({ moduleName, moduleFile, moduleContent, jsonFile }) => {
+          writeFile(moduleFile, moduleContent)
+
+          // 要先生成 moduleFile
+          const jsonMap = index2json(moduleFile)
+          writeFile(jsonFile, JSON.stringify(jsonMap, null, 2))
+          clog(
+            `%c create ${moduleName} module: %c${moduleName}.d.ts ${moduleName}.map.json`,
+            'green',
+            'bold'
+          )
+        })
       }
     }
   })
   .parse(function() {
     this.help()
   })
+
+function writeFile(file: string, content: string) {
+  if (!exists.file(file) || fs.readFileSync(file).toString() !== content) {
+    fs.writeFileSync(file, content)
+  }
+}
