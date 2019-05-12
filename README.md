@@ -5,8 +5,8 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/abdf354baaac407e8052/maintainability)](https://codeclimate.com/github/qiu8310/serpent/maintainability)
 
 
-* @serpent/cli [![NPM version](https://badge.fury.io/js/@serpent/cli.svg)](https://npmjs.org/package/@serpent/cli)
-* @serpent/dev-kit [![NPM version](https://badge.fury.io/js/@serpent/dev-kit.svg)](https://npmjs.org/package/@serpent/dev-kit)
+* @serpent/cli [![npm version](https://badge.fury.io/js/%40serpent%2Fcli.svg)](https://badge.fury.io/js/%40serpent%2Fcli)
+* @serpent/dev-kits [![npm version](https://badge.fury.io/js/%40serpent%2Fdev-kits.svg)](https://badge.fury.io/js/%40serpent%2Fdev-kits)
 
 
 
