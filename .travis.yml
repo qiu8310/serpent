@@ -3,33 +3,35 @@
 
 language: node_js
 
+env:
+  - CI=true
+
 matrix:
   include:
     - os: windows
     - os: osx
 
-env:
-  - CI=true
+# os:
+#   - linux
+#   - osx
+#   - windows
+
 node_js:
   - "8"
   - "10"
   - "12"
 
 before_install:
-  - npm i -g npm
-  - npm cache clean --force
-  - npm cache verify
+  - echo before_install
 
 install:
   - npm install
-  - npm run bootstrap
 
 before_script:
   - echo before_script
 
 scripts:
   - npm test
-
 
 notifications:
   email:
