@@ -57,7 +57,6 @@
     "arrowParens": "avoid",
     "jsxSingleQuote": true
   },
-
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
     "type": "git",
