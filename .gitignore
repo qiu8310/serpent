@@ -5,6 +5,8 @@ node_modules
 .cache
 *.log
 dist
+!package-lock.json
+yarn.lock
 
 # 根目录下会有自动生成的 .d.ts 文件
 *.d.ts
