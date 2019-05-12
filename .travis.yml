@@ -15,12 +15,10 @@ node_js:
   - "10"
   - "12"
 
-sudo: false
-
-
 before_install:
   - npm i -g npm
   - npm cache clean --force
+  - npm cache verify
 
 install:
   - npm install
