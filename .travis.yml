@@ -16,7 +16,8 @@ git:
 
 before_install:
   - echo before_install
-  - npm i -g npm@6.9
+  - npm i -g npm
+  - npm cache clean --force
 
 install:
   - npm install
