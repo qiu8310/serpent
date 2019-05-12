@@ -10,7 +10,8 @@
     "cli:bootstrap": "cd projects/serpent-cli && npm install && cd ../..",
     "cli:test": "cd projects/serpent-cli && npm test && cd ../..",
     "bootstrap": "npm run cli:bootstrap && lerna bootstrap",
-    "test": "npm run cli:test && lerna run test"
+    "test": "npm run cli:test && lerna run test",
+    "postinstall": "npm run bootstrap"
   },
   "license": "GPL-2.0",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
