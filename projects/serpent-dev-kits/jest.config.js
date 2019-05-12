@@ -24,7 +24,8 @@ const config = {
       }
     }
   },
-  roots: [rootDir + '/src'],
+  rootDir: rootDir,
+  roots: ['<rootDir>/src'],
   testEnvironment: 'node',
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx)$',
   transform: {
@@ -41,7 +42,7 @@ const config = {
   },
 
   collectCoverage: true,
-  coverageDirectory: rootDir + '/coverage',
+  coverageDirectory: '<rootDir>/coverage',
   coverageReporters: ['text', 'html'],
   coveragePathIgnorePatterns: ['/node_modules/', '/__tests__/'],
   coverageThreshold: {

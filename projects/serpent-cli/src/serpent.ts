@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import cli from 'mora-scripts/libs/tty/cli'
-import cp from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { index2json } from 'index-loader/dist/index2json'
@@ -11,7 +10,6 @@ import clog from 'mora-scripts/libs/sys/clog'
 
 import { index } from './serpent-index'
 import { clean } from './serpent-clean'
-import { jest } from './serpent-jest'
 import { init, initInit } from './serpent-init'
 
 import { getEnv } from './env'
@@ -27,15 +25,6 @@ cli({
       desc: `删除项目根目录下的 dist 文件夹`,
       cmd() {
         clean(getEnv())
-      }
-    },
-
-    jest: {
-      desc: `用 dev-kits 中的 jest.config.js 来运行 jest 命令`,
-      cmd(res) {
-        const { cmd, args } = jest(res._, getEnv())
-        const child = cp.spawn(cmd, args, { stdio: 'inherit' })
-        child.on('exit', code => (process.exitCode = code || 0))
       }
     },
 

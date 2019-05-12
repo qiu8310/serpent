@@ -13,8 +13,15 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
+    "@serpent/cli": "file:../serpent-cli",
+    "@serpent/dev-kits": "file:../serpent-dev-kits",
+    "@types/minimatch": "^3.0.3",
     "dot-template-types": "0.0.9",
     "lerna": "^3.13.4"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@serpent/cli": "file:projects/serpent-cli",
+    "@serpent/dev-kits": "file:projects/serpent-dev-kits",
+    "@serpent/template": "file:projects/serpent-template"
+  }
 }

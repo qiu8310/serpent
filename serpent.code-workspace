@@ -23,7 +23,11 @@
 		"json.schemas": [
 			{
 				"fileMatch": [ "package.json" ],
-				"url": "http://qiu8310.github.io/package.schema.json"
+				"url": "https://qiu8310.github.io/schema/package.json"
+			},
+			{
+				"fileMatch": [ "jest.config.json" ],
+				"url": "https://qiu8310.github.io/schema/jest.json"
 			},
 		],
 		"files.exclude": {
@@ -32,6 +36,21 @@
 			".vscode": false,
 			"*.d.ts": true,
 			"*.map.json": true,
+		},
+		"[typescript]": {
+			"editor.formatOnSave": false
+		},
+		"[typescriptreact]": {
+			"editor.formatOnSave": false
+		},
+		"[javascript]": {
+			"editor.formatOnSave": false
+		},
+		"[javascriptreact]": {
+			"editor.formatOnSave": false
+		},
+		"[json]": {
+			"editor.formatOnSave": false
 		},
 		"eslint.validate": [
 			"javascript",

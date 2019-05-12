@@ -26,6 +26,10 @@
     "dist",
     "coverage"
   ],
+  "jest": {
+    "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
+    "testEnvironment": "node"
+  },
   "prettier": {
     "printWidth": 100,
     "tabWidth": 2,
@@ -47,7 +51,7 @@
     "build": "tsc",
     "build:watch": "tsc -w",
     "index": "serpent index",
-    "prepare": "npm run precheck && npm run clear && npm run build && npm run index"
+    "prepublish": "npm run precheck && npm run clear && npm run build && npm run index"
   },
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
@@ -55,7 +59,7 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
-    "@serpent/cli": "0.0.1",
-    "@serpent/dev-kits": "0.0.3"
+    "@serpent/dev-kits": "0.0.1",
+    "@serpent/cli": "0.0.1"
   }
 }
