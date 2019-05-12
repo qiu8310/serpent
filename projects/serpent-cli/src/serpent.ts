@@ -13,6 +13,7 @@ import { clean } from './serpent-clean'
 import { init, initInit } from './serpent-init'
 
 import { getEnv } from './env'
+import { peer } from './serpent-peer'
 
 cli({
   usage: 'serpent <command> [options]',
@@ -21,31 +22,6 @@ cli({
   }
 })
   .commands({
-    clean: {
-      desc: `删除项目根目录下的 dist 文件夹`,
-      cmd() {
-        clean(getEnv())
-      }
-    },
-
-    index: {
-      desc: `根据项目根目录下的 serpent.json 文件自动生成 index 入口文件`,
-      cmd(res) {
-        index(res._, getEnv()).forEach(({ moduleName, moduleFile, moduleContent, jsonFile }) => {
-          writeFile(moduleFile, moduleContent)
-
-          // 要先生成 moduleFile
-          const jsonMap = index2json(moduleFile)
-          writeFile(jsonFile, JSON.stringify(jsonMap, null, 2))
-          clog(
-            `%c create ${moduleName} module: %c${moduleName}.d.ts ${moduleName}.map.json`,
-            'green',
-            'bold'
-          )
-        })
-      }
-    },
-
     init: {
       desc: '初始化新项目',
       cmd(res) {
@@ -74,6 +50,39 @@ cli({
         init(templateDistDir, distDir, { name, description })
 
         clog(`%c create project %c@serpent/${name} `, 'green', 'bold')
+      }
+    },
+
+    clean: {
+      desc: `删除项目根目录下的 dist 文件夹`,
+      cmd() {
+        clean(getEnv())
+      }
+    },
+
+    index: {
+      desc: `根据项目根目录下的 serpent.json 文件自动生成 index 入口文件`,
+      cmd(res) {
+        index(res._, getEnv()).forEach(({ moduleName, moduleFile, moduleContent, jsonFile }) => {
+          writeFile(moduleFile, moduleContent)
+
+          // 要先生成 moduleFile
+          const jsonMap = index2json(moduleFile)
+          writeFile(jsonFile, JSON.stringify(jsonMap, null, 2))
+          clog(
+            `%c create ${moduleName} module: %c${moduleName}.d.ts ${moduleName}.map.json`,
+            'green',
+            'bold'
+          )
+        })
+      }
+    },
+
+    peer: {
+      desc: '@serpent/dev-* 开头的项目生成 peerDependencies',
+      cmd() {
+        const env = getEnv()
+        peer(env.rootDir)
       }
     }
   })

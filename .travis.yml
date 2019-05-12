@@ -1,0 +1,35 @@
+# https://docs.travis-ci.com/user/customizing-the-build
+# https://docs.travis-ci.com/user/languages/javascript-with-nodejs
+
+language: node_js
+
+env:
+  - CI=true
+node_js:
+  - "8"
+  - "10"
+  - "12"
+
+sudo: false
+git:
+  submodules: true
+
+
+before_install:
+  - echo before_install
+
+install:
+  - npm install
+  - cd projects/serpent-cli && npm install && cd ../..
+
+before_script:
+  - echo before_script
+
+scripts:
+  - npm test
+  - cd projects/serpent-cli && npm test && cd ../..
+
+
+notifications:
+  email:
+    - qiuzhongleiabc@126.com

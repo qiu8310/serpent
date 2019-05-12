@@ -2,11 +2,16 @@
   "name": "@serpent/dev-kits",
   "version": "0.0.1",
   "description": "serpent dev kits",
-  "scripts": {},
+  "scripts": {
+    "prepublish": "node ../serpent-cli/dist/serpent.js peer"
+  },
   "keywords": [
     "serpent",
     "dev-kits"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "GPL-2.0",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
@@ -14,6 +19,7 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
+    "@types/node": "^8.0.0",
     "@types/jest": "^24.0.12",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -27,6 +33,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
+    "@types/node": "^8.0.0",
     "@types/jest": "^24.0.12",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",

@@ -10,5 +10,6 @@ const config = {}
  */
 module.exports = {
   ...require('@serpent/dev-kits/jest.config'),
-  ...config
+  ...config,
+  displayName: '@serpent/cli'
 }

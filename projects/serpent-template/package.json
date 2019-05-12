@@ -7,7 +7,20 @@
     "template"
   ],
   "sideEffects": false,
+  "scripts": {
+    "clean": "serpent clean",
+    "test": "jest",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "precheck": "npm run lint && npm run test",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "index": "serpent index",
+    "prepublish": "npm run precheck && npm run clean && npm run build && npm run index"
+  },
   "license": "GPL-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "eslintConfig": {
     "env": {
       "node": false,
@@ -28,6 +41,7 @@
   ],
   "jest": {
     "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
+    "displayName": "@serpent/template",
     "testEnvironment": "node"
   },
   "prettier": {
@@ -43,16 +57,7 @@
     "arrowParens": "avoid",
     "jsxSingleQuote": true
   },
-  "scripts": {
-    "clean": "serpent clean",
-    "test": "serpent jest",
-    "lint": "eslint --ext .ts,.tsx ./src",
-    "precheck": "npm run lint && npm run test",
-    "build": "tsc",
-    "build:watch": "tsc -w",
-    "index": "serpent index",
-    "prepublish": "npm run precheck && npm run clear && npm run build && npm run index"
-  },
+
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
     "type": "git",
@@ -60,6 +65,6 @@
   },
   "devDependencies": {
     "@serpent/dev-kits": "0.0.1",
-    "@serpent/cli": "0.0.1"
+    "@serpent/cli": "0.0.0"
   }
 }
