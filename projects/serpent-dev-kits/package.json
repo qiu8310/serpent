@@ -19,13 +19,14 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "@types/node": "^8.0.0",
     "@types/jest": "^24.0.12",
+    "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-serpent": "0.0.0",
     "jest": "^24.8.0",
     "mora-scripts": "^1.6.41",
     "prettier": "^1.17.0",
@@ -33,13 +34,14 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@types/node": "^8.0.0",
     "@types/jest": "^24.0.12",
+    "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
     "@typescript-eslint/parser": "^1.7.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.2.0",
     "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-serpent": "0.0.1",
     "jest": "^24.8.0",
     "mora-scripts": "^1.6.41",
     "prettier": "^1.17.0",
