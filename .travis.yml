@@ -16,6 +16,7 @@ git:
 
 before_install:
   - echo before_install
+  - npm i -g npm@6.9
 
 install:
   - npm install
