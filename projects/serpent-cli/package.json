@@ -64,7 +64,7 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
-    "@serpent/dev-kits": "0.0.1",
+    "@serpent/dev-kits": "~0.0.1",
     "@types/minimatch": "^3.0.3"
   },
   "dependencies": {

@@ -1,0 +1,50 @@
+#!/env/usr/bin node
+
+/*
+  将所有模块之间的依赖更新到最新，保证相互之间的依赖都是最新的
+*/
+
+const fs = require('fs')
+const path = require('path')
+
+const PREFIX = '~'
+const projectRoot = path.join(__dirname, '..', 'projects')
+const map = {}
+
+fs.readdirSync(projectRoot)
+  .filter(name => name.startsWith('serpent-'))
+  .forEach(name => {
+    const pkgFile = path.join(projectRoot, name, 'package.json')
+    if (!fs.existsSync(pkgFile)) return
+    const pkg = require(pkgFile)
+    map[pkg.name] = {
+      version: pkg.version,
+      pkgFile,
+      pkg
+    }
+  })
+
+const CHECK_KEYS = ['dependencies', 'devDependencies', 'peerDependencies']
+Object.entries(map).forEach(([name, {pkgFile, pkg}]) => {
+  let updated = false
+  for (const key of CHECK_KEYS) {
+    if (pkg[key] && update(pkg[key])) updated = true
+  }
+  if (updated) {
+    fs.writeFileSync(pkgFile, JSON.stringify(pkg, null, 2))
+  }
+})
+
+function update(dependencies) {
+  let updated = false
+  Object.entries(dependencies).forEach(([name, versionRange]) => {
+    if (map.hasOwnProperty(name)) {
+      let value = PREFIX + map[name].version
+      if (value !== versionRange) {
+        dependencies[name] = value
+        updated = true
+      }
+    }
+  })
+  return updated
+}
