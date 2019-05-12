@@ -15,7 +15,7 @@
     "build": "tsc",
     "build:watch": "tsc -w",
     "index": "serpent index",
-    "prepublish": "npm run precheck && npm run clean && npm run build && npm run index"
+    "prepublishOnly": "npm run precheck && npm run clean && npm run build && npm run index"
   },
   "license": "GPL-2.0",
   "publishConfig": {

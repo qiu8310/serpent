@@ -29,6 +29,10 @@
 				"fileMatch": [ "jest.config.json" ],
 				"url": "https://qiu8310.github.io/schema/jest.json"
 			},
+			{
+				"fileMatch": [ "lerna.json" ],
+				"url": "https://qiu8310.github.io/schema/lerna.json"
+			},
 		],
 		"files.exclude": {
 			"LICENSE": true,

@@ -14,6 +14,10 @@
       "ignoreChanges": ["*.md"]
     },
     "bootstrap": {
+      "ignore": [
+        "@serpent/dev-*",
+        "@serpent/cli"
+      ],
       "npmClientArgs": ["--no-package-lock"]
     }
   }

@@ -7,8 +7,10 @@
     "serpent"
   ],
   "scripts": {
-    "postinstall": "lerna bootstrap",
-    "test": "lerna run test"
+    "cli:install": "cd projects/serpent-cli && npm install && cd ../..",
+    "cli:test": "cd projects/serpent-cli && npm test && cd ../..",
+    "postinstall": "npm run cli:install && lerna bootstrap",
+    "test": "npm run cli:test && lerna run test"
   },
   "license": "GPL-2.0",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
@@ -17,15 +19,7 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
-    "@serpent/cli": "file:../serpent-cli",
-    "@serpent/dev-kits": "file:../serpent-dev-kits",
-    "@types/minimatch": "^3.0.3",
     "dot-template-types": "0.0.9",
     "lerna": "^3.13.4"
-  },
-  "dependencies": {
-    "@serpent/cli": "file:projects/serpent-cli",
-    "@serpent/dev-kits": "file:projects/serpent-dev-kits",
-    "@serpent/template": "file:projects/serpent-template"
   }
 }

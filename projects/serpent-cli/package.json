@@ -7,6 +7,15 @@
   "bin": {
     "serpent": "dist/serpent.js"
   },
+  "scripts": {
+    "clean": "remove-all ./dist",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "test": "jest",
+    "precheck": "npm run lint && npm run test",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "prepublishOnly": "npm run precheck && npm run clean && npm run build"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -44,15 +53,6 @@
   "engineStrict": true,
   "engines": {
     "node": ">= 8"
-  },
-  "scripts": {
-    "clean": "remove-all ./dist",
-    "lint": "eslint --ext .ts,.tsx ./src",
-    "test": "jest",
-    "precheck": "npm run lint && npm run test",
-    "build": "tsc",
-    "build:watch": "tsc -w",
-    "prepublishOnly": "npm run precheck && npm run clean && npm run build"
   },
   "keywords": [
     "serpent",

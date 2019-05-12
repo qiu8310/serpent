@@ -14,20 +14,17 @@ sudo: false
 git:
   submodules: true
 
-
 before_install:
   - echo before_install
 
 install:
   - npm install
-  - cd projects/serpent-cli && npm install && cd ../..
 
 before_script:
   - echo before_script
 
 scripts:
   - npm test
-  - cd projects/serpent-cli && npm test && cd ../..
 
 
 notifications:
