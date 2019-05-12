@@ -43,7 +43,7 @@ const config = {
 
   collectCoverage: true,
   coverageDirectory: '<rootDir>/coverage',
-  coverageReporters: ['text', 'html'],
+  coverageReporters: ['text', 'html', 'lcov'],
   coveragePathIgnorePatterns: ['/node_modules/', '/__tests__/'],
   coverageThreshold: {
     // with the following configuration jest will fail

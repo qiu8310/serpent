@@ -10,6 +10,7 @@ matrix:
   include:
     - os: windows
     - os: osx
+      env: CODECOV=true
 
 # os:
 #   - linux
@@ -26,12 +27,17 @@ before_install:
 
 install:
   - npm install
+  - if [ "$CODECOV" = "true" ]; then npm install -g codecov@3; fi
 
 before_script:
   - echo before_script
 
 scripts:
   - npm test
+
+after_success:
+  - if [ "$CODECOV" = "true" ]; then codecov -f projects/serpent-cli/coverage/lcov.info ; fi
+  - if [ "$CODECOV" = "true" ]; then codecov -f projects/serpent-template/coverage/lcov.info ; fi
 
 notifications:
   email:

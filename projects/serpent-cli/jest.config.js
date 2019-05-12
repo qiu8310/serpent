@@ -11,5 +11,6 @@ const config = {}
 module.exports = {
   ...require('@serpent/dev-kits/jest.config'),
   ...config,
-  displayName: '@serpent/cli'
+  displayName: '@serpent/cli',
+  coverageReporters: ['text', 'html', 'lcov']
 }

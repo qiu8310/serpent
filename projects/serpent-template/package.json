@@ -21,6 +21,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "jest": {
+    "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
+    "displayName": "@serpent/template",
+    "coverageReporters": ["text", "html", "lcov"],
+    "testEnvironment": "node"
+  },
   "eslintConfig": {
     "env": {
       "node": false,
@@ -39,11 +45,6 @@
     "dist",
     "coverage"
   ],
-  "jest": {
-    "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
-    "displayName": "@serpent/template",
-    "testEnvironment": "node"
-  },
   "prettier": {
     "printWidth": 100,
     "tabWidth": 2,
