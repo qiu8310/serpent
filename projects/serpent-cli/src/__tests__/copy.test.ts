@@ -77,11 +77,11 @@ describe('copy', () => {
   })
 
   test('excludes', () => {
-    createFile('file1')
-    createFile('file2')
-    copy(fromDir, distDir, { excludes: f => f === 'file1' })
-    testNotFile('file1')
-    testFile('file2')
+    createFile('fileA')
+    createFile('fileB')
+    copy(fromDir, distDir, { excludes: f => f === 'fileA' })
+    testNotFile('fileA')
+    testFile('fileB')
   })
 
   test('excludes & includes', () => {
@@ -96,34 +96,34 @@ describe('copy', () => {
   })
 
   test('duplicate:error', () => {
-    createFile('a', 'new', false)
-    createFile('a', 'old', true)
+    createFile('a1', 'new', false)
+    createFile('a1', 'old', true)
     expect(() => {
       copy(fromDir, distDir, { duplicate: 'error' })
     }).toThrowError(/目标文件 .* 已经存在/)
   })
 
   test('duplicate:ignore', () => {
-    createFile('a', 'new', false)
-    createFile('a', 'old', true)
+    createFile('a2', 'new', false)
+    createFile('a2', 'old', true)
     const { ignored, copied } = copy(fromDir, distDir, { duplicate: 'ignore' })
-    testFile('a', 'old')
+    testFile('a2', 'old')
     expect(ignored).toHaveLength(1)
     expect(copied).toHaveLength(0)
   })
 
   test('duplicate:overwrite', () => {
-    createFile('a', 'new', false)
-    createFile('a', 'old', true)
+    createFile('a3', 'new', false)
+    createFile('a3', 'old', true)
     const { overwritten, copied } = copy(fromDir, distDir, { duplicate: 'overwrite' })
-    testFile('a', 'new')
+    testFile('a3', 'new')
     expect(overwritten).toHaveLength(1)
     expect(copied).toHaveLength(1)
   })
 
   test('duplicate:others', () => {
-    createFile('a', 'new', false)
-    createFile('a', 'old', true)
+    createFile('a4', 'new', false)
+    createFile('a4', 'old', true)
     expect(() => {
       copy(fromDir, distDir, { duplicate: 'others' as 'overwrite' })
     }).toThrowErrorMatchingInlineSnapshot(`"duplicate 字段不支持设置成 \\"others\\""`)

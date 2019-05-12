@@ -65,6 +65,6 @@
   },
   "devDependencies": {
     "@serpent/dev-kits": "0.0.1",
-    "@serpent/cli": "0.0.0"
+    "@serpent/cli": "0.0.1"
   }
 }
