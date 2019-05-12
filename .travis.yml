@@ -11,16 +11,15 @@ node_js:
   - "12"
 
 sudo: false
-git:
-  submodules: true
+
 
 before_install:
-  - echo before_install
   - npm i -g npm
   - npm cache clean --force
 
 install:
   - npm install
+  - npm run bootstrap
 
 before_script:
   - echo before_script

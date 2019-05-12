@@ -7,9 +7,9 @@
     "serpent"
   ],
   "scripts": {
-    "cli:install": "cd projects/serpent-cli && npm install && cd ../..",
+    "cli:bootstrap": "cd projects/serpent-cli && npm install && cd ../..",
     "cli:test": "cd projects/serpent-cli && npm test && cd ../..",
-    "postinstall": "npm run cli:install && lerna bootstrap --no-ci",
+    "bootstrap": "npm run cli:bootstrap && lerna bootstrap",
     "test": "npm run cli:test && lerna run test"
   },
   "license": "GPL-2.0",
