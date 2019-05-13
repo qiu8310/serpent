@@ -1,6 +1,7 @@
 # serpent
 
 [![Build Status][travis-image]][travis-url]
+[![codecov](https://codecov.io/gh/qiu8310/serpent/branch/master/graph/badge.svg)](https://codecov.io/gh/qiu8310/serpent)
 [![Dependency Status][dependency-image]][dependency-url]
 [![Maintainability](https://api.codeclimate.com/v1/badges/abdf354baaac407e8052/maintainability)](https://codeclimate.com/github/qiu8310/serpent/maintainability)
 
