@@ -75,6 +75,14 @@ function getConfig(mode, name, packages) {
     performance: {
       hints: false
     },
+    module: {
+      rules: [
+        {
+          test: /antd\.js/,
+          loader: require.resolve('./remove-antd-warn')
+        }
+      ]
+    },
     plugins: [
       new webpack.ProgressPlugin(),
       new webpack.HashedModuleIdsPlugin(),
