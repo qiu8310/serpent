@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const DllConfig = require('./dll-config.json')
+const getAlias = require('../alias')
 
 const config = []
 
@@ -38,11 +39,8 @@ function getConfig(mode, name, packages) {
     target: 'web',
     devtool: false,
     resolve: {
-      alias: {
-        'antd$': require.resolve('antd/dist/antd.js')
-      },
+      alias: getAlias(mode, name),
       modules: ['node_modules'],
-      mainFields: ['main'] // 不需要 tree-shaking (module)
     },
     optimization: {
       minimize: mode === 'production',
