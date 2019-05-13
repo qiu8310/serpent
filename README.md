@@ -6,10 +6,12 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/abdf354baaac407e8052/maintainability)](https://codeclimate.com/github/qiu8310/serpent/maintainability)
 
 
-* @serpent/cli
+* [@serpent/cli](./projects/serpent-cli)
   [![npm version](https://badge.fury.io/js/%40serpent%2Fcli.svg)](https://badge.fury.io/js/%40serpent%2Fcli)
-* @serpent/dev-kits
+* [@serpent/dev-kits](./projects/serpent-dev-kits)
   [![npm version](https://badge.fury.io/js/%40serpent%2Fdev-kits.svg)](https://badge.fury.io/js/%40serpent%2Fdev-kits)
+  * [@serpent/react-kits](./projects/serpent-react-kits)
+  [![npm version](https://badge.fury.io/js/%40serpent%2Freact-kits.svg)](https://badge.fury.io/js/%40serpent%2Freact-kits)
 
 
 

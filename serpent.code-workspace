@@ -7,15 +7,23 @@
 	},
 	"folders": [
 		{
-			"path": "/Users/Mora/Workspace/serpent"
+			"name": "serpent",
+			"path": "."
 		},
 		{
+			"name": "serpent-cli",
 			"path": "projects/serpent-cli"
 		},
 		{
+			"name": "serpent-dev-kits",
 			"path": "projects/serpent-dev-kits"
 		},
 		{
+			"name": "serpent-react-kits",
+			"path": "projects/serpent-react-kits"
+		},
+		{
+			"name": "serpent-template",
 			"path": "projects/serpent-template"
 		}
 	],

@@ -1,0 +1,46 @@
+{
+  "name": "@serpent/react-kits",
+  "version": "0.0.0",
+  "description": "serpent react kits",
+  "scripts": {
+    "prepublish": "node ../serpent-cli/dist/serpent.js peer"
+  },
+  "keywords": [
+    "serpent",
+    "serpent-kits",
+    "react-kits"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "GPL-2.0",
+  "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiu8310/serpent"
+  },
+  "peerDependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-router": "^5.0.0",
+    "@types/react-router-dom": "^4.3.3",
+    "@types/react-transition-group": "^2.9.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "react-transition-group": "^4.0.1"
+  },
+  "dependencies": {
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/react-router": "^5.0.0",
+    "@types/react-router-dom": "^4.3.3",
+    "@types/react-transition-group": "^2.9.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router": "^5.0.0",
+    "react-router-dom": "^5.0.0",
+    "react-transition-group": "^4.0.1"
+  }
+}

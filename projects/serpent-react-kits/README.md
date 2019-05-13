@@ -1,6 +1,6 @@
-# @serpent/dev-kits
+# @serpent/react-kits
 
-给 serpent 相关项目用的套件，主要集成了 jest、eslint、tsconfig 相关的配置
+给 serpent 相关项目用的套件，主要集成了 react、react-dom、react-router、react-router-dom、react-transition-group
 
 **为了保证此项目的所有依赖安装在最外层，所以此项目 package.json 中的 dependencies 和 peerDependencies 两字段是一样的**
 
