@@ -2,9 +2,10 @@ const webpack = require('webpack')
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
 
 const DllConfig = require('./dll-config.json')
-const getAlias = require('../alias')
+const { getAlias } = require('../get-config')
 
 const config = []
 
@@ -33,7 +34,8 @@ function getConfig(mode, name, packages) {
     },
     output: {
       path: distDir,
-      library: name
+      library: name,
+      filename: mode === 'production' ? '[name].[contenthash].js' : '[name].js'
     },
     mode,
     target: 'web',
@@ -86,10 +88,17 @@ function getConfig(mode, name, packages) {
       new webpack.HashedModuleIdsPlugin(),
       new CleanWebpackPlugin(),
       new webpack.DllPlugin({
-        path: path.join(distDir, `[name].json`),
+        path: path.join(distDir, `dll.[name].json`),
         name: `[name]`
       }),
       new webpack.ContextReplacementPlugin(/moment\/locale$/, /zh-cn/),
+      new ManifestPlugin({
+        fileName: `manifest.${name}.json`,
+        serialize: (obj) => {
+          // 只需要知道目标文件名即可
+          return JSON.stringify(Object.entries(obj)[0][1])
+        }
+      })
     ]
   }
   return config

@@ -1,6 +1,8 @@
+const path = require('path')
 const DllConfig = require('./build/dll-config.json')
+
 /**
- * webpack resolve.alias 配置
+ * 获取 webpack resolve.alias 配置
  * @param {'development' | 'production'} mode
  * @param {string} dllKey
  */
@@ -26,4 +28,21 @@ function getAlias(mode, dllKey) {
   }, {})
 }
 
-module.exports = getAlias
+/**
+ * 获取 webpack resolve.alias 配置和 dll 文件
+ * @param {'development' | 'production'} mode
+ * @param {'serpent_react' | 'serpent_antd'} dllKey
+ */
+function getConfig(mode, dllKey) {
+  const manifest = path.resolve(__dirname, 'dll', mode, `manifest.${dllKey}.json`)
+  const entryFile = path.resolve(__dirname, 'dll', mode, require(manifest))
+  const mapFile = path.resolve(__dirname, 'dll', mode, `dll.${dllKey}.json`)
+  return {
+    entryFile,
+    mapFile,
+    alias: getAlias(mode, dllKey)
+  }
+}
+
+module.exports = getConfig
+module.exports.getAlias = getAlias
