@@ -23,8 +23,6 @@
   },
   "jest": {
     "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
-    "displayName": "@serpent/template",
-    "coverageReporters": ["text", "html", "lcov"],
     "testEnvironment": "node"
   },
   "eslintConfig": {

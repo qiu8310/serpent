@@ -1,6 +1,6 @@
 {
   "name": "@serpent/react-admin-kits",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "description": "serpent react admin kits",
   "scripts": {
     "build": "webpack-cli --config build/webpack.config.js",
@@ -23,11 +23,11 @@
   },
   "peerDependencies": {
     "@serpent/react-kits": "~0.0.0",
-    "antd": "3.18.0"
+    "antd": "^3.18.0"
   },
   "dependencies": {
     "@serpent/react-kits": "~0.0.0",
-    "antd": "3.18.0"
+    "antd": "^3.18.0"
   },
   "devDependencies": {
     "@types/webpack": "^4.4.31",

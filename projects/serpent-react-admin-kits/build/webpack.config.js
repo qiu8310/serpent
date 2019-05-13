@@ -23,20 +23,24 @@ module.exports = config
  */
 function getConfig(mode, name, packages) {
   const distDir = path.resolve(__dirname, '..', 'dll', mode)
-  const version = require('../package.json').version
+  // const version = require('../package.json').version
 
   /** @type {import('webpack').Configuration} */
   const config = {
     entry: {
-      [`${name}.${version}`]: packages
+      [`${name}`]: packages
     },
     output: {
-      path: distDir
+      path: distDir,
+      library: name
     },
     mode,
     target: 'web',
     devtool: false,
     resolve: {
+      alias: {
+        'antd$': require.resolve('antd/dist/antd.js')
+      },
       modules: ['node_modules'],
       mainFields: ['main'] // 不需要 tree-shaking (module)
     },
