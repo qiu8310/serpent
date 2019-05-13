@@ -23,6 +23,10 @@
 			"path": "projects/serpent-react-kits"
 		},
 		{
+			"name": "serpent-react-admin-kits",
+			"path": "projects/serpent-react-admin-kits"
+		},
+		{
 			"name": "serpent-template",
 			"path": "projects/serpent-template"
 		}

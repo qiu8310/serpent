@@ -1,0 +1,23 @@
+{
+  "react~router": [
+    "react",
+    "react-dom",
+    "react-router",
+    "react-router-dom"
+  ],
+  "react~router~transition": [
+    "react",
+    "react-dom",
+    "react-router",
+    "react-router-dom",
+    "react-transition-group"
+  ],
+  "react~router~transition~antd": [
+    "react",
+    "react-dom",
+    "react-router",
+    "react-router-dom",
+    "react-transition-group",
+    "antd"
+  ]
+}
