@@ -23,8 +23,9 @@ matrix:
     - os: osx
       node_js: 12
 
-    - os: windows
-      node_js: 8
+    # travis 上的 windows 平台不稳定
+    # - os: windows
+    #   node_js: 8
 
 # os:
 #   - linux

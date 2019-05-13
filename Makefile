@@ -16,4 +16,6 @@ cov:
 	./cc-test-reporter sum-coverage part.*.json -p 2 -o codeclimate.json
 	./cc-test-reporter upload-coverage -i codeclimate.json
 
-	./cc-test-reporter -h
+	./cc-test-reporter format-coverage --help
+	./cc-test-reporter sum-coverage --help
+	./cc-test-reporter upload-coverage --help
