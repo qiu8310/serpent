@@ -28,6 +28,10 @@ describe('copy', () => {
     if (!fs.existsSync(dir)) fs.mkdirSync(dir)
     fs.writeFileSync(fullPath, content)
   }
+  function createSameFileInSrcAndDistDir(name: string, srcContent = '', distContent = '') {
+    createFile(name, srcContent, false)
+    createFile(name, distContent, true)
+  }
   function testFile(file: string | string[], content = '', useFromDir?: boolean) {
     const fullPath = path.join(useFromDir ? fromDir : distDir, ...toArray(file))
     expect(fs.existsSync(fullPath)).toBe(true)
@@ -36,6 +40,9 @@ describe('copy', () => {
   function testNotFile(file: string | string[]) {
     const fullPath = path.join(distDir, ...toArray(file))
     expect(fs.existsSync(fullPath)).toBe(false)
+  }
+  function runCopy(opts: copy.Options = {}) {
+    return copy(fromDir, distDir, opts)
   }
 
   test('should throws when fromDir not exists', () => {
@@ -46,14 +53,14 @@ describe('copy', () => {
 
   test('should copy single dir', () => {
     createFile('file', 'hello')
-    const { copied } = copy(fromDir, distDir)
+    const { copied } = runCopy()
     testFile('file', 'hello')
     expect(copied).toHaveLength(1)
   })
 
   test('should copy sub dir', () => {
     createFile(['a', 'b'], 'hello')
-    copy(fromDir, distDir)
+    runCopy()
     testFile(['a', 'b'], 'hello')
   })
 
@@ -61,13 +68,13 @@ describe('copy', () => {
     createFile('a', 'new', false)
     createFile('a', 'old', true)
     expect(() => {
-      copy(fromDir, distDir)
+      runCopy()
     }).toThrowError(/目标文件 .* 已经存在/)
   })
 
   test('rename', () => {
     createFile('file', 'hello')
-    copy(fromDir, distDir, {
+    runCopy({
       rename(dist) {
         return dist + '_xxx'
       }
@@ -79,7 +86,7 @@ describe('copy', () => {
   test('excludes', () => {
     createFile('fileA')
     createFile('fileB')
-    copy(fromDir, distDir, { excludes: f => f === 'fileA' })
+    runCopy({ excludes: f => f === 'fileA' })
     testNotFile('fileA')
     testFile('fileB')
   })
@@ -87,7 +94,7 @@ describe('copy', () => {
   test('excludes & includes', () => {
     createFile('file1')
     createFile('file2')
-    copy(fromDir, distDir, {
+    runCopy({
       excludes: () => true,
       includes: f => f === 'file2'
     })
@@ -96,43 +103,39 @@ describe('copy', () => {
   })
 
   test('duplicate:error', () => {
-    createFile('a1', 'new', false)
-    createFile('a1', 'old', true)
+    createSameFileInSrcAndDistDir('a1', 'new', 'old')
     expect(() => {
-      copy(fromDir, distDir, { duplicate: 'error' })
+      runCopy({ duplicate: 'error' })
     }).toThrowError(/目标文件 .* 已经存在/)
   })
 
   test('duplicate:ignore', () => {
-    createFile('a2', 'new', false)
-    createFile('a2', 'old', true)
-    const { ignored, copied } = copy(fromDir, distDir, { duplicate: 'ignore' })
+    createSameFileInSrcAndDistDir('a2', 'new', 'old')
+    const { ignored, copied } = runCopy({ duplicate: 'ignore' })
     testFile('a2', 'old')
     expect(ignored).toHaveLength(1)
     expect(copied).toHaveLength(0)
   })
 
   test('duplicate:overwrite', () => {
-    createFile('a3', 'new', false)
-    createFile('a3', 'old', true)
-    const { overwritten, copied } = copy(fromDir, distDir, { duplicate: 'overwrite' })
+    createSameFileInSrcAndDistDir('a3', 'new', 'old')
+    const { overwritten, copied } = runCopy({ duplicate: 'overwrite' })
     testFile('a3', 'new')
     expect(overwritten).toHaveLength(1)
     expect(copied).toHaveLength(1)
   })
 
   test('duplicate:others', () => {
-    createFile('a4', 'new', false)
-    createFile('a4', 'old', true)
+    createSameFileInSrcAndDistDir('a4', 'new', 'old')
     expect(() => {
-      copy(fromDir, distDir, { duplicate: 'others' as 'overwrite' })
+      runCopy({ duplicate: 'others' as 'overwrite' })
     }).toThrowErrorMatchingInlineSnapshot(`"duplicate 字段不支持设置成 \\"others\\""`)
   })
 
   test('replace:text', () => {
     createFile('abc', '--{{a}}--abc')
     createFile('a.md', '--{{a}}--{{b}}--{{c}}--')
-    copy(fromDir, distDir, {
+    runCopy({
       replacers: [
         {
           type: 'text',
@@ -147,7 +150,7 @@ describe('copy', () => {
 
   test('replace:text custom tag', () => {
     createFile('a.md', '-[<a>]-')
-    copy(fromDir, distDir, {
+    runCopy({
       replacers: [
         {
           type: 'text',
@@ -164,7 +167,7 @@ describe('copy', () => {
   test('replace:json', () => {
     createFile('abc')
     createFile('a.json', '{"a":{"b":1}}')
-    copy(fromDir, distDir, {
+    runCopy({
       replacers: [
         {
           type: 'json',
@@ -181,7 +184,7 @@ describe('copy', () => {
   test('replace:json default stringify', () => {
     createFile('abc')
     createFile('a.json', '{"a":{"b":1}}')
-    copy(fromDir, distDir, {
+    runCopy({
       replacers: [
         {
           type: 'json',
@@ -197,7 +200,7 @@ describe('copy', () => {
   test('replace:manual', () => {
     createFile('abc')
     createFile('a.json', 'abc')
-    copy(fromDir, distDir, {
+    runCopy({
       replacers: [
         {
           type: 'manual',
@@ -215,7 +218,7 @@ describe('copy', () => {
   test('replace:others', () => {
     createFile('abc')
     expect(() => {
-      copy(fromDir, distDir, {
+      runCopy({
         replacers: [
           {
             type: 'others' as 'json',
@@ -230,7 +233,7 @@ describe('copy', () => {
   test('replace all', () => {
     createFile('a1', '{{a}}')
     createFile('a2', '{{a}}')
-    copy(fromDir, distDir, {
+    runCopy({
       replacers: [
         {
           type: 'text',

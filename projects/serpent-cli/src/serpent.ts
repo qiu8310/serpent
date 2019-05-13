@@ -28,28 +28,21 @@ cli({
         const projectsDir = path.resolve(__dirname, '..', '..')
         const templateSrcDir = path.join(projectsDir, 'serpent-template')
         const templateDistDir = path.join(projectsDir, 'serpent-cli', 'res', 'template')
-
         // 内部命令，将模板文件复制到 cli 项目中
-        if (res._[0] === 'init' && res._.length === 1) {
-          if (exists.directory(templateDistDir)) rm(templateDistDir)
-          initInit(templateSrcDir, templateDistDir)
-          clog(`%c create template %c${templateDistDir} `, 'green', 'bold')
-          return
-        }
-        if (res._.length !== 2) {
+        if (res._[0] === 'init' && res._.length === 1)
+          return initFrom(templateSrcDir, templateDistDir)
+
+        // 必须传两个参数 project-name 和 project-description
+        if (res._.length !== 2)
           return this.error(`serpent init <project-name> <project-description>`)
-        }
 
         const [rawName, description] = res._
         let name = rawName.replace(/@serpent\//, '')
         if (!/^[-a-z]+$/.test(name)) {
-          return this.error(`项目名 "${rawName}" 格式(/^[-a-z]+$/)不正确`)
+          return this.error(`项目名 "${rawName}" 格式不正确，需要匹配 /^[-a-z]+$/`)
         }
 
-        const distDir = path.join(projectsDir, 'serpent-' + name)
-        init(templateDistDir, distDir, { name, description })
-
-        clog(`%c create project %c@serpent/${name} `, 'green', 'bold')
+        initTo(templateDistDir, path.join(projectsDir, 'serpent-' + name), name, description)
       }
     },
 
@@ -94,4 +87,15 @@ function writeFile(file: string, content: string) {
   if (!exists.file(file) || fs.readFileSync(file).toString() !== content) {
     fs.writeFileSync(file, content)
   }
+}
+
+function initFrom(templateSrcDir: string, templateDistDir: string) {
+  if (exists.directory(templateDistDir)) rm(templateDistDir)
+  initInit(templateSrcDir, templateDistDir)
+  clog(`%c create template %c${templateDistDir} `, 'green', 'bold')
+}
+
+function initTo(templateDistDir: string, projectDir: string, name: string, description: string) {
+  init(templateDistDir, projectDir, { name, description })
+  clog(`%c create project %c@serpent/${name} `, 'green', 'bold')
 }

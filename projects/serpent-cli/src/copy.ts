@@ -72,6 +72,12 @@ export namespace copy {
     distFile: string
     relativePath: string
   }
+
+  export interface WalkOptions {
+    fromDir: string
+    distDir: string
+    options: RequiredOptions
+  }
 }
 
 const regexpCache: any = {}
@@ -95,7 +101,7 @@ export function copy(fromDir: string, distDir: string, options: copy.Options = {
   }
   if (!fs.existsSync(fromDir)) throw new Error(`${fromDir} not exists`)
 
-  walk(result, fromDir, distDir, fromDir, requiredOptions)
+  walk(result, fromDir, { options: requiredOptions, fromDir, distDir })
 
   result.copied.forEach(fileInfo => {
     const { srcFile, relativePath, distFile } = fileInfo
@@ -119,14 +125,9 @@ function writeFile(distFile: string, content: string | Buffer) {
   fs.writeFileSync(distFile, content)
 }
 
-function walk(
-  result: copy.Result,
-  fromDir: string,
-  distDir: string,
-  dir: string,
-  options: copy.RequiredOptions
-) {
-  const { includes, excludes, duplicate, rename } = options
+function walk(result: copy.Result, dir: string, walkOptions: copy.WalkOptions) {
+  const { fromDir, distDir } = walkOptions
+  const { includes, excludes, duplicate, rename } = walkOptions.options
   fs.readdirSync(dir).forEach(name => {
     const srcFile = path.join(dir, name)
     const relativePath = path.relative(fromDir, srcFile)
@@ -149,7 +150,7 @@ function walk(
         }
         result.copied.push(fileInfo)
       } else if (stat.isDirectory()) {
-        walk(result, fromDir, distDir, srcFile, options)
+        walk(result, srcFile, walkOptions)
       }
     }
   })
@@ -159,9 +160,7 @@ function replace(replacer: copy.Replacer, buffer: Buffer, fileInfo: copy.FileInf
   const content = buffer.toString()
   if (replacer.type === 'json') {
     const dp = new DotProp(JSON.parse(content))
-    Object.keys(replacer.data).forEach(key => {
-      dp.set(key, replacer.data[key])
-    })
+    Object.keys(replacer.data).forEach(key => dp.set(key, replacer.data[key]))
     const args = replacer.stringify || [null, 2]
     return JSON.stringify(dp.data, ...args)
   } else if (replacer.type === 'text') {
