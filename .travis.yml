@@ -8,19 +8,32 @@ env:
 
 matrix:
   include:
-    - os: osx
+    - os: linux
+      node_js: 8
       env: CODECOV=true
+    - os: linux
+      node_js: 10
+    - os: linux
+      node_js: 12
+
+    - os: osx
+      node_js: 8
+    - os: osx
+      node_js: 10
+    - os: osx
+      node_js: 12
+
     - os: windows
+      node_js: 8
 
 # os:
 #   - linux
 #   - osx
 #   - windows
-
-node_js:
-  - "8"
-  - "10"
-  - "12"
+# node_js:
+#   - "8"
+#   - "10"
+#   - "12"
 
 before_install:
   - echo before_install
