@@ -64,12 +64,11 @@ function getConfig(mode, name) {
  * @param {string} nodeModulesDir
  * @param {Mode} mode
  * @param {Name} name
- * @returns {string[]} 返回所有不一致的 package 名称
+ * @returns {({name: string, dllVersion: string, localVersion: string})[]} 返回所有不一致的 package 名称
  */
 function checkDependencies(nodeModulesDir, mode, name) {
   /** @type {{[key: string]: {version: string, files: string[]}}} */
   const depsJson = require(getConfig(mode, name).depsFile)
-  /** @type {string[]} */
   const warnings = []
 
   Object.keys(depsJson).forEach(pkgName => {
@@ -78,7 +77,11 @@ function checkDependencies(nodeModulesDir, mode, name) {
 
     if (fs.existsSync(pkgJsonFile)) {
       const pkg = require(pkgJsonFile)
-      if (pkg.version !== pkgVersion) warnings.push(pkgName)
+      if (pkg.version !== pkgVersion) warnings.push({
+        name: pkgName,
+        dllVersion: pkgVersion,
+        localVersion: pkg.version
+      })
     }
   })
 
