@@ -2,7 +2,8 @@ const webpack = require('webpack')
 const path = require('path')
 const TerserPlugin = require('terser-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const WebpackSizePlugin = require('webpack-size-plugin').default
+const CollectDllDependencies = require('./lib/collect-dll-dependencies')
 
 const DllConfig = require('./dll-config.json')
 const { getAlias } = require('../get-config')
@@ -24,8 +25,8 @@ module.exports = config
  * @param {string[]} packages
  */
 function getConfig(mode, name, packages) {
-  const distDir = path.resolve(__dirname, '..', 'dll', mode)
-  // const version = require('../package.json').version
+  const distDir = path.resolve(__dirname, '..', 'dll')
+  const library = `__serpent_${name}`
 
   /** @type {import('webpack').Configuration} */
   const config = {
@@ -34,8 +35,8 @@ function getConfig(mode, name, packages) {
     },
     output: {
       path: distDir,
-      library: name,
-      filename: mode === 'production' ? '[name].[contenthash].js' : '[name].js'
+      library,
+      filename: `dll.[name].${mode}.js`
     },
     mode,
     target: 'web',
@@ -58,20 +59,7 @@ function getConfig(mode, name, packages) {
         })
       ]
     },
-    stats: {
-      all: false,
-      entrypoints: true,
-      modules: false,
-      maxModules: 6,
-      publicPath: true,
-      performance: true,
-      timings: true,
-      version: true,
-      errors: true,
-      errorDetails: true,
-      warnings: true,
-      colors: true
-    },
+    stats: 'errors-only',
     performance: {
       hints: false
     },
@@ -79,26 +67,23 @@ function getConfig(mode, name, packages) {
       rules: [
         {
           test: /antd\.js/,
-          loader: require.resolve('./remove-antd-warn')
+          loader: require.resolve('./lib/remove-antd-warn')
         }
       ]
     },
     plugins: [
-      new webpack.ProgressPlugin(),
       new webpack.HashedModuleIdsPlugin(),
       new CleanWebpackPlugin(),
+      new WebpackSizePlugin({
+        stripHash: name => name,
+        jsonFile: path.resolve(__dirname, '..', 'node_modules', '.cache', `size.${name}.${mode}.json`)
+      }),
       new webpack.DllPlugin({
-        path: path.join(distDir, `dll.[name].json`),
-        name: `[name]`
+        path: path.join(distDir, `manifest.[name].${mode}.json`),
+        name: library
       }),
       new webpack.ContextReplacementPlugin(/moment\/locale$/, /zh-cn/),
-      new ManifestPlugin({
-        fileName: `manifest.${name}.json`,
-        serialize: (obj) => {
-          // 只需要知道目标文件名即可
-          return JSON.stringify(Object.entries(obj)[0][1])
-        }
-      })
+      new CollectDllDependencies(mode, name)
     ]
   }
   return config

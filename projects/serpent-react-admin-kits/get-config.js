@@ -1,14 +1,19 @@
 const path = require('path')
+const fs = require('fs')
 const DllConfig = require('./build/dll-config.json')
 
 /**
- * 获取 webpack resolve.alias 配置
- * @param {'development' | 'production'} mode
- * @param {string} dllKey
+ * @typedef {'development' | 'production'} Mode  webpack 预置环境
+ * @typedef {'react' | 'antd'} Name dll 的名称
  */
-function getAlias(mode, dllKey) {
 
-  const packages = DllConfig[dllKey]
+/**
+ * 获取 webpack resolve.alias 配置
+ * @param {Mode} mode
+ * @param {Name} name
+ */
+function getAlias(mode, name) {
+  const packages = DllConfig[name]
   if (!packages) throw new Error(`dll key not exists, only supports ${Object.keys(DllConfig).join(', ')}`)
 
   const all = {
@@ -29,20 +34,57 @@ function getAlias(mode, dllKey) {
 }
 
 /**
- * 获取 webpack resolve.alias 配置和 dll 文件
- * @param {'development' | 'production'} mode
- * @param {'serpent_react' | 'serpent_antd'} dllKey
+ * 获取 webpack resolve.alias 配置和其它相关信息
+ * @param {Mode} mode
+ * @param {Name} name
  */
-function getConfig(mode, dllKey) {
-  const manifest = path.resolve(__dirname, 'dll', mode, `manifest.${dllKey}.json`)
-  const entryFile = path.resolve(__dirname, 'dll', mode, require(manifest))
-  const mapFile = path.resolve(__dirname, 'dll', mode, `dll.${dllKey}.json`)
+function getConfig(mode, name) {
+  const outDir = path.join(__dirname, 'dll')
+  const base = `${name}.${mode}`
+  const entryFile = path.join(outDir, `dll.${base}.js`)
+  const manifestFile = path.join(outDir, `manifest.${base}.json`)
+  const depsFile = path.join(outDir, `deps.${base}.json`)
   return {
+    version: require('./package.json').version,
     entryFile,
-    mapFile,
-    alias: getAlias(mode, dllKey)
+    manifestFile,
+    depsFile,
+
+    /** webpack resolve.alias 的配置项 */
+    alias: getAlias(mode, name),
+    /** 检查当前指定的 node_modules 中的依赖是否和 dll 中的依赖一致 */
+    checkDependencies(nodeModulesDir) {
+      return checkDependencies(nodeModulesDir, mode, name)
+    }
   }
 }
+
+/**
+ * 检查当前的依赖是否和 dll 中的依赖一致
+ * @param {string} nodeModulesDir
+ * @param {Mode} mode
+ * @param {Name} name
+ * @returns {string[]} 返回所有不一致的 package 名称
+ */
+function checkDependencies(nodeModulesDir, mode, name) {
+  /** @type {{[key: string]: {version: string, files: string[]}}} */
+  const depsJson = require(getConfig(mode, name).depsFile)
+  /** @type {string[]} */
+  const warnings = []
+
+  Object.keys(depsJson).forEach(pkgName => {
+    const pkgVersion = depsJson[pkgName].version
+    const pkgJsonFile = path.join(nodeModulesDir, ...pkgName.split('/'), 'package.json')
+
+    if (fs.existsSync(pkgJsonFile)) {
+      const pkg = require(pkgJsonFile)
+      if (pkg.version !== pkgVersion) warnings.push(pkgName)
+    }
+  })
+
+  return warnings
+}
+
 
 module.exports = getConfig
 module.exports.getAlias = getAlias

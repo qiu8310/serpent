@@ -1,12 +1,12 @@
 {
-  "serpent_react": [
+  "react": [
     "react",
     "react-dom",
     "react-router",
     "react-router-dom",
     "react-transition-group"
   ],
-  "serpent_antd": [
+  "antd": [
     "react",
     "react-dom",
     "react-router",

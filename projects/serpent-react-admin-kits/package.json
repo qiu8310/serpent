@@ -1,6 +1,6 @@
 {
   "name": "@serpent/react-admin-kits",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "serpent react admin kits",
   "main": "./get-config.js",
   "scripts": {
@@ -23,19 +23,37 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "@serpent/react-kits": "0.0.1",
-    "antd": "^3.18.0"
+    "@types/react": "16.8.17",
+    "@types/react-dom": "16.8.4",
+    "@types/react-router": "5.0.0",
+    "@types/react-router-dom": "4.3.3",
+    "@types/react-transition-group": "2.9.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-router": "5.0.0",
+    "react-router-dom": "5.0.0",
+    "react-transition-group": "4.0.1",
+    "antd": "3.18.1"
   },
   "dependencies": {
-    "@serpent/react-kits": "0.0.1",
-    "antd": "^3.18.0"
+    "@types/react": "16.8.17",
+    "@types/react-dom": "16.8.4",
+    "@types/react-router": "5.0.0",
+    "@types/react-router-dom": "4.3.3",
+    "@types/react-transition-group": "2.9.1",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-router": "5.0.0",
+    "react-router-dom": "5.0.0",
+    "react-transition-group": "4.0.1",
+    "antd": "3.18.1"
   },
   "devDependencies": {
-    "@types/webpack": "^4.4.31",
-    "clean-webpack-plugin": "^2.0.2",
-    "terser-webpack-plugin": "^1.2.3",
-    "webpack": "^4.31.0",
-    "webpack-cli": "^3.3.2",
-    "webpack-manifest-plugin": "^2.0.4"
+    "@types/webpack": "~4.4.31",
+    "clean-webpack-plugin": "~2.0.2",
+    "terser-webpack-plugin": "~1.2.3",
+    "webpack": "~4.31.0",
+    "webpack-cli": "~3.3.2",
+    "webpack-size-plugin": "~1.0.0"
   }
 }
