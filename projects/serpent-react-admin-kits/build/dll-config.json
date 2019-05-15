@@ -1,12 +1,13 @@
 {
-  "react": [
+  "umd": [
     "react",
     "react-dom",
     "react-router",
     "react-router-dom",
-    "react-transition-group"
+    "react-transition-group",
+    "antd"
   ],
-  "antd": [
+  "cjs": [
     "react",
     "react-dom",
     "react-router",

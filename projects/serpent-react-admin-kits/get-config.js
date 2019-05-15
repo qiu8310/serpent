@@ -4,7 +4,7 @@ const DllConfig = require('./build/dll-config.json')
 
 /**
  * @typedef {'development' | 'production'} Mode  webpack 预置环境
- * @typedef {'react' | 'antd'} Name dll 的名称
+ * @typedef {'umd' | 'cjs'} Name dll 的名称
  */
 
 /**
@@ -16,19 +16,32 @@ function getAlias(mode, name) {
   const packages = DllConfig[name]
   if (!packages) throw new Error(`dll key not exists, only supports ${Object.keys(DllConfig).join(', ')}`)
 
-  const all = {
-    'antd$': mode === 'development' ? require.resolve('antd/dist/antd.js') : require.resolve('antd/dist/antd.min.js'),
-    'react$': require.resolve('react/index'),
-    'react-dom$': require.resolve('react-dom/index'),
-    'react-router$': require.resolve('react-router/index'),
-    'react-router-dom$': require.resolve('react-router-dom/index'),
-    'react-transition-group$': require.resolve('react-transition-group/cjs/index'),
+  const umd = {
+    'react': ['umd/react.development', 'umd/react.production.min'],
+    'react-dom': ['umd/react-dom.development', 'umd/react-dom.production.min'],
+    'react-router': ['umd/react-router', 'umd/react-router.min'],
+    'react-router-dom': ['umd/react-router-dom', 'umd/react-router-dom.min'],
+    'react-transition-group': ['dist/react-transition-group', 'dist/react-transition-group.min'],
   }
 
-  return packages.reduce((res, name) => {
-    const key = name + '$'
-    res[key] = all[key]
-    if (!res[key]) throw new Error(`internal error, need config alias`)
+  const all = {
+    'antd': mode === 'development' ? require.resolve('antd/dist/antd.js') : require.resolve('antd/dist/antd.min.js'),
+    'react': require.resolve('react/index'),
+    'react-dom': require.resolve('react-dom/index'),
+    'react-router': require.resolve('react-router/index'),
+    'react-router-dom': require.resolve('react-router-dom/index'),
+    'react-transition-group': require.resolve('react-transition-group/cjs/index'),
+  }
+
+  if (name.includes('umd')) {
+    Object.entries(umd).forEach(([key, value]) => {
+      all[key] = require.resolve(`${key}/${value[mode === 'development' ? 0 : 1]}`)
+    })
+  }
+
+  return packages.reduce((res, key) => {
+    if (!all[key]) throw new Error(`internal error, need config alias`)
+    res[key + '$'] = all[key]
     return res
   }, {})
 }

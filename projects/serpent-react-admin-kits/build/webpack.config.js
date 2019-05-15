@@ -26,7 +26,7 @@ module.exports = config
  */
 function getConfig(mode, name, packages) {
   const distDir = path.resolve(__dirname, '..', 'dll')
-  const library = `__serpent_${name}`
+  const library = `__serpent_${name}`.replace(/[^\w]/g, '_')
 
   /** @type {import('webpack').Configuration} */
   const config = {
