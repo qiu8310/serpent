@@ -1,5 +1,6 @@
 {
   "umd": [
+    "lodash",
     "react",
     "react-dom",
     "react-router",
@@ -8,6 +9,7 @@
     "antd"
   ],
   "cjs": [
+    "lodash",
     "react",
     "react-dom",
     "react-router",

@@ -14,6 +14,8 @@ const DllConfig = require('./build/dll-config.json')
  */
 function getAlias(mode, name) {
   const packages = DllConfig[name]
+  const r = require.resolve
+
   if (!packages) throw new Error(`dll key not exists, only supports ${Object.keys(DllConfig).join(', ')}`)
 
   const umd = {
@@ -25,17 +27,18 @@ function getAlias(mode, name) {
   }
 
   const all = {
-    'antd': mode === 'development' ? require.resolve('antd/dist/antd.js') : require.resolve('antd/dist/antd.min.js'),
-    'react': require.resolve('react/index'),
-    'react-dom': require.resolve('react-dom/index'),
-    'react-router': require.resolve('react-router/index'),
-    'react-router-dom': require.resolve('react-router-dom/index'),
-    'react-transition-group': require.resolve('react-transition-group/cjs/index'),
+    'lodash': mode === 'development' ? r('lodash/lodash.js') : r('lodash/lodash.min.js'),
+    'antd': mode === 'development' ? r('antd/dist/antd.js') : r('antd/dist/antd.min.js'),
+    'react': r('react/index'),
+    'react-dom': r('react-dom/index'),
+    'react-router': r('react-router/index'),
+    'react-router-dom': r('react-router-dom/index'),
+    'react-transition-group': r('react-transition-group/cjs/index'),
   }
 
   if (name.includes('umd')) {
     Object.entries(umd).forEach(([key, value]) => {
-      all[key] = require.resolve(`${key}/${value[mode === 'development' ? 0 : 1]}`)
+      all[key] = r(`${key}/${value[mode === 'development' ? 0 : 1]}`)
     })
   }
 
