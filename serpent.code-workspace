@@ -29,6 +29,9 @@
 		{
 			"name": "serpent-template",
 			"path": "projects/serpent-template"
+		},
+		{
+			"path": "projects/serpent-common-react"
 		}
 	],
 	"settings": {
