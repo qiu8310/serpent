@@ -1,20 +1,22 @@
 {
   "umd": [
-    "lodash",
     "react",
     "react-dom",
     "react-router",
     "react-router-dom",
     "react-transition-group",
+    "mobx",
     "antd"
   ],
   "cjs": [
-    "lodash",
+
     "react",
     "react-dom",
     "react-router",
     "react-router-dom",
     "react-transition-group",
+    "mobx",
+    "mobx-react",
     "antd"
   ]
 }

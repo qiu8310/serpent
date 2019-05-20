@@ -27,7 +27,8 @@ function getAlias(mode, name) {
   }
 
   const all = {
-    'lodash': mode === 'development' ? r('lodash/lodash.js') : r('lodash/lodash.min.js'),
+    'mobx': mode === 'development' ? r('mobx/lib/mobx.js') : r('mobx/lib/mobx.min.js'),
+    'mobx-react': mode === 'development' ? r('mobx-react/index.js') : r('mobx-react/index.min.js'),
     'antd': mode === 'development' ? r('antd/dist/antd.js') : r('antd/dist/antd.min.js'),
     'react': r('react/index'),
     'react-dom': r('react-dom/index'),
