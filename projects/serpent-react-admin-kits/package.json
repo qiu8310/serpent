@@ -23,7 +23,6 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "@types/lodash": "4.14.129",
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "@types/react-router": "5.0.0",
@@ -40,7 +39,6 @@
     "react-transition-group": "4.0.1"
   },
   "dependencies": {
-    "@types/lodash": "4.14.129",
     "@types/react": "16.8.17",
     "@types/react-dom": "16.8.4",
     "@types/react-router": "5.0.0",
