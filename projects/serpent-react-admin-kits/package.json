@@ -1,10 +1,10 @@
 {
   "name": "@serpent/react-admin-kits",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "serpent react admin kits",
   "main": "./get-config.js",
   "scripts": {
-    "build": "webpack-cli --config build/webpack.config.js",
+    "build": "webpack-cli --config build/webpack.config.js && node build/get-antd-icon.js",
     "postversion": "npm run build",
     "prepublish": "node ../serpent-cli/dist/serpent.js peer"
   },
