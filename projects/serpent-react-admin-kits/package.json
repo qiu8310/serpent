@@ -55,7 +55,7 @@
     "react-transition-group": "4.0.1"
   },
   "devDependencies": {
-    "@types/webpack": "~4.4.31",
+    "@types/webpack": "4.4.32",
     "clean-webpack-plugin": "~2.0.2",
     "terser-webpack-plugin": "~1.2.4",
     "webpack": "~4.31.0",
