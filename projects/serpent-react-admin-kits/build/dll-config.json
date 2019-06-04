@@ -6,10 +6,18 @@
     "react-router-dom",
     "react-transition-group",
     "mobx",
-    "antd"
+    "mobx-react",
+    "mobx-react-lite",
+    "antd",
+    "draftjs-utils",
+    "braft-convert",
+    "braft-editor",
+    "braft-finder",
+    "braft-utils",
+    "draft-js",
+    "immutable"
   ],
   "cjs": [
-
     "react",
     "react-dom",
     "react-router",
@@ -17,6 +25,14 @@
     "react-transition-group",
     "mobx",
     "mobx-react",
-    "antd"
+    "mobx-react-lite",
+    "antd",
+    "draftjs-utils",
+    "braft-convert",
+    "braft-editor",
+    "braft-finder",
+    "braft-utils",
+    "draft-js",
+    "immutable"
   ]
 }

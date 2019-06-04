@@ -28,7 +28,7 @@ function getAlias(mode, name) {
 
   const all = {
     'mobx': mode === 'development' ? r('mobx/lib/mobx.js') : r('mobx/lib/mobx.min.js'),
-    'mobx-react': mode === 'development' ? r('mobx-react/index.js') : r('mobx-react/index.min.js'),
+    // 'mobx-react': mode === 'development' ? r('mobx-react/dist/index.js') : r('mobx-react/dist/index.min.js'),
     'antd': mode === 'development' ? r('antd/dist/antd.js') : r('antd/dist/antd.min.js'),
     'react': r('react/index'),
     'react-dom': r('react-dom/index'),
@@ -44,8 +44,11 @@ function getAlias(mode, name) {
   }
 
   return packages.reduce((res, key) => {
-    if (!all[key]) throw new Error(`internal error, need config alias`)
-    res[key + '$'] = all[key]
+    if (!all[key]) {
+      res[key + '$'] = r(key)
+    } else {
+      res[key + '$'] = all[key]
+    }
     return res
   }, {})
 }
