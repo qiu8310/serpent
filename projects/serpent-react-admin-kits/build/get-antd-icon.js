@@ -12,21 +12,23 @@ function getAntdIcon() {
   const folder = path.resolve(__dirname, '..', ...target.split('/'))
   /** @type {string[]} */
   const result = []
+  const map = {}
   let content = `// prettier-ignore\ndeclare type ANTD_ICON =`
   fs.readdirSync(folder).forEach(name => {
     if (name.startsWith('.')) return
     const dir = path.join(folder, name)
-    result.push(
-      ...fs
-        .readdirSync(dir)
-        .filter(n => n.endsWith('.svg'))
-        .map(n => `${n.replace(/\.svg$/, '')}`)
-    )
+    map[name] = fs
+      .readdirSync(dir)
+      .filter(n => n.endsWith('.svg'))
+      .map(n => `${n.replace(/\.svg$/, '')}`)
+
+    result.push(map[name])
   })
 
   content += result.map(n => `'${n}'`).join('\n  | ') + '\n'
   console.log('generate ' + path.join(typesDir, 'antd-icon.d.ts'))
   fs.writeFileSync(path.join(typesDir, 'antd-icon.d.ts'), content)
+  fs.writeFileSync(path.join(typesDir, 'antd-icon.json'), JSON.stringify(map))
 }
 
 getAntdIcon()
