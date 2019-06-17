@@ -22,13 +22,19 @@ function getAntdIcon() {
       .filter(n => n.endsWith('.svg'))
       .map(n => `${n.replace(/\.svg$/, '')}`)
 
-    result.push(map[name])
+    result.push(...map[name])
   })
 
   content += result.map(n => `'${n}'`).join('\n  | ') + '\n'
   console.log('generate ' + path.join(typesDir, 'antd-icon.d.ts'))
-  fs.writeFileSync(path.join(typesDir, 'antd-icon.d.ts'), content)
-  fs.writeFileSync(path.join(typesDir, 'antd-icon.json'), JSON.stringify(map))
+  write(path.join(typesDir, 'antd-icon.d.ts'), content)
+  write(path.join(typesDir, 'antd-icon.json'), JSON.stringify(map))
 }
 
 getAntdIcon()
+
+function write(file, content) {
+  if (fs.readFileSync(file).toString() !== content) {
+    fs.writeFileSync(file, content)
+  }
+}
