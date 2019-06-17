@@ -1,8 +1,6 @@
 {
   "packages": [
-    "projects/serpent-template",
-    "projects/serpent-common",
-    "projects/serpent-common-*"
+    "projects/*"
   ],
   "version": "0.0.0",
   "npmClient": "npm",
