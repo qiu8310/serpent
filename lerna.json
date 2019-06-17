@@ -2,15 +2,19 @@
   "packages": [
     "projects/*"
   ],
-  "version": "0.0.0",
+  "version": "0.2.0",
   "npmClient": "npm",
   "command": {
     "publish": {
-      "ignoreChanges": ["*.md"]
+      "ignoreChanges": [
+        "*.md"
+      ]
     },
     "bootstrap": {
       "ignore": [],
-      "npmClientArgs": ["--no-package-lock"]
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
     }
   }
 }
