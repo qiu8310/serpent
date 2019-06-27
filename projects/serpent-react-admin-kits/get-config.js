@@ -64,6 +64,7 @@ function getConfig(mode, name) {
   const entryFile = path.join(outDir, `dll.${base}.js`)
   const manifestFile = path.join(outDir, `manifest.${base}.json`)
   const depsFile = path.join(outDir, `deps.${base}.json`)
+
   return {
     version: require('./package.json').version,
     entryFile,
@@ -72,28 +73,66 @@ function getConfig(mode, name) {
 
     /** webpack resolve.alias 的配置项 */
     alias: getAlias(mode, name),
-    /** 检查当前指定的 node_modules 中的依赖是否和 dll 中的依赖一致 */
-    checkDependencies(nodeModulesDir) {
-      return checkDependencies(nodeModulesDir, mode, name)
+    /**
+     * 检查当前指定的 node_modules 中的依赖是否和 dll 中的依赖一致
+     *
+     * @param {string} projectDir
+     * @param {boolean} strict
+     *  * 严格模式会检查 dll 中的所有引用模块
+     *  * 非严格模式只会检查 alias 中指定的模块及当前项目 package.json 中使用的模块
+     */
+    checkDependencies(projectDir, strict = false) {
+      return checkDependencies(projectDir, strict, mode, name, getAlias(mode, name))
+    },
+
+    copyScriptTo(filepath) {
+      mkdirp(path.dirname(filepath))
+      fs.copyFileSync(entryFile, filepath)
+    },
+
+    copyStyleTo(filepath) {
+      mkdirp(path.dirname(filepath))
+      const style1 = fs.readFileSync(require.resolve('antd/dist/antd.min.css'))
+      const style2 = fs.readFileSync(require.resolve('braft-editor/dist/index.css'))
+      const style3 = fs.readFileSync(require.resolve('braft-editor/dist/output.css'))
+      fs.writeFileSync(filepath, Buffer.concat([style1, style2, style3]))
+    },
+
+    init({outputDir, outputName = 'dll', checkProjectDir = '', strictCheck = false }) {
+      this.copyScriptTo(path.join(outputDir, outputName + '.js'))
+      this.copyStyleTo(path.join(outputDir, outputName + '.css'))
+      if (checkProjectDir) {
+        let result = this.checkDependencies(checkProjectDir, strictCheck)
+        result.forEach(obj => {
+          console.log(`\x1b[33m  warning: ${obj.name} 在 dll 中的版本是 ${obj.dllVersion} 而本地版本是 ${obj.localVersion}，请不要依赖它 \x1b[0m`)
+        })
+      }
     }
   }
 }
 
 /**
  * 检查当前的依赖是否和 dll 中的依赖一致
- * @param {string} nodeModulesDir
+ * @param {string} projectDir
  * @param {Mode} mode
  * @param {Name} name
  * @returns {({name: string, dllVersion: string, localVersion: string})[]} 返回所有不一致的 package 名称
  */
-function checkDependencies(nodeModulesDir, mode, name) {
+function checkDependencies(projectDir, strict, mode, name, alias) {
   /** @type {{[key: string]: {version: string, files: string[]}}} */
   const depsJson = require(getConfig(mode, name).depsFile)
   const warnings = []
+  const aliasNames = Object.keys(alias).map(k => k.replace(/\$$/, ''))
+
+  const userPkg = require(path.join(projectDir, 'package.json'))
+  const userPkgNames = Object.keys({...userPkg.devDependencies, ...userPkg.dependencies})
 
   Object.keys(depsJson).forEach(pkgName => {
+    if (!strict && !aliasNames.includes(pkgName) && !userPkgNames.includes(pkgName)) {
+      return
+    }
     const pkgVersion = depsJson[pkgName].version
-    const pkgJsonFile = path.join(nodeModulesDir, ...pkgName.split('/'), 'package.json')
+    const pkgJsonFile = path.join(projectDir, 'node_modules', ...pkgName.split('/'), 'package.json')
 
     if (fs.existsSync(pkgJsonFile)) {
       const pkg = require(pkgJsonFile)
@@ -108,6 +147,12 @@ function checkDependencies(nodeModulesDir, mode, name) {
   return warnings
 }
 
+function mkdirp(dir) {
+  if (!fs.existsSync(dir)) {
+    mkdirp(path.dirname(dir))
+    fs.mkdirSync(dir)
+  }
+}
 
 module.exports = getConfig
 module.exports.getAlias = getAlias
