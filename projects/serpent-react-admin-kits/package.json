@@ -24,6 +24,7 @@
   },
   "peerDependencies": {
     "@types/braft-editor": "~1.9.2",
+    "@types/lodash": "4.14.135",
     "@types/moment": "~2.13.0",
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
@@ -38,6 +39,7 @@
     "draft-js": "0.10.5",
     "draftjs-utils": "0.9.4",
     "immutable": "3.7.6",
+    "lodash": "4.17.11",
     "mobx": "5.9.4",
     "mobx-react": "6.0.2",
     "mobx-react-lite": "1.4.0",
@@ -50,6 +52,7 @@
   },
   "dependencies": {
     "@types/braft-editor": "~1.9.2",
+    "@types/lodash": "4.14.135",
     "@types/moment": "~2.13.0",
     "@types/react": "16.8.19",
     "@types/react-dom": "16.8.4",
@@ -64,6 +67,7 @@
     "draft-js": "0.10.5",
     "draftjs-utils": "0.9.4",
     "immutable": "3.7.6",
+    "lodash": "4.17.11",
     "mobx": "5.9.4",
     "mobx-react": "6.0.2",
     "mobx-react-lite": "1.4.0",
