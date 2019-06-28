@@ -14,7 +14,8 @@
     "precheck": "npm run lint && npm run test",
     "build": "tsc",
     "build:watch": "tsc -w",
-    "prepublishOnly": "npm run precheck && npm run clean && npm run build && node dist/serpent.js init init"
+    "prepare": "npm run precheck && npm run clean && npm run build",
+    "prepublishOnly": "node dist/serpent.js init init"
   },
   "publishConfig": {
     "access": "public"
