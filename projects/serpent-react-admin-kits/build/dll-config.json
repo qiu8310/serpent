@@ -9,12 +9,14 @@
     "mobx-react",
     "mobx-react-lite",
     "antd",
+    "antd/lib/locale-provider/zh_CN",
     "draftjs-utils",
     "braft-convert",
     "braft-editor",
     "braft-finder",
     "braft-utils",
     "draft-js",
+    "lodash",
     "immutable"
   ],
   "cjs": [
@@ -27,12 +29,14 @@
     "mobx-react",
     "mobx-react-lite",
     "antd",
+    "antd/lib/locale-provider/zh_CN",
     "draftjs-utils",
     "braft-convert",
     "braft-editor",
     "braft-finder",
     "braft-utils",
     "draft-js",
-    "immutable"
+    "immutable",
+    "lodash"
   ]
 }
