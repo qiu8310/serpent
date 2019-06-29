@@ -9,9 +9,8 @@
   "scripts": {
     "sync": "node scripts/sync_versions",
     "cli:bootstrap": "cd projects/serpent-cli && npm install && cd ../..",
-    "cli:test": "cd projects/serpent-cli && npm test && cd ../..",
     "bootstrap": "npm run cli:bootstrap && lerna bootstrap --ignore @serpent/cli",
-    "test": "npm run cli:test && lerna run test",
+    "test": "ls -alh -G projects/serpent-template/node_modules/@serpent && ls -alh -G projects/serpent-template/node_modules/ && lerna run test",
     "postinstall": "npm run bootstrap"
   },
   "license": "GPL-2.0",

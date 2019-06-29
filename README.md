@@ -10,9 +10,9 @@
   [![npm version](https://badge.fury.io/js/%40serpent%2Fcli.svg)](https://badge.fury.io/js/%40serpent%2Fcli)
 * [@serpent/dev-kits](./projects/serpent-dev-kits)
   [![npm version](https://badge.fury.io/js/%40serpent%2Fdev-kits.svg)](https://badge.fury.io/js/%40serpent%2Fdev-kits)
-  * [@serpent/react-kits](./projects/serpent-react-kits)
+* [@serpent/react-kits](./projects/serpent-react-kits)
   [![npm version](https://badge.fury.io/js/%40serpent%2Freact-kits.svg)](https://badge.fury.io/js/%40serpent%2Freact-kits)
-   * [@serpent/react-admin-kits](./projects/serpent-react-admin-kits)
+* [@serpent/react-admin-kits](./projects/serpent-react-admin-kits)
   [![npm version](https://badge.fury.io/js/%40serpent%2Freact-admin-kits.svg)](https://badge.fury.io/js/%40serpent%2Freact-admin-kits)
 
 
