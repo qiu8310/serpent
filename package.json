@@ -8,9 +8,10 @@
   ],
   "scripts": {
     "sync": "node scripts/sync_versions",
-    "cli:bootstrap": "cd projects/serpent-cli && npm install && cd ../..",
-    "base:bootstrap": "cd projects/dev-kits && npm install && cd ../..",
-    "bootstrap": "npm run cli:bootstrap && npm run base:bootstrap && lerna bootstrap --ignore @serpent/cli --ignore @serpent/dev-kits",
+    "bootstrap:test": "cd projects/serpent-cli && npm install && cd ../..",
+    "bootstrap:base": "cd projects/serpent-dev-kits && npm install && cd ../..",
+    "bootstrap:rest": "lerna bootstrap --ignore @serpent/cli --ignore @serpent/dev-kits",
+    "bootstrap": "npm run cli:bootstrap && npm run base:bootstrap && npm run bootstrap:rest",
     "test": "lerna run test --ignore @serpent/cli",
     "postinstall": "npm run bootstrap"
   },
