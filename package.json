@@ -10,7 +10,7 @@
     "sync": "node scripts/sync_versions",
     "cli:bootstrap": "cd projects/serpent-cli && npm install && cd ../..",
     "cli:test": "cd projects/serpent-cli && npm test && cd ../..",
-    "bootstrap": "npm run cli:bootstrap && lerna bootstrap",
+    "bootstrap": "npm run cli:bootstrap && lerna bootstrap --ignore @serpent/cli",
     "test": "npm run cli:test && lerna run test",
     "postinstall": "npm run bootstrap"
   },
