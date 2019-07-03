@@ -59,6 +59,5 @@
   "dependencies": {
     "index-loader": "~2.1.0",
     "minimatch": "^3.0.4"
-  },
-  "gitHead": "bf7872eb3cd7a487b7cfa56508738b49c038dc84"
+  }
 }

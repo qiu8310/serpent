@@ -56,6 +56,5 @@
   "devDependencies": {
     "@serpent/cli": "^0.5.2",
     "@serpent/dev-kits": "^0.5.2"
-  },
-  "gitHead": "bf7872eb3cd7a487b7cfa56508738b49c038dc84"
+  }
 }
