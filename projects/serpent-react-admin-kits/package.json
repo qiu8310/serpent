@@ -1,6 +1,6 @@
 {
   "name": "@serpent/react-admin-kits",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "serpent react admin kits",
   "main": "./get-config.js",
   "scripts": {
