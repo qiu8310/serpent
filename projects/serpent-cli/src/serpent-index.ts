@@ -14,7 +14,7 @@ export function index(subModules: string[], env: ReturnType<typeof getEnv>) {
     rootDir,
     srcDir,
     distDir,
-    userConfig: { ignores = [] }
+    userConfig: { ignores = [] },
   } = env
 
   if (subModules.includes('index')) {
@@ -24,7 +24,7 @@ export function index(subModules: string[], env: ReturnType<typeof getEnv>) {
   const fileNames = fs.readdirSync(srcDir).filter(NAME_FILTER)
 
   const map: { [key: string]: string[] } = {
-    index: []
+    index: [],
   }
 
   subModules.forEach(sub => {
@@ -38,9 +38,7 @@ export function index(subModules: string[], env: ReturnType<typeof getEnv>) {
     else map.index.push(path.join(srcDir, n))
   })
 
-  return Object.keys(map).map(key =>
-    generateModule(rootDir, srcDir, distDir, key, map[key], ignores)
-  )
+  return Object.keys(map).map(key => generateModule(rootDir, srcDir, distDir, key, map[key], ignores))
 }
 
 function generateModule(
@@ -55,9 +53,7 @@ function generateModule(
   entries.forEach(file => {
     let files = getAllExportFiles(file)
     if (ignores.length) {
-      files = files.filter(f =>
-        ignores.every(ignore => !minimatch(path.relative(rootDir, f), ignore))
-      )
+      files = files.filter(f => ignores.every(ignore => !minimatch(path.relative(rootDir, f), ignore)))
     }
     exportFiles.push(...files)
   })
@@ -72,7 +68,7 @@ function generateModule(
     moduleName,
     moduleFile,
     moduleContent,
-    jsonFile
+    jsonFile,
   }
 }
 

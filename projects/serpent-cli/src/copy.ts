@@ -92,12 +92,12 @@ export function copy(fromDir: string, distDir: string, options: copy.Options = {
     rename,
     duplicate: 'error',
     replacers: [],
-    ...options
+    ...options,
   }
   const result: copy.Result = {
     overwritten: [],
     ignored: [],
-    copied: []
+    copied: [],
   }
   if (!fs.existsSync(fromDir)) throw new Error(`${fromDir} not exists`)
 
@@ -180,10 +180,7 @@ function replace(replacer: copy.Replacer, buffer: Buffer, fileInfo: copy.FileInf
 function getTextReplacerRegExp(tagStart: string, tagEnd: string): RegExp {
   const key = [tagStart, tagEnd].join('##')
   if (!regexpCache[key]) {
-    regexpCache[key] = new RegExp(
-      `${escapeRegExp(tagStart)}\\s*([\\w-]+)\\s*${escapeRegExp(tagEnd)}`,
-      'g'
-    )
+    regexpCache[key] = new RegExp(`${escapeRegExp(tagStart)}\\s*([\\w-]+)\\s*${escapeRegExp(tagEnd)}`, 'g')
   }
   return regexpCache[key]
 }

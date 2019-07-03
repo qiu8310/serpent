@@ -19,7 +19,7 @@ cli({
   usage: 'serpent <command> [options]',
   version() {
     return require('../package.json').version
-  }
+  },
 })
   .commands({
     init: {
@@ -29,12 +29,10 @@ cli({
         const templateSrcDir = path.join(projectsDir, 'serpent-template')
         const templateDistDir = path.join(projectsDir, 'serpent-cli', 'res', 'template')
         // 内部命令，将模板文件复制到 cli 项目中
-        if (res._[0] === 'init' && res._.length === 1)
-          return initFrom(templateSrcDir, templateDistDir)
+        if (res._[0] === 'init' && res._.length === 1) return initFrom(templateSrcDir, templateDistDir)
 
         // 必须传两个参数 project-name 和 project-description
-        if (res._.length !== 2)
-          return this.error(`serpent init <project-name> <project-description>`)
+        if (res._.length !== 2) return this.error(`serpent init <project-name> <project-description>`)
 
         const [rawName, description] = res._
         let name = rawName.replace(/@serpent\//, '')
@@ -43,14 +41,14 @@ cli({
         }
 
         initTo(templateDistDir, path.join(projectsDir, 'serpent-' + name), name, description)
-      }
+      },
     },
 
     clean: {
       desc: `删除项目根目录下的 dist 文件夹`,
       cmd() {
         clean(getEnv())
-      }
+      },
     },
 
     index: {
@@ -62,13 +60,9 @@ cli({
           // 要先生成 moduleFile
           const jsonMap = index2json(moduleFile)
           writeFile(jsonFile, JSON.stringify(jsonMap, null, 2))
-          clog(
-            `%c create ${moduleName} module: %c${moduleName}.d.ts ${moduleName}.map.json`,
-            'green',
-            'bold'
-          )
+          clog(`%c create ${moduleName} module: %c${moduleName}.d.ts ${moduleName}.map.json`, 'green', 'bold')
         })
-      }
+      },
     },
 
     peer: {
@@ -76,8 +70,8 @@ cli({
       cmd() {
         const env = getEnv()
         peer(env.rootDir)
-      }
-    }
+      },
+    },
   })
   .parse(function() {
     this.help()

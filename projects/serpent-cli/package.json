@@ -10,6 +10,7 @@
   "scripts": {
     "clean": "remove-all ./dist",
     "lint": "eslint --ext .ts,.tsx ./src",
+    "lint:fix": "eslint --fix --ext .ts,.tsx ./src",
     "test": "jest",
     "precheck": "npm run lint && npm run test",
     "build": "tsc",
@@ -58,5 +59,6 @@
   "dependencies": {
     "index-loader": "~2.1.0",
     "minimatch": "^3.0.4"
-  }
+  },
+  "gitHead": "bf7872eb3cd7a487b7cfa56508738b49c038dc84"
 }

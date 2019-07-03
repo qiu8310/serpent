@@ -10,8 +10,9 @@
     "sync": "node scripts/sync_versions",
     "bootstrap:1": "cd projects/serpent-cli && npm ci && cd ../..",
     "bootstrap:2": "cd projects/serpent-dev-kits && npm ci && cd ../..",
-    "bootstrap:3": "lerna bootstrap --ignore @serpent/cli --ignore @serpent/dev-kits",
-    "bootstrap": "npm run bootstrap:1 && npm run bootstrap:2 && npm run bootstrap:3",
+    "bootstrap:3": "cd projects/serpent-react-kits && npm ci && cd ../..",
+    "bootstrap:4": "lerna bootstrap --ignore @serpent/cli --ignore @serpent/dev-kits --ignore @serpent/react-kits",
+    "bootstrap": "npm run bootstrap:1 && npm run bootstrap:2 && npm run bootstrap:3 && npm run bootstrap:4",
     "test": "lerna run test --ignore @serpent/cli",
     "postinstall": "npm run bootstrap"
   },

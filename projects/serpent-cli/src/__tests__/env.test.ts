@@ -12,7 +12,7 @@ describe('env', () => {
       rootDir,
       srcDir: path.join(rootDir, 'src'),
       distDir: path.join(rootDir, 'dist'),
-      userConfig: {}
+      userConfig: {},
     })
   })
 
@@ -23,7 +23,7 @@ describe('env', () => {
         rootDir: root,
         srcDir: path.join(root, 's'),
         distDir: path.join(root, 'd'),
-        userConfig: { src: 's', dist: 'd' }
+        userConfig: { src: 's', dist: 'd' },
       })
     })
   })
@@ -33,9 +33,7 @@ describe('env', () => {
     switchRoot(root, () => {
       expect(() => {
         getEnv()
-      }).toThrowErrorMatchingInlineSnapshot(
-        `"无法定位 package.json 文件，请确保在项目中运行 serpent 命令"`
-      )
+      }).toThrowErrorMatchingInlineSnapshot(`"无法定位 package.json 文件，请确保在项目中运行 serpent 命令"`)
     })
   })
 })

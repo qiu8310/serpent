@@ -77,7 +77,7 @@ describe('copy', () => {
     runCopy({
       rename(dist) {
         return dist + '_xxx'
-      }
+      },
     })
     testNotFile('file')
     testFile('file_xxx', 'hello')
@@ -96,7 +96,7 @@ describe('copy', () => {
     createFile('file2')
     runCopy({
       excludes: () => true,
-      includes: f => f === 'file2'
+      includes: f => f === 'file2',
     })
     testNotFile('file1')
     testFile('file2')
@@ -140,9 +140,9 @@ describe('copy', () => {
         {
           type: 'text',
           match: /\.md$/,
-          data: { a: '1', b: '2' }
-        }
-      ]
+          data: { a: '1', b: '2' },
+        },
+      ],
     })
     testFile('abc', '--{{a}}--abc')
     testFile('a.md', '--1--2--{{c}}--')
@@ -157,9 +157,9 @@ describe('copy', () => {
           match: /\.md$/,
           tagEnd: '>]',
           tagStart: '[<',
-          data: { a: '1' }
-        }
-      ]
+          data: { a: '1' },
+        },
+      ],
     })
     testFile('a.md', '-1-')
   })
@@ -173,9 +173,9 @@ describe('copy', () => {
           type: 'json',
           match: /\.json$/,
           data: { 'a.b': 2 },
-          stringify: [null, 0]
-        }
-      ]
+          stringify: [null, 0],
+        },
+      ],
     })
     testFile('abc')
     testFile('a.json', '{"a":{"b":2}}')
@@ -189,9 +189,9 @@ describe('copy', () => {
         {
           type: 'json',
           match: /\.json$/,
-          data: { 'a.b': 2 }
-        }
-      ]
+          data: { 'a.b': 2 },
+        },
+      ],
     })
     testFile('abc')
     testFile('a.json', '{\n  "a": {\n    "b": 2\n  }\n}')
@@ -207,9 +207,9 @@ describe('copy', () => {
           match: /abc$/,
           replace() {
             return 'hello'
-          }
-        }
-      ]
+          },
+        },
+      ],
     })
     testFile('abc', 'hello')
     testFile('a.json', 'abc')
@@ -223,9 +223,9 @@ describe('copy', () => {
           {
             type: 'others' as 'json',
             match: /abc$/,
-            data: {}
-          }
-        ]
+            data: {},
+          },
+        ],
       })
     }).toThrowErrorMatchingInlineSnapshot(`"replacer 中的 type 字段不支持设置成 \\"others\\""`)
   })
@@ -238,14 +238,14 @@ describe('copy', () => {
         {
           type: 'text',
           match: [/a1/],
-          data: { a: 'hello' }
+          data: { a: 'hello' },
         },
         {
           type: 'text',
           match: [/a2/],
-          data: { a: 'world' }
-        }
-      ]
+          data: { a: 'world' },
+        },
+      ],
     })
     testFile('a1', 'hello')
     testFile('a2', 'world')

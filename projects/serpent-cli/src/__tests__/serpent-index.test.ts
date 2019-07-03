@@ -8,7 +8,7 @@ const createEnv = (name: string, ignores?: string[]): ReturnType<typeof getEnv> 
     rootDir: rootDir,
     distDir: path.join(rootDir, 'dist'),
     srcDir: path.join(rootDir, 'src'),
-    userConfig: { ignores }
+    userConfig: { ignores },
   }
 }
 

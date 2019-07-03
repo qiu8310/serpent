@@ -85,5 +85,6 @@
     "webpack": "~4.31.0",
     "webpack-cli": "~3.3.2",
     "webpack-size-plugin": "~1.0.0"
-  }
+  },
+  "gitHead": "bf7872eb3cd7a487b7cfa56508738b49c038dc84"
 }

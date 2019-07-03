@@ -1,10 +1,6 @@
 import { copy } from './copy'
 
-export function init(
-  fromDir: string,
-  distDir: string,
-  data: { name: string; description: string }
-) {
+export function init(fromDir: string, distDir: string, data: { name: string; description: string }) {
   return copy(fromDir, distDir, {
     rename(file) {
       return file.replace(/\.tpl$/, '')
@@ -16,15 +12,15 @@ export function init(
         data: {
           ...data,
           name: '@serpent/' + data.name,
-          keywords: ['serpent', data.name]
-        }
+          keywords: ['serpent', data.name],
+        },
       },
       {
         type: 'text',
         match: /\.md\.tpl$/,
-        data
-      }
-    ]
+        data,
+      },
+    ],
   })
 }
 
@@ -35,6 +31,6 @@ export function initInit(fromDir: string, distDir: string) {
     },
     rename(distFile) {
       return distFile + '.tpl'
-    }
+    },
   })
 }
