@@ -7,15 +7,12 @@
   "command": {
     "publish": {
       "ignoreChanges": [
-        "*.md",
-        "*-lock.json"
+        "*.md"
       ]
     },
     "bootstrap": {
       "ignore": [],
-      "npmClientArgs": [
-        "--no-package-lock"
-      ]
+      "npmClientArgs": []
     }
   }
 }
