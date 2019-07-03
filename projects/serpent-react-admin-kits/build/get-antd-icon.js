@@ -34,7 +34,7 @@ function getAntdIcon() {
 getAntdIcon()
 
 function write(file, content) {
-  if (fs.readFileSync(file).toString() !== content) {
+  if (!fs.existsSync(file) || fs.readFileSync(file).toString() !== content) {
     fs.writeFileSync(file, content)
   }
 }

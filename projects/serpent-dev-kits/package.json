@@ -1,6 +1,6 @@
 {
   "name": "@serpent/dev-kits",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "serpent dev kits",
   "scripts": {
     "prepublish": "node ../serpent-cli/dist/serpent.js peer"
