@@ -1,6 +1,6 @@
 {
   "name": "@serpent/dev-kits",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "serpent dev kits",
   "scripts": {
     "prepublish": "node ../serpent-cli/dist/serpent.js peer"
@@ -13,6 +13,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "main": ".prettierrc.json",
   "license": "GPL-2.0",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {

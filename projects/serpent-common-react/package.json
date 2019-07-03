@@ -44,19 +44,7 @@
     "displayName": "@serpent/template",
     "testEnvironment": "node"
   },
-  "prettier": {
-    "printWidth": 100,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "none",
-    "bracketSpacing": true,
-    "jsxBracketSameLine": false,
-    "endOfLine": "lf",
-    "arrowParens": "avoid",
-    "jsxSingleQuote": true
-  },
+  "prettier": "@serpent/dev-kits",
   "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
   "repository": {
     "type": "git",
@@ -67,6 +55,6 @@
   },
   "devDependencies": {
     "@serpent/cli": "^0.4.0",
-    "@serpent/dev-kits": "^0.4.0"
+    "@serpent/dev-kits": "^0.5.0"
   }
 }

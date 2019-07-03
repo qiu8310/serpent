@@ -20,16 +20,16 @@ const config = {
     'ts-jest': {
       diagnostics: {
         warnOnly: true,
-        pathRegex: /\.(spec|test)\.tsx?$/
-      }
-    }
+        pathRegex: /\.(spec|test)\.tsx?$/,
+      },
+    },
   },
   rootDir: rootDir,
   roots: ['<rootDir>/src'],
   testEnvironment: 'node',
   testRegex: '(/__tests__/.*\\.(test|spec))\\.(ts|tsx)$',
   transform: {
-    '^.+\\.tsx?$': require.resolve('ts-jest')
+    '^.+\\.tsx?$': require.resolve('ts-jest'),
   },
   moduleFileExtensions: ['js', 'jsx', 'json', 'ts', 'tsx'],
 
@@ -38,7 +38,7 @@ const config = {
   moduleNameMapper: {
     '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
       devKitsRootDir + '/res/fileMock.js',
-    '\\.(css|less|scss|sass)$': devKitsRootDir + '/res/styleMock.js'
+    '\\.(css|less|scss|sass)$': devKitsRootDir + '/res/styleMock.js',
   },
 
   collectCoverage: true,
@@ -54,9 +54,9 @@ const config = {
       branches: 80,
       functions: 90,
       lines: 90,
-      statements: -20
-    }
-  }
+      statements: -20,
+    },
+  },
 }
 
 module.exports = config
