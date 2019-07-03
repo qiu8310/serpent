@@ -1,6 +1,6 @@
 {
   "name": "@serpent/template",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "serpent template",
   "keywords": [
     "serpent",
@@ -50,8 +50,8 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
-    "@serpent/cli": "^0.5.1",
-    "@serpent/dev-kits": "^0.5.1"
+    "@serpent/cli": "^0.5.2",
+    "@serpent/dev-kits": "^0.5.2"
   },
   "gitHead": "bf7872eb3cd7a487b7cfa56508738b49c038dc84"
 }
