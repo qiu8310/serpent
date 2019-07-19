@@ -1,6 +1,6 @@
 {
   "name": "@serpent/react-kits",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "serpent react kits",
   "scripts": {
     "prepublishOnly": "node ../serpent-cli/dist/serpent.js peer"

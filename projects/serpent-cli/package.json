@@ -1,6 +1,6 @@
 {
   "name": "@serpent/cli",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "a cli for serpent",
   "main": "dist/serpent.js",
   "license": "GPL-2.0",
@@ -53,7 +53,7 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
-    "@serpent/dev-kits": "^0.5.4",
+    "@serpent/dev-kits": "^0.6.0",
     "@types/minimatch": "^3.0.3"
   },
   "dependencies": {
