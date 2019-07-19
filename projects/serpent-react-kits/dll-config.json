@@ -1,6 +1,5 @@
 {
-  "outputName": "react-vendors",
-  "outputDir": "public",
+  "name": "react-vendors",
   "modules": [
     "react",
     "react-dom",

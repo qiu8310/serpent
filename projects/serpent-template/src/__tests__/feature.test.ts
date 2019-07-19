@@ -1,6 +1,5 @@
-import { feature } from '../feature'
-describe('feature', () => {
-  test('should return string type', () => {
-    expect(typeof feature()).toEqual('string')
+describe('Name of the group', () => {
+  test('should behave...', () => {
+    expect(true).toBeTruthy()
   })
 })

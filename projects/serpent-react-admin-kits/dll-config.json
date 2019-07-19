@@ -1,6 +1,5 @@
 {
-  "outputName": "admin-vendors",
-  "outputDir": "public",
+  "name": "admin-vendors",
   "modules": [
     "react",
     "react-dom",
