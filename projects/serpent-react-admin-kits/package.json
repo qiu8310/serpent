@@ -1,6 +1,6 @@
 {
   "name": "@serpent/react-admin-kits",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "serpent react admin kits",
   "scripts": {
     "build": "node build/get-antd-icon.js",
