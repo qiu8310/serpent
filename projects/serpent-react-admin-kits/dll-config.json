@@ -1,0 +1,29 @@
+{
+  "outputName": "admin-vendors",
+  "outputDir": "public",
+  "modules": [
+    "react",
+    "react-dom",
+    "react-router",
+    "react-router-dom",
+    "react-transition-group",
+    "mobx",
+    "mobx-react",
+    "mobx-react-lite",
+    "antd",
+    "antd/lib/locale-provider/zh_CN",
+    "draftjs-utils",
+    "braft-convert",
+    "braft-editor",
+    "braft-finder",
+    "braft-utils",
+    "draft-js",
+    "immutable",
+    "lodash"
+  ],
+  "styles": [
+    "antd/dist/antd.min.css",
+    "braft-editor/dist/index.css",
+    "braft-editor/dist/output.css"
+  ]
+}

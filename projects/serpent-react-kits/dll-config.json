@@ -1,0 +1,16 @@
+{
+  "outputName": "react-vendors",
+  "outputDir": "public",
+  "modules": [
+    "react",
+    "react-dom",
+    "react-router",
+    "react-router-dom",
+    "react-transition-group",
+    "mobx",
+    "mobx-react",
+    "mobx-react-lite",
+    "lodash"
+  ],
+  "styles": []
+}

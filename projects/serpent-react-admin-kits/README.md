@@ -1,6 +1,24 @@
 # @serpent/react-admin-kits
 
-给 serpent 相关项目用的套件，主要集成了 react、react-dom、react-router、react-router-dom、react-transition-group、lodash 及 antd
+给 serpent 相关项目用的套件，主要集成了:
+
+* react
+* react-dom
+* react-router
+* react-router-dom
+* react-transition-group
+* mobx
+* mobx-react
+* mobx-react-lite
+* antd
+* draftjs-utils
+* braft-convert
+* braft-editor
+* braft-finder
+* braft-utils
+* draft-js
+* immutable
+* lodash
 
 另外提供它们组合的 [dll 文件](https://webpack.js.org/plugins/dll-plugin/)
 

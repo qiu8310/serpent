@@ -50,10 +50,8 @@
     "type": "git",
     "url": "https://github.com/qiu8310/serpent"
   },
-  "dependencies": {
-    "@serpent/react-kits": "^0.5.4"
-  },
   "devDependencies": {
+    "@serpent/react-kits": "^0.5.4",
     "@serpent/cli": "^0.5.4",
     "@serpent/dev-kits": "^0.5.4"
   }
