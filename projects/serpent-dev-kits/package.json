@@ -28,7 +28,7 @@
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-serpent": "~0.0.0",
+    "eslint-plugin-serpent": "~0.0.2",
     "jest": "^24.8.0",
     "mora-scripts": "^1.6.0",
     "prettier": "^1.18.0",

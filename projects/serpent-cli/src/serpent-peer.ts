@@ -19,7 +19,10 @@ export function peer(rootDir: string) {
   for (const [key, value] of Object.entries(dependencies)) {
     // 版本的第一位前添加 ^
     // 版本的最后一位修改成 0 # 第三方有可能不会那么快更新到最新的模块
-    peerDependencies[key] = value.replace(/^(\d+\.)/, '^$1').replace(/\.(\d+)$/, '.0')
+    peerDependencies[key] = value.replace(/^([~^]?)(\d+)\.(\d+)\.(\d+)/, (raw, prefix, major, minor, patch) => {
+      if (major === '0' && minor === '0') return raw
+      return `${prefix || '^'}${major}.${minor}.0`
+    })
   }
 
   if (JSON.stringify(peerDependencies) !== JSON.stringify(pkg.peerDependencies)) {
