@@ -1,6 +1,6 @@
 {
   "name": "@serpent/react-admin-kits",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "serpent react admin kits",
   "scripts": {
     "build": "node build/get-antd-icon.js",
@@ -34,7 +34,7 @@
     "immutable": "^3.7.0"
   },
   "dependencies": {
-    "@serpent/react-kits": "^0.6.0",
+    "@serpent/react-kits": "^0.7.0",
     "@types/braft-editor": "~1.9.2",
     "antd": "3.20.3",
     "braft-convert": "2.1.12",
