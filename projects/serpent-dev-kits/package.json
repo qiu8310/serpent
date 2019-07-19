@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "description": "serpent dev kits",
   "scripts": {
-    "prepublish": "node ../serpent-cli/dist/serpent.js peer"
+    "prepublishOnly": "node ../serpent-cli/dist/serpent.js peer"
   },
   "keywords": [
     "serpent",
@@ -21,19 +21,19 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "@types/jest": "^24.0.15",
-    "@types/node": "^8.10.49",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^8.10.0",
     "@typescript-eslint/eslint-plugin": "^1.11.0",
     "@typescript-eslint/parser": "^1.11.0",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-serpent": "~0.0.2",
+    "eslint-plugin-serpent": "~0.0.0",
     "jest": "^24.8.0",
-    "mora-scripts": "^1.6.42",
-    "prettier": "^1.18.2",
-    "ts-jest": "^24.0.2",
-    "typescript": "^3.5.2"
+    "mora-scripts": "^1.6.0",
+    "prettier": "^1.18.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.5.0"
   },
   "dependencies": {
     "@types/jest": "^24.0.15",
