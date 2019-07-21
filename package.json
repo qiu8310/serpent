@@ -8,12 +8,12 @@
   ],
   "scripts": {
     "sync": "node scripts/sync_versions",
-    "b:1": "cd projects/serpent-cli && npm i && cd ../..",
-    "b:2": "cd projects/serpent-dev-kits && npm i && cd ../..",
-    "b:3": "cd projects/serpent-react-kits && npm i && cd ../..",
-    "b:4": "cd projects/serpent-react-admin-kits && npm i && cd ../..",
-    "b:5": "cd projects/serpent-template && npm i && cd ../..",
-    "b:6": "cd projects/serpent-common-react && npm i && cd ../..",
+    "b:1": "cd projects/serpent-cli && npm i",
+    "b:2": "cd projects/serpent-dev-kits && npm i",
+    "b:3": "cd projects/serpent-react-kits && npm i",
+    "b:4": "cd projects/serpent-react-admin-kits && npm i",
+    "b:5": "cd projects/serpent-template && npm i",
+    "b:6": "cd projects/serpent-common-react && npm i",
     "bootstrap": "npm run b:1 && npm run b:2 && npm run b:3 && npm run b:4 && npm run b:5 && npm run b:6",
     "test": "lerna run test --ignore @serpent/cli",
     "postinstall": "npm run bootstrap"
