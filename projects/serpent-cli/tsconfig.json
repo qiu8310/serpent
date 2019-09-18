@@ -1,7 +1,6 @@
 {
   "extends": "./node_modules/@serpent/dev-kits/tsconfig.json",
   "include": ["src"],
-  "exclude": ["**/fixtures/**"],
   "compilerOptions": {
     "rootDir": "src",
     "outDir": "dist",
@@ -11,6 +10,6 @@
     "target": "es2017",
     "lib": [
       "es2017"
-    ],
+    ]
   }
 }
