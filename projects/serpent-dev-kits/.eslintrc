@@ -16,6 +16,9 @@
     "project": "./tsconfig.json"
   },
   "rules": {
+    "prefer-const": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/prefer-string-starts-ends-with": ["error"],
     "@typescript-eslint/prefer-includes": ["error"],
     "@typescript-eslint/ban-ts-ignore": ["error"],
