@@ -1,6 +1,6 @@
 {
   "name": "@serpent/common-react",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "serpent react common package",
   "keywords": [
     "serpent",
@@ -51,8 +51,8 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "devDependencies": {
-    "@serpent/cli": "^0.9.0",
-    "@serpent/dev-kits": "^0.9.0",
+    "@serpent/cli": "^0.9.1",
+    "@serpent/dev-kits": "^0.9.1",
     "@serpent/react-kits": "^0.9.0"
   }
 }
