@@ -61,7 +61,10 @@ function generateModule(
   if (!exportFiles.length) throw new Error(`模块 "${key}" 下没有任何文件`)
   const moduleName = removeModuleExt(key)
   const moduleFile = path.join(rootDir, moduleName + '.d.ts')
-  const moduleContent = getModuleContent(rootDir, exportFiles.map(f => f.replace(srcDir, distDir)))
+  const moduleContent = getModuleContent(
+    rootDir,
+    exportFiles.map(f => f.replace(srcDir, distDir))
+  )
   const jsonFile = path.join(rootDir, moduleName + '.map.json')
 
   return {
