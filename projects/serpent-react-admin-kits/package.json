@@ -22,9 +22,9 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "@serpent/react-kits": "^0.10.0",
+    "@serpent/react-kits": "^0.11.0",
     "@types/braft-editor": "~2.2.0",
-    "antd": "^3.25.0",
+    "antd": "^3.26.0",
     "braft-convert": "^2.3.0",
     "braft-editor": "^2.3.0",
     "braft-finder": "0.0.21",
@@ -36,7 +36,7 @@
   "dependencies": {
     "@serpent/react-kits": "^0.11.0",
     "@types/braft-editor": "~2.2.0",
-    "antd": "3.25.1",
+    "antd": "3.26.8",
     "braft-convert": "2.3.0",
     "braft-editor": "2.3.8",
     "braft-finder": "0.0.21",
