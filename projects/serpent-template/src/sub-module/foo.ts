@@ -1,1 +1,3 @@
-export function foo() {}
+export function foo() {
+  return 1
+}
