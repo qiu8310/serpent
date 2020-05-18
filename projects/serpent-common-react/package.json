@@ -54,5 +54,8 @@
     "@serpent/cli": "^0.12.1",
     "@serpent/dev-kits": "^0.12.1",
     "@serpent/react-kits": "^0.12.1"
+  },
+  "dependencies": {
+    "react-use": "^15.0.2"
   }
 }

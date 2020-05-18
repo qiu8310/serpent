@@ -74,21 +74,11 @@
 		"eslint.validate": [
 			"javascript",
 			"javascriptreact",
-			{
-				"language": "typescript",
-				"autoFix": true
-			},
-			{
-				"language": "typescriptreact",
-				"autoFix": true
-			},
-			{
-				"language": "vue",
-				"autoFix": true
-			}
+			"typescript",
+			"typescriptreact",
+			"vue"
 		],
 		"eslint.enable": true,
-		"eslint.autoFixOnSave": true,
 		"cSpell.enabled": true,
 		"cSpell.words": [
 			"Parens",
@@ -97,5 +87,8 @@
 			"exts",
 			"submodules"
 		],
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": true
+		},
 	}
 }
