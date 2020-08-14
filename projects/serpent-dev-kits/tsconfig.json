@@ -1,8 +1,8 @@
 {
   "include": ["src"],
   "compilerOptions": {
-    "rootDir": "src",
-    "outDir": "dist",
+    // "rootDir": "src",
+    // "outDir": "dist",
     // "module": "commonjs",
     "module": "esnext", // We want the compiler to emit all import/export declarations and import() expressions unchanged. We'll let webpack bundle and split our code later.
     "moduleResolution": "node",
