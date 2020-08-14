@@ -1,4 +1,4 @@
-/* eslint "@typescript-eslint/no-var-requires": "off", @typescript-eslint/no-triple-slash-reference: "off" */
+/* eslint "@typescript-eslint/no-var-requires": "off", @typescript-eslint/triple-slash-reference: "off" */
 // @ts-check
 /// <reference path='./node_modules/@types/jest/index.d.ts' />
 
@@ -6,7 +6,7 @@ const findup = require('mora-scripts/libs/fs/findup')
 const path = require('path')
 const devKitsRootDir = path.resolve(__dirname)
 
-const rootDir = (function() {
+const rootDir = (function () {
   try {
     return path.dirname(findup.pkg())
   } catch (e) {
@@ -14,7 +14,6 @@ const rootDir = (function() {
   }
 })()
 
-/** @type {Partial<jest.DefaultOptions>} */
 const config = {
   globals: {
     'ts-jest': {
