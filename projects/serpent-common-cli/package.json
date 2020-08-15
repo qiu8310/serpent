@@ -1,0 +1,61 @@
+{
+  "name": "@serpent/common-cli",
+  "version": "1.0.0",
+  "description": "通用的 cli 相关的函数",
+  "main": "dist/index.js",
+  "keywords": ["cli", "common", "serpent"],
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "prepare": "npm run lint && npm run test && npm run build",
+    "preversion": "npm run prepare",
+    "postversion": "npm publish && git push"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": ">=8.9.0",
+    "npm": ">=6.0.0"
+  },
+  "author": "Mora <qiuzhongleiabc@126.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiu8310/serpent"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@serpent/dev-kits": "~1.0.0"
+  },
+  "dependencies": {
+    "mora-scripts": "~1.7.1"
+  },
+  "jest": {
+    "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
+    "testEnvironment": "node"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": false,
+      "node": true
+    },
+    "extends": [
+      "./node_modules/@serpent/dev-kits/.eslintrc"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    }
+  },
+  "eslintIgnore": [
+    "dist",
+    "coverage"
+  ],
+  "prettier": "@serpent/dev-kits"
+}

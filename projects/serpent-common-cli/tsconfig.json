@@ -1,0 +1,11 @@
+{
+  "extends": "./node_modules/@serpent/dev-kits/tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "lib": ["es2017"],
+    "target": "es2017",
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

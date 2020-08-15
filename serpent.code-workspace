@@ -32,6 +32,9 @@
 		},
 		{
 			"path": "projects/serpent-common-react"
+		},
+		{
+			"path": "projects/serpent-common-cli"
 		}
 	],
 	"settings": {
