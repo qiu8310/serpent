@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "通用的 cli 相关的函数",
   "main": "dist/index.js",
-  "keywords": ["cli", "common", "serpent"],
+  "keywords": [
+    "cli",
+    "common",
+    "serpent"
+  ],
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
     "test": "jest",
@@ -33,6 +37,7 @@
     "@serpent/dev-kits": "~1.0.0"
   },
   "dependencies": {
+    "dotenv": "~8.2.0",
     "mora-scripts": "~1.7.1"
   },
   "jest": {
