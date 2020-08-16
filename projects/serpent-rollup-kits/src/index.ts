@@ -4,6 +4,7 @@ import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import typescript from '@rollup/plugin-typescript'
 import { terser } from 'rollup-plugin-terser'
+import builtins from 'builtin-modules'
 import type { RollupOptions, OutputOptions } from 'rollup'
 import path from 'path'
 
@@ -40,7 +41,10 @@ export function getPlugins(
 ) {
   const normal = [
     replace(options.replace),
-    resolve(options.resolve),
+    resolve({
+      preferBuiltins: true,
+      ...options.resolve,
+    }),
     commonjs(options.commonjs),
     json(options.json),
     typescript(options.typescript),
@@ -72,6 +76,10 @@ export function make(options: {
   external?: string[]
 
   outputDir?: string
+  /**
+   * 是否会生成多个文件，如果设置成 true: 则 output 选项会使用 dir 而不是 file
+   */
+  multiple?: boolean
   /** 是否生成压缩版本 */
   minify?: boolean
   /** 指定要生成的格式 */
@@ -79,6 +87,7 @@ export function make(options: {
   normalPlugins?: any[]
   minifyPlugins?: any[]
   pluginOptions?: Parameters<typeof getPlugins>[0]
+  handleOutput?: (output: OutputOptions) => OutputOptions
 }): RollupOptions[] {
   const plugins = getPlugins(options.pluginOptions)
   const {
@@ -87,6 +96,7 @@ export function make(options: {
     name,
     external = Object.keys({ ...pkg.peerDependencies, ...pkg.dependencies }),
     outputDir = 'dist',
+    multiple,
     minify,
     formats = [],
     normalPlugins = plugins.normalPlugins,
@@ -111,12 +121,20 @@ export function make(options: {
     const formatsWithExternal = formats.filter(f => !requireNameFormats.includes(f.format))
 
     const getOutput = (formats: typeof formatsWithoutExternal) => {
-      const output: OutputOptions[] = formats.map(ft => ({
-        name,
-        ...ft,
-        file: ft.file ? ft.file.replace(/\.\w+$/, ext) : path.join(outputDir, `${baseName}.${ft.format}${ext}`),
-      }))
-      return output
+      return formats.map(ft => {
+        let output: OutputOptions = {
+          name,
+          ...ft,
+          dir: multiple ? outputDir : undefined,
+          file: multiple
+            ? undefined
+            : ft.file
+            ? ft.file.replace(/\.\w+$/, ext)
+            : path.join(outputDir, `${baseName}.${ft.format}${ext}`),
+        }
+        if (options.handleOutput) output = options.handleOutput(output)
+        return output
+      })
     }
 
     if (formatsWithoutExternal.length) {
@@ -124,6 +142,7 @@ export function make(options: {
         input: entry,
         output: getOutput(formatsWithoutExternal),
         plugins,
+        external: [...builtins],
       })
     }
     if (formatsWithExternal.length) {
@@ -131,7 +150,7 @@ export function make(options: {
         input: entry,
         output: getOutput(formatsWithExternal),
         plugins,
-        external,
+        external: [...builtins, ...external],
       })
     }
   })

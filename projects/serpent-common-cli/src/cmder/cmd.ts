@@ -63,7 +63,7 @@ export function cmd<Opts, Env>(
      * { '<aliasA,aliasB> 命令描述': () => require(file) }
      * ```
      */
-    commands?: Record<string, () => ReturnType<typeof cmd>>
+    commands?: Record<string, Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)>
   } & cli.Conf,
   run: (ctx: cmd.Context<Opts, Env>) => void
 ) {
@@ -110,7 +110,7 @@ export function cmd<Opts, Env>(
  * @param strCmd 类似这种结构：`'<aliasA,aliasB> 命令描述': () => require(file) `
  * @param modFn 文件路径或文件名称
  */
-function parseStrCmd2ObjCmd(strCmd: string, modFn: () => ReturnType<typeof cmd>) {
+function parseStrCmd2ObjCmd(strCmd: string, modFn: Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)) {
   const aliasReg = /^\s*<([^>]+)>/
   const error = () => {
     throw new Error(`command config string "${strCmd}" did not includes any command name`)
@@ -124,7 +124,12 @@ function parseStrCmd2ObjCmd(strCmd: string, modFn: () => ReturnType<typeof cmd>)
     [keys.join(' | ')]: {
       desc,
       cmd: function (res) {
-        modFn()(res._, { version: false, desc }, res) // 子命令默认不需要
+        let run = (fn: ReturnType<typeof cmd>) => fn(res._, { version: false, desc }, res) // 子命令默认不需要 version
+        if (typeof modFn === 'function') {
+          run(modFn)
+        } else {
+          modFn.then(run)
+        }
       },
     },
   }

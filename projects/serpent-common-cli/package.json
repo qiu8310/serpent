@@ -1,6 +1,6 @@
 {
   "name": "@serpent/common-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "通用的 cli 相关的函数",
   "main": "dist/index.js",
   "keywords": [
