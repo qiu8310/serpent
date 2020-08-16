@@ -1,0 +1,63 @@
+{
+  "name": "@serpent/rollup-kits",
+  "version": "0.0.2",
+  "description": "serpent rollup kits",
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "prepare": "npm run lint && npm run build",
+    "preversion": "npm run prepare",
+    "postversion": "npm publish && git push"
+  },
+  "keywords": [
+    "serpent",
+    "serpent-kits",
+    "rollup-kits"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "main": "dist/index.js",
+  "license": "GPL-2.0",
+  "author": "Mora <qiuzhongleiabc@126.com> (https://github.com/qiu8310)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/qiu8310/serpent"
+  },
+  "peerDependencies": {
+    "rollup": "^1.31.1"
+  },
+  "devDependencies": {
+    "@serpent/dev-kits": "^1.0.0"
+  },
+  "dependencies": {
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-replace": "^2.3.3",
+    "@rollup/plugin-typescript": "^5.0.2",
+    "rollup": "^1.31.1",
+    "rollup-plugin-terser": "^7.0.0"
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": false,
+      "node": true
+    },
+    "extends": [
+      "./node_modules/@serpent/dev-kits/.eslintrc"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    }
+  },
+  "eslintIgnore": [
+    "dist",
+    "coverage"
+  ],
+  "prettier": "@serpent/dev-kits"
+}
