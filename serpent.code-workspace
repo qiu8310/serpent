@@ -19,6 +19,10 @@
 			"path": "projects/serpent-dev-kits"
 		},
 		{
+			"name": "serpent-rollup-kits",
+			"path": "projects/serpent-rollup-kits"
+		},
+		{
 			"name": "serpent-react-kits",
 			"path": "projects/serpent-react-kits"
 		},
@@ -31,9 +35,11 @@
 			"path": "projects/serpent-template"
 		},
 		{
+			"name": "serpent-common-react",
 			"path": "projects/serpent-common-react"
 		},
 		{
+			"name": "serpent-common-cli",
 			"path": "projects/serpent-common-cli"
 		}
 	],
