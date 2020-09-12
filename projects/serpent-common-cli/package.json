@@ -2,8 +2,8 @@
   "name": "@serpent/common-cli",
   "version": "1.0.3",
   "description": "通用的 cli 相关的函数",
-  "main": "dist/cjs/index.js",
-  "module": "dist/es/index.js",
+  "main": "lib/cjs/debug.js",
+  "module": "lib/debug.js",
   "keywords": [
     "cli",
     "common",
@@ -16,7 +16,7 @@
     "build:tsc": "tsc",
     "build": "rollup -m -c config/rollup.config.js",
     "build:watch": "npm run build -- -w",
-    "prepare": "npm run lint && npm run test && npm run build",
+    "prepare": "npm run lint && npm run test && npm run build && npm run build:tsc",
     "preversion": "npm run prepare",
     "postversion": "npm publish && git push"
   },
