@@ -1,6 +1,6 @@
 {
   "name": "@serpent/rollup-kits",
-  "version": "0.0.6",
+  "version": "1.0.3",
   "description": "serpent rollup kits",
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
@@ -27,11 +27,11 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "rollup": "^2.26.2",
-    "mora-scripts": "^1.6.0"
+    "mora-scripts": "^1.6.0",
+    "rollup": "^2.26.2"
   },
   "devDependencies": {
-    "@serpent/dev-kits": "^1.0.0"
+    "@serpent/dev-kits": "^1.0.3"
   },
   "dependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",

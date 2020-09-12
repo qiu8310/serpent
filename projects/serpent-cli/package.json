@@ -1,6 +1,6 @@
 {
   "name": "@serpent/cli",
-  "version": "0.12.1",
+  "version": "1.0.3",
   "description": "a cli for serpent",
   "main": "dist/serpent.js",
   "license": "GPL-2.0",
