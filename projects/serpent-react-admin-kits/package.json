@@ -22,7 +22,7 @@
     "url": "https://github.com/qiu8310/serpent"
   },
   "peerDependencies": {
-    "@serpent/react-kits": "^0.11.0",
+    "@serpent/react-kits": "^1.0.0",
     "@types/braft-editor": "~2.2.0",
     "antd": "^3.26.0",
     "braft-convert": "^2.3.0",
