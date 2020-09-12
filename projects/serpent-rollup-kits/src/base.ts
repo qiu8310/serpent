@@ -1,3 +1,6 @@
+import path from 'path'
+import findup from 'mora-scripts/libs/fs/findup'
+
 import replace from '@rollup/plugin-replace'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
@@ -9,22 +12,28 @@ import type { RollupOptions, OutputOptions } from 'rollup'
 
 export { resolve, commonjs, json, typescript, terser, builtins, RollupOptions, OutputOptions }
 
-export function customTerser(...args: Parameters<typeof terser>) {
+export function customTerser(arg: Parameters<typeof terser>[0] = {}) {
   return terser({
     ie8: false,
+    ...arg,
     format: {
       comments: false,
+      ...arg.format,
     },
-    compress: {
-      booleans: true,
-      if_return: true,
-      sequences: true,
-      unused: true,
-      conditionals: true,
-      dead_code: true,
-      drop_debugger: true,
-      drop_console: true,
-    },
+    compress:
+      typeof arg.compress === 'object' || arg.compress == null
+        ? {
+            booleans: true,
+            if_return: true,
+            sequences: true,
+            unused: true,
+            conditionals: true,
+            dead_code: true,
+            drop_debugger: true,
+            drop_console: true,
+            ...arg.compress,
+          }
+        : arg.compress,
   })
 }
 
@@ -63,4 +72,19 @@ export function getExternal(pkg?: any) {
     return /^([\w-]+)/.test(id) && externals.includes(RegExp.$1)
   }
   return external
+}
+
+export function getRootDir() {
+  try {
+    return path.dirname(findup.pkg())
+  } catch (e) {
+    throw new Error('定位不到项目根目录')
+  }
+}
+
+export function getEntryMap(names: string[], map: (name: string) => string) {
+  return names.reduce((res, key) => {
+    res[key] = map(key)
+    return res
+  }, {} as Record<string, string>)
 }

@@ -1,6 +1,5 @@
 import path from 'path'
-import findup from 'mora-scripts/libs/fs/findup'
-import { getPlugins, getExternal, RollupOptions } from './base'
+import { getPlugins, getExternal, getRootDir, RollupOptions } from './base'
 
 export function makeLib(options: Omit<RollupOptions, 'input'> & { modules: Record<string, string> }) {
   const { modules, ...rest } = options
@@ -46,12 +45,4 @@ export function makeLib(options: Omit<RollupOptions, 'input'> & { modules: Recor
   }
 
   return config
-}
-
-function getRootDir() {
-  try {
-    return path.dirname(findup.pkg())
-  } catch (e) {
-    throw new Error('定位不到项目根目录')
-  }
 }
