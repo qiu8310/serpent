@@ -1,10 +1,18 @@
 import cli from 'mora-scripts/libs/tty/cli'
+import table from 'mora-scripts/libs/tty/table'
 import info from 'mora-scripts/libs/sys/info'
 import warn from 'mora-scripts/libs/sys/warn'
 import success from 'mora-scripts/libs/sys/success'
+import clog from 'mora-scripts/libs/sys/clog'
+import isWin from 'mora-scripts/libs/sys/isWin'
+import walk from 'mora-scripts/libs/fs/walk'
+import rm from 'mora-scripts/libs/fs/rm'
+import mkdirp from 'mora-scripts/libs/fs/mkdirp'
+import exists from 'mora-scripts/libs/fs/exists'
+import ospath from 'mora-scripts/libs/fs/ospath'
 
 import { opt } from './opt-env'
-import { spiltTrim2array, walk } from './helper'
+import { spiltTrim2array } from './helper'
 
 export namespace cmd {
   export interface Context<Opts, Env> {
@@ -24,6 +32,9 @@ export namespace cmd {
     /** 用于判断环境变量是用户在命令行中提供的，还是程序指定的默认值 */
     userDefinedEnv: Record<keyof Env, boolean>
 
+    /** 是否是 window 操作系统 */
+    isWin: boolean
+
     /** 输出成功信息 */
     success(message: string, ...optionalParams: any[]): void
     /** 输出错误信息 */
@@ -32,12 +43,24 @@ export namespace cmd {
     warn(message: string, ...optionalParams: any[]): void
     /** 输出详细信息 */
     info(message: string, ...optionalParams: any[]): void
+    /** 输出带颜色的信息 */
+    clog(...args: Parameters<typeof clog>): ReturnType<typeof clog>
+    /** 将一个二维组转化成 table，以便于显示在终端上 */
+    table(...args: Parameters<typeof table>): ReturnType<typeof table>
 
     /** 输出命令的帮助文案 */
     help(): void
 
     /** 遍历文件夹 */
     walk(...args: Parameters<typeof walk>): ReturnType<typeof walk>
+    /** 删除文件或文件夹 */
+    rm(...args: Parameters<typeof rm>): ReturnType<typeof rm>
+    /** 创建文件夹 */
+    mkdirp(...args: Parameters<typeof mkdirp>): ReturnType<typeof mkdirp>
+    /** 文件或文件夹（需要指定第二个参数）是否存在 */
+    exists(...args: Parameters<typeof exists>): ReturnType<typeof exists>
+    /** 操作系统相关的一些目录 */
+    ospath: typeof ospath
   }
 }
 
@@ -85,7 +108,7 @@ export function cmd<Opts, Env>(
       }, {} as cli.Commands)
     )
 
-    cmder.parse(args || process.argv.slice(2), function (res, cli) {
+    cmder.parse(args || process.argv.slice(2), function (res, instance) {
       const { $command, _, userDefinedOptions, userDefinedEnv, userDefined, env, rawArgs, ...options } = res
       run({
         $command: parentRes?.$command,
@@ -94,13 +117,20 @@ export function cmd<Opts, Env>(
         userDefinedEnv: userDefinedEnv as any,
         options: options as any,
         rawArgs,
-        env: env,
-        help: () => cli.help(),
-        error: (...args: any[]) => cli.error(...args),
+        env,
+        isWin,
+        help: () => instance.help(),
+        error: (...args: any[]) => instance.error(...args),
         info,
         warn,
         success,
+        clog,
+        table,
         walk,
+        rm,
+        mkdirp,
+        exists,
+        ospath,
       })
     })
   }
