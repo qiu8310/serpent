@@ -28,5 +28,7 @@ export function getEnvSingly<T>(key: string, options: env.Options<T>) {
         throw new Error(`Environment variable(${prefixedKey}) value(${value}) is not valid json`)
       }
     }
+  } else {
+    return defaultEnv[key]
   }
 }
