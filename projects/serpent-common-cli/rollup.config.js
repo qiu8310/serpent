@@ -1,7 +1,7 @@
-import path from 'path'
 import { makeLib } from '@serpent/rollup-kits'
+import path from 'path'
 
-const rootDir = path.resolve(__dirname, '..')
+const rootDir = path.resolve(__dirname)
 const src = (...parts) => path.join(rootDir, 'src', ...parts)
 
 export default makeLib({

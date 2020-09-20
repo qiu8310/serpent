@@ -8,5 +8,5 @@
     "rootDir": "src",
     "outDir": "lib/cjs"
   },
-  "include": ["src", "config"]
+  "include": ["src", "rollup.config.js"]
 }
