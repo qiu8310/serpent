@@ -28,7 +28,7 @@ export function run(args: string[], options: any = {}): any {
   const { debug, output, ...opts } = options
 
   // 开启 debug 后还需要将环境变量 DURKA_DEBUG 设置成 true
-  if (debug && process.env[typeof debug === 'string' ? debug : 'DURKA_DEBUG']) {
+  if (debug && process.env[typeof debug === 'string' ? debug : 'DURKA_NODE_DEBUG']) {
     return runNodeDebug(args, opts)
   } else {
     const [cmd, ...rest] = args
