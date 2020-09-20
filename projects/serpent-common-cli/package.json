@@ -17,8 +17,7 @@
     "build": "rollup -m -c",
     "build:watch": "npm run build -- -w",
     "prepare": "npm run lint && npm run test && npm run build && npm run build:tsc",
-    "preversion": "npm run prepare",
-    "postversion": "npm publish && git push"
+    "preversion": "npm run prepare"
   },
   "publishConfig": {
     "access": "public",
@@ -74,5 +73,6 @@
     "lib",
     "coverage"
   ],
-  "prettier": "@serpent/dev-kits"
+  "prettier": "@serpent/dev-kits",
+  "gitHead": "6d07ca2e3193d8291fd1971a263c5bfa45579dfc"
 }
