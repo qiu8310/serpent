@@ -47,8 +47,13 @@
     "@types/debug": "~4.1.5",
     "@types/semver": "~7.3.3",
     "axios": "~0.20.0",
-    "enquirer": "^2.3.6",
+    "enquirer": "~2.3.6",
     "semver": "~7.3.2"
+  },
+  "node": {
+    "axios": "接口请求库，子项目可能也需要，不打包",
+    "enquirer": "需要使用 types 类型，所以要安装在 dependencies 中",
+    "semver": "仓库太大，按需加载"
   },
   "peerDependencies": {
     "mora-scripts": "^1.7.4"
