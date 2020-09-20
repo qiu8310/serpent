@@ -55,7 +55,7 @@ export function getPlugins(
     }),
     commonjs(options.commonjs),
     json(options.json),
-    typescript(options.typescript),
+    typescript({ noEmitOnError: false, ...options.typescript } as any),
   ]
   return {
     normalPlugins: normal,
