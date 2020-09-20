@@ -2,7 +2,7 @@
   "packages": [
     "projects/*"
   ],
-  "version": "1.0.9",
+  "version": "1.0.10",
   "npmClient": "npm",
   "command": {
     "publish": {

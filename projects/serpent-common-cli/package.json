@@ -1,6 +1,6 @@
 {
   "name": "@serpent/common-cli",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "通用的 cli 相关的函数",
   "main": "lib/cjs/debug.js",
   "module": "lib/debug.js",
@@ -40,8 +40,8 @@
     "@serpent/rollup-kits": "^1.0.8",
     "debug": "~4.1.1",
     "dotenv": "^8.2.0",
-    "execa": "^4.0.3",
     "enquirer": "~2.3.6",
+    "execa": "^4.0.3",
     "mora-scripts": "^1.7.4"
   },
   "dependencies": {
