@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "CommonJS",
     "sourceMap": true,
+    "esModuleInterop": true,
     "lib": ["es2017", "DOM"],
     "target": "es2017",
     "rootDir": "src",
