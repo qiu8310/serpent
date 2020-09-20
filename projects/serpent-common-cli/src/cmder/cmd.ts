@@ -1,18 +1,19 @@
+import exists from 'mora-scripts/libs/fs/exists'
+import findup from 'mora-scripts/libs/fs/findup'
+import mkdirp from 'mora-scripts/libs/fs/mkdirp'
+import ospath from 'mora-scripts/libs/fs/ospath'
+import rm from 'mora-scripts/libs/fs/rm'
+import walk from 'mora-scripts/libs/fs/walk'
+import clog from 'mora-scripts/libs/sys/clog'
+import info from 'mora-scripts/libs/sys/info'
+import isWin from 'mora-scripts/libs/sys/isWin'
+import success from 'mora-scripts/libs/sys/success'
+import warn from 'mora-scripts/libs/sys/warn'
 import cli from 'mora-scripts/libs/tty/cli'
 import table from 'mora-scripts/libs/tty/table'
-import info from 'mora-scripts/libs/sys/info'
-import warn from 'mora-scripts/libs/sys/warn'
-import success from 'mora-scripts/libs/sys/success'
-import clog from 'mora-scripts/libs/sys/clog'
-import isWin from 'mora-scripts/libs/sys/isWin'
-import walk from 'mora-scripts/libs/fs/walk'
-import rm from 'mora-scripts/libs/fs/rm'
-import mkdirp from 'mora-scripts/libs/fs/mkdirp'
-import exists from 'mora-scripts/libs/fs/exists'
-import ospath from 'mora-scripts/libs/fs/ospath'
-
-import { opt } from './opt-env'
+import path from 'path'
 import { spiltTrim2array } from './helper'
+import { opt } from './opt-env'
 
 export namespace cmd {
   export interface Context<Opts, Env> {
@@ -61,6 +62,9 @@ export namespace cmd {
     exists(...args: Parameters<typeof exists>): ReturnType<typeof exists>
     /** 操作系统相关的一些目录 */
     ospath: typeof ospath
+
+    /** 获取当前项目根目录（含 package.json 文件的目录） */
+    rootDir: string
   }
 }
 
@@ -108,6 +112,8 @@ export function cmd<Opts, Env>(
       }, {} as cli.Commands)
     )
 
+    let rootDir: null | string = null
+
     cmder.parse(args || process.argv.slice(2), function (res, instance) {
       const { $command, _, userDefinedOptions, userDefinedEnv, userDefined, env, rawArgs, ...options } = res
       run({
@@ -131,6 +137,20 @@ export function cmd<Opts, Env>(
         mkdirp,
         exists,
         ospath,
+        get rootDir() {
+          if (rootDir === null) {
+            try {
+              rootDir = path.dirname(findup.pkg())
+            } catch (e) {
+              rootDir = ''
+            }
+          }
+          if (rootDir === '')
+            throw new Error(
+              `Can't found project root directory, make sure you are under a directory which contains package.json file`
+            )
+          return rootDir
+        },
       })
     })
   }
