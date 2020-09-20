@@ -37,7 +37,7 @@ export async function prompt(questions: Question[], opts: Options = {}) {
     questions = handleFetch(questions, savePath)
   }
 
-  const answers = await enquirerPrompt(questions)
+  const answers = (await enquirerPrompt(questions)) as Answers
 
   if (savePath) {
     handleStore(questions, savePath, answers)
