@@ -1,12 +1,9 @@
+import { PromptOptions } from './types/enquirer'
 import { prompt as enquirerPrompt } from 'enquirer'
 import { tryReadJsonFile } from './fs/tryReadJsonFile'
 import { writeJsonSync } from './fs/writeJsonSync'
 
-type Filter<T> = T extends (...args: any[]) => any ? never : T extends any[] ? never : T
-type EnquirerOption = Filter<Parameters<typeof enquirerPrompt>[0]>
-
-type Question = Omit<EnquirerOption, 'name'> & {
-  name: string
+type Question = PromptOptions & {
   /** 是否将本次输入的结果保存起来，以供下次默认值使用 */
   save?: boolean
 }
