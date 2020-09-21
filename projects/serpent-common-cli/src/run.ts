@@ -1,10 +1,12 @@
 import execa from 'execa'
+import info from 'mora-scripts/libs/sys/info'
+import { getBoolEnv } from './helper'
 
 interface ChildOptions<EncodingType = string> extends execa.Options<EncodingType> {
   /**
    * 是否开户 node 调试模式，即给 node 命令添加 `node --inspect-brk`
    *
-   * 指定了此值之后，还需要设置环境变量 DURKA_DEBUG
+   * 指定了此值之后，还需要设置环境变量 DURKA_NODE_DEBUG
    */
   debug?: boolean | string
 
@@ -27,19 +29,21 @@ export function run(args: string[], options?: OutputOptions): Promise<string>
 export function run(args: string[], options: any = {}): any {
   const { debug, output, ...opts } = options
 
-  // 开启 debug 后还需要将环境变量 DURKA_DEBUG 设置成 true
+  // 开启 debug 后还需要将环境变量 DURKA_NODE_DEBUG 设置成 true
   if (debug && process.env[typeof debug === 'string' ? debug : 'DURKA_NODE_DEBUG']) {
     return runNodeDebug(args, opts)
   } else if (output) {
     return runOutput(args, opts)
   } else {
     const [cmd, ...rest] = args
+    log(cmd, rest)
     return execa(cmd, rest, { stdio: 'inherit', ...opts })
   }
 }
 
 export function runOutput(args: string[], options?: execa.Options) {
   const [cmd, ...rest] = args
+  log(cmd, rest)
   return execa(cmd, rest, { ...options, stdio: 'pipe' }).then(d => d.stdout)
 }
 
@@ -51,5 +55,21 @@ export function runNodeDebug(args: string[], options?: execa.Options) {
     cmd = 'node'
     rest = ['--inspect-brk', ...args]
   }
+  log(cmd, rest)
   return execa(cmd, rest, { ...options, stdio: 'inherit' })
+}
+
+function log(cmd: string, args: string[]) {
+  if (!getBoolEnv('DURKA_SILENT_RUN')) {
+    info([cmd, ...args].join(' '))
+  }
+}
+
+/** 在命令行的入口处使用此程序，直接可以开启支持调试模式 */
+export function runCliWithDebug(exec: () => void, currentFile: string) {
+  if (getBoolEnv('DURKA_NODE_DEBUG')) {
+    runNodeDebug([currentFile, ...process.argv.slice(2)], { env: { DURKA_NODE_DEBUG: 'false' } })
+  } else {
+    exec()
+  }
 }

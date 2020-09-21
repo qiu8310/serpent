@@ -6,8 +6,11 @@ import { toOSPath } from './toOSPath'
 
 /** package.json 中的 name 的正则 */
 export const PROJECT_NAME_REGEXP = /(?:@([\w-]+)\/)?([\w-]+)/
+/** package.json 中的 name 的正则（匹配字符串的开始和结束） */
 export const PROJECT_NAME_REGEXP_FULL = /^(?:@([\w-]+)\/)?([\w-]+)$/
+/** package.json 中的 name 的正则（匹配字符串的开始） */
 export const PROJECT_NAME_REGEXP_START = /^(?:@([\w-]+)\/)?([\w-]+)/
+/** package.json 中的 name 的正则（匹配字符串的结束） */
 export const PROJECT_NAME_REGEXP_END = /(?:@([\w-]+)\/)?([\w-]+)$/
 
 /**
@@ -68,25 +71,29 @@ function tryGetProjectPath(relativeProjectFilePath: string, refAbsoluteFilePath?
 
 /**
  * 解析项目名称
- * @param name 项目名称，可以带有版本号，如：`vue`、`jquery@1.0.0`、`@serpent/foo@latest`
+ * @param nameWithVersionOrNot 项目名称，可以带有版本号，如：`vue`、`jquery@1.0.0`、`@serpent/foo@latest`
  */
-export function parseProjectName(nameOrVersion: string) {
+export function parseProjectName(nameWithVersionOrNot: string) {
   let scope = ''
   let version = ''
   let name = ''
 
-  let original = nameOrVersion
+  let newName = nameWithVersionOrNot
   let error = () => {
-    throw new Error(`"${original}" is not a valid project name`)
+    throw new Error(`"${nameWithVersionOrNot}" is not a valid project name`)
   }
 
-  if (name[0] === '@') {
-    ;[scope, nameOrVersion] = name.substr(1).split('/')
-    if (!scope || !nameOrVersion) error()
+  if (newName[0] === '@') {
+    ;[scope, newName] = newName.substr(1).split('/')
+    if (!scope || !newName) error()
   }
 
-  ;[name, version = ''] = nameOrVersion.split('@')
+  ;[name, version = ''] = newName.split('@')
   if (!name || !PROJECT_NAME_REGEXP_FULL.test(name)) error()
 
-  return { scope, version, name }
+  return {
+    scope,
+    version,
+    name,
+  }
 }

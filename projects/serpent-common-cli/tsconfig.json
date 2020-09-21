@@ -2,7 +2,7 @@
   "extends": "./node_modules/@serpent/dev-kits/tsconfig.json",
   "compilerOptions": {
     "module": "CommonJS",
-    "sourceMap": true,
+    "sourceMap": false,
     "esModuleInterop": true,
     "lib": ["es2017", "DOM"],
     "target": "es2017",

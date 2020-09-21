@@ -15,7 +15,7 @@
     "test:watch": "jest --watchAll",
     "clean": "remove-all lib",
     "build:tsc": "tsc --sourceMap false",
-    "build": "npm run clean && rollup -m -c",
+    "build": "npm run clean && rollup -c",
     "build:watch": "npm run build -- -w",
     "prepare": "npm run lint && npm run test && npm run build && npm run build:tsc",
     "preversion": "npm run prepare"
@@ -38,20 +38,22 @@
   "devDependencies": {
     "@serpent/dev-kits": "^1.0.3",
     "@serpent/rollup-kits": "^1.0.8",
-    "debug": "~4.1.1",
+    "@types/node-fetch": "^2.5.7",
+    "@types/semver": "^7.3.3",
+    "semver": "^7.3.2",
+    "debug": "^4.1.1",
     "dotenv": "^8.2.0",
-    "enquirer": "~2.3.6",
-    "execa": "^4.0.3",
+    "enquirer": "^2.3.6",
     "mora-scripts": "^1.7.4"
   },
   "dependencies": {
-    "@types/debug": "~4.1.5",
-    "@types/semver": "~7.3.3",
-    "axios": "~0.20.0",
-    "semver": "~7.3.2"
+    "@types/debug": "^4.1.5",
+    "execa": "^4.0.3",
+    "node-fetch": "^2.6.1"
   },
   "node": {
     "axios": "接口请求库，子项目可能也需要，不打包",
+    "execa": "需要 ts 定义",
     "semver": "仓库太大，按需加载"
   },
   "peerDependencies": {
