@@ -1,25 +1,15 @@
-import exists from 'mora-scripts/libs/fs/exists'
-import findup from 'mora-scripts/libs/fs/findup'
-import mkdirp from 'mora-scripts/libs/fs/mkdirp'
-import ospath from 'mora-scripts/libs/fs/ospath'
-import rm from 'mora-scripts/libs/fs/rm'
-import walk from 'mora-scripts/libs/fs/walk'
-import clog from 'mora-scripts/libs/sys/clog'
-import info from 'mora-scripts/libs/sys/info'
 import isWin from 'mora-scripts/libs/sys/isWin'
-import success from 'mora-scripts/libs/sys/success'
-import warn from 'mora-scripts/libs/sys/warn'
 import cli from 'mora-scripts/libs/tty/cli'
 import table from 'mora-scripts/libs/tty/table'
 import path from 'path'
 import { spiltTrim2array } from './helper'
 import { opt } from './opt-env'
+import { createContext } from './createContext'
 
 export namespace cmd {
-  export interface Context<Opts, Env> {
+  export interface Context<Opts, Env> extends ReturnType<typeof createContext> {
     /** 当前子命令的名称（由于子命令支持通配符，所以需要通过此字段来获取子命令实际的值） */
     $command?: string
-
     /** 提供给命令的选项 */
     options: Opts
     /** 提供给命令的环境变量 */
@@ -32,37 +22,12 @@ export namespace cmd {
     userDefinedOptions: Record<keyof Opts, boolean>
     /** 用于判断环境变量是用户在命令行中提供的，还是程序指定的默认值 */
     userDefinedEnv: Record<keyof Env, boolean>
-
     /** 是否是 window 操作系统 */
     isWin: boolean
-
-    /** 输出成功信息 */
-    success(message: string, ...optionalParams: any[]): void
-    /** 输出错误信息 */
-    error(message: string, ...optionalParams: any[]): void
-    /** 输出警告信息 */
-    warn(message: string, ...optionalParams: any[]): void
-    /** 输出详细信息 */
-    info(message: string, ...optionalParams: any[]): void
-    /** 输出带颜色的信息 */
-    clog(...args: Parameters<typeof clog>): ReturnType<typeof clog>
     /** 将一个二维组转化成 table，以便于显示在终端上 */
     table(...args: Parameters<typeof table>): ReturnType<typeof table>
-
     /** 输出命令的帮助文案 */
     help(): void
-
-    /** 遍历文件夹 */
-    walk(...args: Parameters<typeof walk>): ReturnType<typeof walk>
-    /** 删除文件或文件夹 */
-    rm(...args: Parameters<typeof rm>): ReturnType<typeof rm>
-    /** 创建文件夹 */
-    mkdirp(...args: Parameters<typeof mkdirp>): ReturnType<typeof mkdirp>
-    /** 文件或文件夹（需要指定第二个参数）是否存在 */
-    exists(...args: Parameters<typeof exists>): ReturnType<typeof exists>
-    /** 操作系统相关的一些目录 */
-    ospath: typeof ospath
-
     /** 获取当前项目根目录（含 package.json 文件的目录） */
     rootDir: string
   }
@@ -113,6 +78,7 @@ export function cmd<Opts, Env>(
     )
 
     let rootDir: null | string = null
+    const ctx = createContext()
 
     cmder.parse(args || process.argv.slice(2), function (res, instance) {
       const { $command, _, userDefinedOptions, userDefinedEnv, userDefined, env, rawArgs, ...options } = res
@@ -124,23 +90,14 @@ export function cmd<Opts, Env>(
         options: options as any,
         rawArgs,
         env,
-        isWin,
         help: () => instance.help(),
-        error: (...args: any[]) => instance.error(...args),
-        info,
-        warn,
-        success,
-        clog,
+        isWin,
         table,
-        walk,
-        rm,
-        mkdirp,
-        exists,
-        ospath,
+        ...ctx,
         get rootDir() {
           if (rootDir === null) {
             try {
-              rootDir = path.dirname(findup.pkg())
+              rootDir = path.dirname(ctx.findupPackage())
             } catch (e) {
               rootDir = ''
             }

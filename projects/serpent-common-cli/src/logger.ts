@@ -1,4 +1,7 @@
 import clog from 'mora-scripts/libs/sys/clog'
+import info from 'mora-scripts/libs/sys/info'
+import success from 'mora-scripts/libs/sys/success'
+import warn from 'mora-scripts/libs/sys/warn'
 
 const logHead = (msg: string) => clog(`\n%c${prefix(msg, ' ')}`, 'bold.green')
 
@@ -13,6 +16,11 @@ export const logger = {
   head: logHead,
   body: logBody,
   block: logBlock,
+  info: (...args: any[]) => info(args),
+  success: (...args: any[]) => success(args),
+  warn: (...args: any[]) => warn(args),
+  clog: (...args: any[]) => clog(args),
+  format: clog.format,
 }
 
 function prefix(msg: string, some: string) {

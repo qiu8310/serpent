@@ -1,12 +1,20 @@
+// 有自定义的属性
 interface BasePromptOptions {
+  /** 是否将本次输入的结果保存起来，以供下次默认值使用 */
+  save?: boolean
+
   name: string
   type: string | (() => string)
   message: string | (() => string) | (() => Promise<string>)
   initial?: any
   required?: boolean
+  /** Function to format user input in the terminal. */
   format?(value: string): string | Promise<string>
+  /** Function to format the final submitted value before it's returned. */
   result?(value: string): string | Promise<string>
+  /** If true it will not ask that prompt. */
   skip?: ((state: Record<string, any>) => boolean | Promise<boolean>) | boolean
+  /** Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. */
   validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
   onSubmit?(name: string, value: any, prompt: any): boolean | Promise<boolean>
   onCancel?(name: string, value: any, prompt: any): boolean | Promise<boolean>

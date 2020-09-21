@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { getEnv } from './getEnv'
 import type { env } from './types'
-import { tryGetProjectFile } from '../fs/tryGetProjectFile'
+import { tryGetProjectFile } from '../fs/project'
 
 export function setEnv<T>(options: env.Options<T>) {
   setEnvFromEnvFile()

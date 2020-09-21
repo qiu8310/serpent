@@ -3,11 +3,7 @@ import { prompt as enquirerPrompt } from 'enquirer'
 import { tryReadJsonFile } from './fs/tryReadJsonFile'
 import { writeJsonSync } from './fs/writeJsonSync'
 
-type Question = PromptOptions & {
-  /** 是否将本次输入的结果保存起来，以供下次默认值使用 */
-  save?: boolean
-}
-
+type Question = PromptOptions
 type Answers = Record<string, any>
 
 interface Options {
@@ -15,7 +11,7 @@ interface Options {
   savePath?: string
 
   /** 注入新的问题或对已有问题重新排序 */
-  resort?: (questions: Question[]) => [string, Partial<Omit<Question, 'name'>>?][]
+  resort?: (questions: Question[]) => (Question | [string, Partial<Omit<Question, 'name'>>?])[]
 }
 
 export async function prompt(questions: Question[], opts: Options = {}) {
@@ -23,11 +19,16 @@ export async function prompt(questions: Question[], opts: Options = {}) {
 
   if (resort) {
     const newQuestions = resort(questions)
-    questions = newQuestions.map(([name, opts]) => {
-      const found = questions.find(qq => qq.name === name)
-      if (found) return { ...found, ...opts }
-      if (!opts?.message || !opts.type) throw new Error('enquirer config object should contains `message` and `type`')
-      return { name, ...opts } as any
+    questions = newQuestions.map(target => {
+      if (Array.isArray(target)) {
+        const found = questions.find(qq => qq.name === name)
+        if (!found) throw new Error(`can't found related enquirer config object whose name is ${name}`)
+        return { ...found, ...opts } as any
+      } else {
+        if (!target?.name || !target.type || !target.message)
+          throw new Error('enquirer config object should contains `name`、`message` and `type`')
+        return { ...target } as any
+      }
     })
   }
 

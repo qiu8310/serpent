@@ -30,13 +30,20 @@ export function run(args: string[], options: any = {}): any {
   // 开启 debug 后还需要将环境变量 DURKA_DEBUG 设置成 true
   if (debug && process.env[typeof debug === 'string' ? debug : 'DURKA_NODE_DEBUG']) {
     return runNodeDebug(args, opts)
+  } else if (output) {
+    return runOutput(args, opts)
   } else {
     const [cmd, ...rest] = args
-    return execa(cmd, rest, { stdio: output ? 'pipe' : 'inherit', ...opts })
+    return execa(cmd, rest, { stdio: 'inherit', ...opts })
   }
 }
 
-function runNodeDebug(args: string[], options?: execa.Options) {
+export function runOutput(args: string[], options?: execa.Options) {
+  const [cmd, ...rest] = args
+  return execa(cmd, rest, { ...options, stdio: 'pipe' }).then(d => d.stdout)
+}
+
+export function runNodeDebug(args: string[], options?: execa.Options) {
   let [cmd, ...rest] = args
   if (cmd === 'node') {
     rest.unshift('--inspect-brk')

@@ -14,7 +14,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "clean": "remove-all lib",
-    "build:tsc": "tsc",
+    "build:tsc": "tsc --sourceMap false",
     "build": "npm run clean && rollup -m -c",
     "build:watch": "npm run build -- -w",
     "prepare": "npm run lint && npm run test && npm run build && npm run build:tsc",
