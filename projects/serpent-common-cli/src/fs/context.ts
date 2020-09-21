@@ -12,7 +12,7 @@ export function findupFile(name: string, refRootPath?: string) {
   try {
     return _findup.file(ref, name)
   } catch (e) {
-    throw new Error(`can't found file whose name is "${name}" from directory ${ref} `)
+    throw new Error(`can't found up file whose name is "${name}" from directory ${ref} `)
   }
 }
 
@@ -22,7 +22,7 @@ export function findupDir(name: string, refRootPath?: string) {
   try {
     return _findup.dir(ref, name)
   } catch (e) {
-    throw new Error(`can't found directory whose name is "${name}" from directory ${ref} `)
+    throw new Error(`can't found up directory whose name is "${name}" from directory ${ref} `)
   }
 }
 
@@ -32,7 +32,7 @@ export function findupPackage(refRootPath?: string) {
   try {
     return _findup.pkg(ref)
   } catch (e) {
-    throw new Error(`can't found package.json file in directory ${ref}`)
+    throw new Error(`can't found up "package.json" in directory ${ref}`)
   }
 }
 
@@ -79,7 +79,7 @@ export function existsNotFile(absPath: string) {
 
 /** 判断文件是否存在，不存在则抛出异常 */
 export function assertFile(absFile: string, message?: string) {
-  assert.ok(existsFile(absFile), message || `file ${absFile} is not exists`)
+  assert.ok(existsFile(absFile), message || `file "${absFile}" is not exists`)
 }
 
 /** 判断指定路径上是否存在文件夹 */
@@ -94,7 +94,7 @@ export function existsNotDir(absPath: string) {
 
 /** 判断文件是否存在，不存在则抛出异常 */
 export function assertDir(absDir: string, message?: string) {
-  assert.ok(existsDir(absDir), message || `directory ${absDir} is not exists`)
+  assert.ok(existsDir(absDir), message || `directory "${absDir}" is not exists`)
 }
 
 /** 尝试获取文件的 stats 对象，如果不存在返回 null */

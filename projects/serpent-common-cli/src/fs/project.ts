@@ -1,13 +1,14 @@
-// assertProjectRoot
-// isProjectRoot
-// tryGetProjectRoot
-// tryGetProjectFile
-
 import path from 'path'
 import assert from 'assert'
 import findup from 'mora-scripts/libs/fs/findup'
 import { existsFile, exists, existsDir } from './context'
 import { toOSPath } from './toOSPath'
+
+/** package.json 中的 name 的正则 */
+export const PROJECT_NAME_REGEXP = /(?:@([\w-]+)\/)?([\w-]+)/
+export const PROJECT_NAME_REGEXP_FULL = /^(?:@([\w-]+)\/)?([\w-]+)$/
+export const PROJECT_NAME_REGEXP_START = /^(?:@([\w-]+)\/)?([\w-]+)/
+export const PROJECT_NAME_REGEXP_END = /(?:@([\w-]+)\/)?([\w-]+)$/
 
 /**
  * 获取项目的根目录
@@ -31,7 +32,7 @@ export function isProjectRootDir(absDir: string) {
 
 /** 确保指定的路径是项目根目录 */
 export function assertProjectRootDir(absDir: string, message?: string) {
-  assert.ok(isProjectRootDir(absDir), message || `file path ${absDir} is not a valid project root directory`)
+  assert.ok(isProjectRootDir(absDir), message || `path ${absDir} is not a valid project root directory`)
 }
 
 /**
@@ -63,4 +64,29 @@ function tryGetProjectPath(relativeProjectFilePath: string, refAbsoluteFilePath?
     if (fn(file)) return file
   }
   return
+}
+
+/**
+ * 解析项目名称
+ * @param name 项目名称，可以带有版本号，如：`vue`、`jquery@1.0.0`、`@serpent/foo@latest`
+ */
+export function parseProjectName(nameOrVersion: string) {
+  let scope = ''
+  let version = ''
+  let name = ''
+
+  let original = nameOrVersion
+  let error = () => {
+    throw new Error(`"${original}" is not a valid project name`)
+  }
+
+  if (name[0] === '@') {
+    ;[scope, nameOrVersion] = name.substr(1).split('/')
+    if (!scope || !nameOrVersion) error()
+  }
+
+  ;[name, version = ''] = nameOrVersion.split('@')
+  if (!name || !PROJECT_NAME_REGEXP_FULL.test(name)) error()
+
+  return { scope, version, name }
 }
