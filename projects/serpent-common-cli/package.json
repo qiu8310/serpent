@@ -1,6 +1,6 @@
 {
   "name": "@serpent/common-cli",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "通用的 cli 相关的函数",
   "main": "lib/cjs/debug.js",
   "module": "lib/debug.js",
