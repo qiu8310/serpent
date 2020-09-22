@@ -21,12 +21,12 @@ interface Detail extends DetailPackage {
    * { beta: "3.5.1", latest: "3.5.1" }
    * （远程模块才有此字段）
    */
-  'dist-tags'?: Record<string, string>
+  'dist-tags'?: Record<string, string | undefined>
   /**
    * { modified: "2020-05-04T22:50:25.000Z", created: "2011-03-19T07:19:56.956Z", 3.5.1: "2020-05-04T22:50:08.819Z" }
    *（远程模块才有此字段）
    */
-  time?: Record<string, string>
+  time?: Record<string, string | undefined>
   versions: Record<string, DetailPackage>
 }
 

@@ -1,7 +1,6 @@
 import { PromptOptions } from './types/enquirer'
 import { prompt as enquirerPrompt } from 'enquirer'
-import { tryReadJsonFile } from './fs/tryReadJsonFile'
-import { writeJsonSync } from './fs/writeJsonSync'
+import { tryReadJsonFile, writeJsonSync } from './fs'
 
 type Question = PromptOptions
 type Answers = Record<string, any>

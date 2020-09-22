@@ -70,17 +70,22 @@ function tryGetProjectPath(relativeProjectFilePath: string, refAbsoluteFilePath?
 }
 
 /**
- * 解析项目名称
- * @param nameWithVersionOrNot 项目名称，可以带有版本号，如：`vue`、`jquery@1.0.0`、`@serpent/foo@latest`
+ * 解析项目安装时可能会用的名称
+ * @param installName 项目名称，可以带有版本号，如：`vue`、`vue@^1`、`jquery@1.0.0`、`@serpent/foo@latest`
+ * @returns
+ * - `parseProjectInstallName("@serpent/foo@latest")  =>  { scope: 'serpent', name: 'foo', tag: 'latest', range: '' }`
+ * - `parseProjectInstallName("foo@^1")               =>  { scope: '', name: 'foo', tag: '', range: '^1' }`
+ * - `parseProjectInstallName("foo@*")                =>  { scope: '', name: 'foo', tag: '', range: '' }`
  */
-export function parseProjectName(nameWithVersionOrNot: string) {
+export function parseProjectInstallName(installName: string) {
   let scope = ''
-  let version = ''
+  let range = ''
+  let tag = ''
   let name = ''
 
-  let newName = nameWithVersionOrNot
+  let newName = installName
   let error = () => {
-    throw new Error(`"${nameWithVersionOrNot}" is not a valid project name`)
+    throw new Error(`"${installName}" is not a valid project name`)
   }
 
   if (newName[0] === '@') {
@@ -88,12 +93,19 @@ export function parseProjectName(nameWithVersionOrNot: string) {
     if (!scope || !newName) error()
   }
 
-  ;[name, version = ''] = newName.split('@')
+  ;[name, range = ''] = newName.split('@')
   if (!name || !PROJECT_NAME_REGEXP_FULL.test(name)) error()
+
+  // range 还要支持 "*"
+  if (range && range !== '*' && /^[a-zA-Z][-\w]*$/.test(range)) {
+    tag = range
+    range = ''
+  }
 
   return {
     scope,
-    version,
+    range,
+    tag,
     name,
   }
 }

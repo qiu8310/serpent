@@ -1,72 +1,72 @@
 import { getLocalPackageDetail, getPackageDetail } from './getPackageDetail'
-import { compareVersion, parseVersion } from '../version'
+import { sortVersions, filterVersions, VERSION_FILTER_MODE, VERSION_SORT_MODE, satisfiesVersion } from '../version'
 
-type VERSION_FILTER_MODE = 'prerelease' | 'major' | 'minor' | 'patch' | 'all'
-interface Options {
-  /** 获取版本号规划，默认获取所有版本号 */
-  filter?: VERSION_FILTER_MODE
+interface VersionsOptions {
+  /** 获取版本号规则，默认获取所有版本号 */
+  mode?: VERSION_FILTER_MODE
+
   /** 获取版本号排序，默认 "desc" */
-  sort?: 'desc' | 'asc'
+  order?: VERSION_SORT_MODE
+
+  /** 指定 tag (一个 tag 只会关联一个版本，而且只对远程模块有效) */
+  tag?: string
+
+  /** version range 用于过滤出需要的版本 */
+  range?: string
+}
+interface LatestOptions {
+  /** 是否将 prerelease 版本也包含 */
+  includePrerelease?: boolean
 }
 
 /** 获取远程模块的版本号 */
-export function getRemoteVersions(name: string, options?: Options) {
+export function getRemoteVersions(name: string, options?: VersionsOptions) {
   return getVersions(getPackageDetail(name), options)
 }
 
 /** 获取本地模块的版本号 */
-export function getLocalVersions(name: string, options?: Options) {
+export function getLocalVersions(name: string, options?: VersionsOptions) {
   return getVersions(getLocalPackageDetail(name), options)
 }
 
-function getVersions(detail: ReturnType<typeof getPackageDetail>, options: Options = {}) {
-  const { sort = 'desc', filter = 'all' } = options
-  return detail.then(d => {
-    const versions = Object.keys(d.versions)
-    if (filter === 'all') return sortVersions(versions, sort)
-    return sortVersions(filterVersions(versions, filter), sort)
-  })
+/** 获取远程所有 tag 及其关联的版本号 */
+export function getRemoteTags(name: string) {
+  return getPackageDetail(name).then(d => d['dist-tags'] || {})
 }
 
-function filterVersions(versions: string[], mode: VERSION_FILTER_MODE) {
-  const map = new Map<string, string>()
-  let maxMajor = -1
-  type Target = NonNullable<ReturnType<typeof parseVersion>>
-  const targets = versions.map(v => parseVersion(v)).filter(t => t != null) as Target[]
+/** 获取远程中指定 tag 关联的版本号，有可能不存在 */
+export function getRemoteTagVersion(name: string, tag: string) {
+  return getRemoteTags(name).then(d => d[tag])
+}
 
-  const update = (key: string, target: Target) => {
-    const prev = map.get(key)
-    if (prev) {
-      if (target.compare(prev) > 0) map.set(key, target.raw)
+/** 获取远程模块的最新版本号 */
+export function getRemoteLatestVersion(name: string, options?: LatestOptions) {
+  return getLatest(getRemoteVersions, name, options)
+}
+/** 获取本地模块的最新版本号 */
+export function getLocalLatestVersion(name: string, options?: LatestOptions) {
+  return getLatest(getLocalVersions, name, options)
+}
+
+function getLatest(fetch: typeof getRemoteVersions, name: string, options: LatestOptions = {}) {
+  return fetch(name, { mode: options.includePrerelease ? 'pre&major' : 'major', order: 'desc' }).then(versions =>
+    versions.shift()
+  )
+}
+
+function getVersions(prom: ReturnType<typeof getPackageDetail>, options: VersionsOptions = {}) {
+  const { order = 'desc', mode = 'all', range, tag } = options
+  return prom.then(detail => {
+    let versions: string[] = []
+    if (tag) {
+      const tagVersion = (detail['dist-tags'] || {})[tag]
+      if (tagVersion) versions.push(tagVersion)
     } else {
-      map.set(key, target.raw)
+      versions = Object.keys(detail.versions)
     }
-  }
 
-  targets.forEach(target => {
-    const { major, minor, patch, prerelease } = target
-    if (!prerelease.length) {
-      if (mode === 'prerelease' || mode === 'major') update(`${major}.x.x`, target)
-      else if (mode === 'minor') update(`${major}.${minor}.x`, target)
-      else if (mode === 'patch') update(`${major}.${minor}.${patch}`, target)
-      if (major > maxMajor) maxMajor = major
-    }
+    if (range) versions = versions.filter(v => satisfiesVersion(v, range))
+    if (mode === 'all') return sortVersions(versions, order)
+    return sortVersions(filterVersions(versions, mode), order)
   })
-
-  if (mode === 'prerelease') {
-    targets.forEach(target => {
-      const { major, prerelease } = target
-      // 预发布版本
-      // 如果已经存在 2.0.0，则不再需要 2.0.0-rc.1 和 1.0.0-rc.1
-      if (prerelease.length && major > maxMajor) {
-        update(`${major}.x.x-${prerelease[0]}`, target)
-      }
-    })
-  }
-
-  return Array.from(map.values())
-}
-
-function sortVersions(versions: string[], mode: 'asc' | 'desc') {
-  return versions.sort((a, b) => (mode === 'asc' ? compareVersion(a, b) : compareVersion(b, a)))
 }

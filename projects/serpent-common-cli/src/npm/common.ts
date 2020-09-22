@@ -1,5 +1,5 @@
 import path from 'path'
-import { ospath } from '../fs/context'
+import { ospath } from '../fs'
 
 export function getDurkaRegistry() {
   return process.env.DURKA_REGISTRY || 'https://registry.npm.taobao.org/'
