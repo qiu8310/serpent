@@ -14,7 +14,7 @@ export async function npmInstall(
   version: string,
   options: {
     /** 如果模块存在，是否强制重新安装 */
-    force?: string
+    force?: boolean
     registry?: string
     prefix?: string
   } = {}

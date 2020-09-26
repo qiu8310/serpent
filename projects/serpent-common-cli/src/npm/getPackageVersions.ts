@@ -17,6 +17,11 @@ interface VersionsOptions {
 interface LatestOptions {
   /** 是否将 prerelease 版本也包含 */
   includePrerelease?: boolean
+  /** 指定 tag (一个 tag 只会关联一个版本，而且只对远程模块有效) */
+  tag?: string
+
+  /** version range 用于过滤出需要的版本 */
+  range?: string
 }
 
 /** 获取远程模块的版本号 */
@@ -49,7 +54,8 @@ export function getLocalLatestVersion(name: string, options?: LatestOptions) {
 }
 
 function getLatest(fetch: typeof getRemoteVersions, name: string, options: LatestOptions = {}) {
-  return fetch(name, { mode: options.includePrerelease ? 'pre&major' : 'major', order: 'desc' }).then(versions =>
+  const { includePrerelease, range, tag } = options
+  return fetch(name, { mode: includePrerelease ? 'pre&major' : 'major', range, tag, order: 'desc' }).then(versions =>
     versions.shift()
   )
 }

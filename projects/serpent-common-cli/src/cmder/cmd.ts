@@ -29,7 +29,7 @@ export namespace cmd {
     /** 输出命令的帮助文案 */
     help(): void
     /** 获取当前项目根目录（含 package.json 文件的目录） */
-    rootDir: string
+    getRootDir: (refPath?: string) => string
   }
 }
 
@@ -77,7 +77,6 @@ export function cmd<Opts, Env>(
       }, {} as cli.Commands)
     )
 
-    let rootDir: null | string = null
     const ctx = createContext()
 
     cmder.parse(args || process.argv.slice(2), function (res, instance) {
@@ -94,19 +93,14 @@ export function cmd<Opts, Env>(
         isWin,
         table,
         ...ctx,
-        get rootDir() {
-          if (rootDir === null) {
-            try {
-              rootDir = path.dirname(ctx.findupPackage())
-            } catch (e) {
-              rootDir = ''
-            }
-          }
-          if (rootDir === '')
+        getRootDir(refPath?: string) {
+          try {
+            return path.dirname(ctx.findupPackage(refPath))
+          } catch (e) {
             throw new Error(
               `Can't found project root directory, make sure you are under a directory which contains package.json file`
             )
-          return rootDir
+          }
         },
       })
     })
