@@ -34,10 +34,12 @@
     "@serpent/dev-kits": "^1.0.3"
   },
   "dependencies": {
+    "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-commonjs": "^15.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
+    "@rollup/plugin-run": "^2.0.2",
     "@rollup/plugin-typescript": "^5.0.2",
     "builtin-modules": "^3.1.0",
     "mora-scripts": "^1.7.4",
