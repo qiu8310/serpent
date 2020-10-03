@@ -1,6 +1,6 @@
 {
   "name": "@serpent/rollup-kits",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "serpent rollup kits",
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
