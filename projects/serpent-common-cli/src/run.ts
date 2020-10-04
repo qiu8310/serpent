@@ -2,7 +2,12 @@ import execa from 'execa'
 import info from 'mora-scripts/libs/sys/info'
 import { getBoolEnv } from './helper'
 
-interface ChildOptions<EncodingType = string> extends execa.Options<EncodingType> {
+interface SilentOptions {
+  /** 是否输出当前执行的命令，也可以通过环境变量 DURKA_SILENT_RUN 来控制 */
+  silent?: boolean
+}
+
+interface ChildOptions<EncodingType = string> extends execa.Options<EncodingType>, SilentOptions {
   /**
    * 是否开户 node 调试模式，即给 node 命令添加 `node --inspect-brk`
    *
@@ -36,18 +41,20 @@ export function run(args: string[], options: any = {}): any {
     return runOutput(args, opts)
   } else {
     const [cmd, ...rest] = args
-    log(cmd, rest)
+    if (!opts.silent) log(cmd, rest)
     return execa(cmd, rest, { stdio: 'inherit', ...opts })
   }
 }
 
-export function runOutput(args: string[], options?: execa.Options) {
+export function runOutput(args: string[], options: execa.Options & SilentOptions = {}) {
+  const { silent = true, ...opts } = options
   const [cmd, ...rest] = args
-  log(cmd, rest)
-  return execa(cmd, rest, { ...options, stdio: 'pipe' }).then(d => d.stdout)
+  if (!silent) log(cmd, rest)
+  return execa(cmd, rest, { ...opts, stdio: 'pipe' }).then(d => d.stdout)
 }
 
-export function runNodeDebug(args: string[], options?: execa.Options) {
+export function runNodeDebug(args: string[], options: execa.Options & SilentOptions = {}) {
+  const { silent, ...opts } = options
   let [cmd, ...rest] = args
   if (cmd === 'node') {
     rest.unshift('--inspect-brk')
@@ -55,8 +62,8 @@ export function runNodeDebug(args: string[], options?: execa.Options) {
     cmd = 'node'
     rest = ['--inspect-brk', ...args]
   }
-  log(cmd, rest)
-  return execa(cmd, rest, { ...options, stdio: 'inherit' })
+  if (!silent) log(cmd, rest)
+  return execa(cmd, rest, { ...opts, stdio: 'inherit' })
 }
 
 function log(cmd: string, args: string[]) {
