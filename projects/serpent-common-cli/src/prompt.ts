@@ -66,7 +66,7 @@ function handleFetch(questions: Question[], savePath: string) {
   if (initAnswers && typeof initAnswers === 'object') {
     questions = questions.map(q => {
       if (initAnswers.hasOwnProperty(q.name) && q.save) {
-        return { ...q, initial: initAnswers[q.name] }
+        return { ...q, default: initAnswers[q.name] }
       }
       return q
     })

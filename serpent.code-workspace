@@ -87,7 +87,6 @@
 			"typescriptreact",
 			"vue"
 		],
-		"eslint.enable": true,
 		"cSpell.enabled": true,
 		"cSpell.words": [
 			"Parens",

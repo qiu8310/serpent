@@ -17,11 +17,11 @@ export class File {
 
   /** 获取相对于根目录的绝对路径（路径分隔符为：操作系统相关的格式） */
   abs(relPath: string) {
-    return path.join(this.rootDir, toOSPath(relPath))
+    return path.resolve(this.rootDir, toOSPath(relPath))
   }
 
   /**
-   * 返回指定文件的绝对路径，如果没有指定文件路径，则返回默认文件的绝对路径
+   * 返回指定文件的绝对路径，如果没有指定文件路径，则返回默认文件的绝对路径（用在命令行中，如果用户没有提供路径就使用根目录下的一个路径）
    * @param customPath 指定的文件路径（相对于当前工作目录）
    * @param defaultPath 默认文件路径（相对于根目录）
    */

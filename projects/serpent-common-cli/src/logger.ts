@@ -17,11 +17,11 @@ export const logger = {
   head: logHead,
   body: logBody,
   block: logBlock,
-  info: (...args: any[]) => info(args),
-  success: (...args: any[]) => success(args),
-  error: (...args: any[]) => error(args),
-  warn: (...args: any[]) => warn(args),
-  clog: (...args: any[]) => clog(args),
+  info: (...args: any[]) => info(...args),
+  success: (...args: any[]) => success(...args),
+  error: (...args: any[]) => error(...args),
+  warn: (...args: any[]) => warn(...args),
+  clog: (...args: any[]) => clog(...args),
   format: clog.format,
 }
 

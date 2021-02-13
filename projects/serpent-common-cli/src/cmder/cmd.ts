@@ -81,6 +81,7 @@ export function cmd<Opts, Env>(
 
     cmder.parse(args || process.argv.slice(2), function (res, instance) {
       const { $command, _, userDefinedOptions, userDefinedEnv, userDefined, env, rawArgs, ...options } = res
+
       run({
         $command: parentRes?.$command,
         args: _,
