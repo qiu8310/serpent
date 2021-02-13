@@ -1,4 +1,4 @@
-import { prompt as inquirerPrompt, DistinctQuestion } from 'inquirer'
+import { prompt as inquirerPrompt, DistinctQuestion, Question as Q } from 'inquirer'
 import { tryReadJsonFile, writeJsonSync } from './fs'
 
 export type Question = DistinctQuestion & {
@@ -46,6 +46,43 @@ export async function prompt<T = any>(questions: Question[], opts: Options = {})
   }
 
   return answers as any
+}
+
+/**
+ * confirm 确认提示
+ */
+export async function confirm(message: string, options?: Omit<Partial<Q>, 'name' | 'type' | 'message'>) {
+  const answer = await prompt([
+    {
+      ...(options as any),
+      name: 'key',
+      type: 'confirm',
+      message: message,
+    },
+  ])
+
+  return answer.key
+}
+
+/**
+ * 列表选择提示
+ */
+export async function select(
+  message: string,
+  choices: string[],
+  options?: Omit<Partial<Q>, 'name' | 'type' | 'message'>
+) {
+  const answer = await prompt([
+    {
+      ...(options as any),
+      name: 'key',
+      type: 'list',
+      message: message,
+      choices,
+    },
+  ])
+
+  return answer.key
 }
 
 /** 检查是否有重复的 name 属性 */
