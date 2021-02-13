@@ -9,6 +9,7 @@ export function makeCli(
   const { plugins, ...restOptions } = options
   const rootDir = getRootDir()
   const srcDir = path.join(rootDir, 'src')
+  const binDir = path.join(srcDir, 'bin')
   const pkg = require(path.join(rootDir, 'package.json'))
 
   const { npm_lifecycle_script: npmLifecycleEvent = '' } = process.env
@@ -43,7 +44,7 @@ export function makeCli(
 
   const keys = srcKeys
     .filter(key => {
-      const dir = path.join(srcDir, key)
+      const dir = path.join(binDir, key)
       return fs.statSync(dir).isDirectory() && fs.statSync(path.join(dir, 'index.ts')).isFile()
     })
     .map(key => 'cli-' + key)
@@ -51,9 +52,9 @@ export function makeCli(
   const config: RollupOptions = {
     input: getEntryMap(['index', 'cli', ...keys], n => {
       if (keys.includes(n)) {
-        return path.join(srcDir, 'bin', n.substr(4), 'index.ts')
+        return path.join(binDir, n.substr(4), 'index.ts')
       } else {
-        return path.join(srcDir, 'bin', n + '.ts')
+        return path.join(binDir, n + '.ts')
       }
     }),
     plugins: enableSourceMap ? minifyPlugins : normalPlugins,
