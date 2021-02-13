@@ -20,7 +20,6 @@ export function makeCli(
     replace: {
       __BUILD_VERSION__: pkg.version,
     },
-    tsConfigPaths: true,
     typescript: {
       module: 'ESNext',
       noEmitOnError: false,
@@ -61,7 +60,7 @@ export function makeCli(
     external: getExternal(),
     output: {
       format: 'cjs',
-      dir: path.join(__dirname, 'dist'),
+      dir: path.join(rootDir, 'dist'),
       exports: 'auto',
     },
     ...restOptions,
