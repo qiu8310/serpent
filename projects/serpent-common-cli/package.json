@@ -1,6 +1,6 @@
 {
   "name": "@serpent/common-cli",
-  "version": "1.0.17",
+  "version": "1.1.0",
   "description": "通用的 cli 相关的函数",
   "main": "lib/cjs/debug.js",
   "module": "lib/debug.js",
@@ -36,8 +36,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@serpent/dev-kits": "^1.0.3",
-    "@serpent/rollup-kits": "^1.0.17",
+    "@serpent/dev-kits": "^1.1.0",
+    "@serpent/rollup-kits": "^1.1.0",
     "@types/node-fetch": "^2.5.7",
     "@types/semver": "^7.3.3",
     "debug": "^4.1.1",

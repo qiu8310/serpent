@@ -1,6 +1,6 @@
 {
   "name": "@serpent/rollup-kits",
-  "version": "1.0.17",
+  "version": "1.1.0",
   "description": "serpent rollup kits",
   "scripts": {
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./src",
@@ -30,7 +30,7 @@
     "rollup": "^2.27.1"
   },
   "devDependencies": {
-    "@serpent/dev-kits": "^1.0.3"
+    "@serpent/dev-kits": "^1.1.0"
   },
   "dependencies": {
     "@rollup/plugin-alias": "^3.1.2",
