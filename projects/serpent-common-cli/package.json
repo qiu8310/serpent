@@ -44,7 +44,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "inquirer": "^7.3.3",
-    "mora-scripts": "^1.7.4",
+    "mora-scripts": "^1.7.5",
     "semver": "^7.3.2"
   },
   "dependencies": {
@@ -58,7 +58,7 @@
     "semver": "仓库太大，按需加载"
   },
   "peerDependencies": {
-    "mora-scripts": "^1.7.4"
+    "mora-scripts": "^1.7.5"
   },
   "jest": {
     "preset": "./node_modules/@serpent/dev-kits/jest.config.js",

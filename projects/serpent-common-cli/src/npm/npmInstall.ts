@@ -33,3 +33,11 @@ export async function npmInstall(
 
   return rtn
 }
+
+/** 获取 npmInstall 命令安装项目之后的根目录 */
+export function getNpmInstallRootPath(name: string, version: string, options: { prefix?: string }) {
+  const { prefix = getDurkaInstallPrefix() } = options
+  const ns = name.split('/')
+  const p = path.join(prefix, ...ns, version)
+  return path.join(p, 'lib', 'node_modules', ...ns)
+}
