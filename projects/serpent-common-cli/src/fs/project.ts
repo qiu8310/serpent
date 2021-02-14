@@ -109,3 +109,32 @@ export function parseProjectInstallName(installName: string) {
     name,
   }
 }
+
+/**
+ * 根据项目根目录，获取到 package.json 中指定的 bin 文件所在的绝对路径
+ */
+export function tryGetProjectBinFile(rootDir: string) {
+  let bin = ''
+  let file = ''
+
+  try {
+    const pkg = require(path.join(rootDir, 'package.json'))
+    bin = pkg.bin
+  } catch (e) {}
+
+  if (bin && typeof bin === 'string') {
+    file = path.resolve(rootDir, bin)
+  } else if (typeof bin === 'object') {
+    const binKeys = Object.keys(bin)
+    if (binKeys.length === 1) {
+      file = path.resolve(rootDir, bin[binKeys[0]])
+    }
+  }
+
+  if (file) {
+    try {
+      return require.resolve(file)
+    } catch (e) {}
+  }
+  return
+}
