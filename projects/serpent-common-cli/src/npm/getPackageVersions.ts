@@ -2,6 +2,8 @@ import { getLocalPackageDetail, getPackageDetail } from './getPackageDetail'
 import { sortVersions, filterVersions, VERSION_FILTER_MODE, VERSION_SORT_MODE, satisfiesVersion } from '../version'
 
 interface VersionsOptions {
+  registry?: string
+
   /** 获取版本号规则，默认获取所有版本号 */
   mode?: VERSION_FILTER_MODE
 
@@ -15,6 +17,7 @@ interface VersionsOptions {
   range?: string
 }
 interface LatestOptions {
+  registry?: string
   /** 是否将 prerelease 版本也包含 */
   includePrerelease?: boolean
   /** 指定 tag (一个 tag 只会关联一个版本，而且只对远程模块有效) */
@@ -25,8 +28,8 @@ interface LatestOptions {
 }
 
 /** 获取远程模块的版本号 */
-export function getRemoteVersions(name: string, options?: VersionsOptions) {
-  return getVersions(getPackageDetail(name), options)
+export function getRemoteVersions(name: string, options: VersionsOptions = {}) {
+  return getVersions(getPackageDetail(name, options.registry), options)
 }
 
 /** 获取本地模块的版本号 */
@@ -35,29 +38,33 @@ export function getLocalVersions(name: string, options?: VersionsOptions) {
 }
 
 /** 获取远程所有 tag 及其关联的版本号 */
-export function getRemoteTags(name: string) {
-  return getPackageDetail(name).then(d => d['dist-tags'] || {})
+export function getRemoteTags(name: string, registry?: string) {
+  return getPackageDetail(name, registry).then(d => d['dist-tags'] || {})
 }
 
 /** 获取远程中指定 tag 关联的版本号，有可能不存在 */
-export function getRemoteTagVersion(name: string, tag: string) {
-  return getRemoteTags(name).then(d => d[tag])
+export function getRemoteTagVersion(name: string, tag: string, registry?: string) {
+  return getRemoteTags(name, registry).then(d => d[tag])
 }
 
 /** 获取远程模块的最新版本号 */
-export function getRemoteLatestVersion(name: string, options?: LatestOptions) {
+export function getRemoteLatestVersion(name: string, options: LatestOptions = {}) {
   return getLatest(getRemoteVersions, name, options)
 }
 /** 获取本地模块的最新版本号 */
-export function getLocalLatestVersion(name: string, options?: LatestOptions) {
+export function getLocalLatestVersion(name: string, options: LatestOptions = {}) {
   return getLatest(getLocalVersions, name, options)
 }
 
 function getLatest(fetch: typeof getRemoteVersions, name: string, options: LatestOptions = {}) {
-  const { includePrerelease, range, tag } = options
-  return fetch(name, { mode: includePrerelease ? 'pre&major' : 'major', range, tag, order: 'desc' }).then(versions =>
-    versions.shift()
-  )
+  const { includePrerelease, range, tag, registry } = options
+  return fetch(name, {
+    mode: includePrerelease ? 'pre&major' : 'major',
+    range,
+    tag,
+    order: 'desc',
+    registry,
+  }).then(versions => versions.shift())
 }
 
 function getVersions(prom: ReturnType<typeof getPackageDetail>, options: VersionsOptions = {}) {
