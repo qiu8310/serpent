@@ -27,7 +27,7 @@ export function makeLib(options: Omit<RollupOptions, 'input'> & { modules?: Reco
       declaration: true,
       emitDeclarationOnly: true,
       module: 'ESNext',
-      outDir: file('lib', 'es'),
+      outDir: file('lib', '__es_types_only__'),
     },
   })
 
@@ -44,7 +44,7 @@ export function makeLib(options: Omit<RollupOptions, 'input'> & { modules?: Reco
             this.emitFile({
               type: 'asset',
               fileName: key + '.d.ts',
-              source: `export * from "./es/${key}";\n`,
+              source: `export * from "./__es_types_only__/${key}";\n`,
             })
           })
         },

@@ -36,6 +36,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/debug": "^4.1.5",
     "@serpent/dev-kits": "^1.1.0",
     "@serpent/rollup-kits": "^1.1.2",
     "@types/node-fetch": "^2.5.7",
@@ -47,7 +48,6 @@
     "semver": "^7.3.2"
   },
   "dependencies": {
-    "@types/debug": "^4.1.5",
     "@types/inquirer": "^7.3.1",
     "execa": "^4.0.3",
     "node-fetch": "^2.6.1"
