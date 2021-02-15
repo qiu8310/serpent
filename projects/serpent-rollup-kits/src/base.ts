@@ -115,7 +115,7 @@ export function getExternal(pkg?: any) {
 
   let external: RollupOptions['external'] = (id, parentId, isResolved) => {
     if (isResolved) return false
-    return /^([\w-]+)/.test(id) && externals.includes(RegExp.$1)
+    return /^((@[\w-]+\/)?([\w-]+))/.test(id) && externals.includes(RegExp.$1)
   }
   return external
 }
