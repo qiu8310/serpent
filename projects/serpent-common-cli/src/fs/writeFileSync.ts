@@ -5,6 +5,7 @@ import { existsFile } from './context'
 
 /**
  * 将内容写入到指定的路径中
+ * @return 文件是否写入成功（不成功可能是因为文件没变化）
  */
 export function writeFileSync(
   absPath: string,
@@ -14,7 +15,9 @@ export function writeFileSync(
   mkdirp(path.dirname(absPath))
   if (!options.writeWhenChanged || !equals(absPath, content)) {
     fs.writeFileSync(absPath, content)
+    return true
   }
+  return false
 }
 
 function equals(absPath: string, content: string | Buffer) {
