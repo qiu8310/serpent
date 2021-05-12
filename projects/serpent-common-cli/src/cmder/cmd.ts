@@ -1,7 +1,6 @@
 import isWin from 'mora-scripts/libs/sys/isWin'
 import cli from 'mora-scripts/libs/tty/cli'
 import table from 'mora-scripts/libs/tty/table'
-import path from 'path'
 import { spiltTrim2array } from './helper'
 import { opt } from './opt-env'
 import { createContext } from './createContext'
@@ -95,13 +94,13 @@ export function cmd<Opts, Env>(
         table,
         ...ctx,
         getRootDir(refPath?: string) {
-          try {
-            return path.dirname(ctx.findupPackage(refPath))
-          } catch (e) {
+          const res = ctx.tryGetProjectRootDir(refPath)
+          if (!res) {
             throw new Error(
               `Can't found project root directory, make sure you are under a directory which contains package.json file`
             )
           }
+          return res
         },
       })
     })
