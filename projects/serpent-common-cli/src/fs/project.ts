@@ -18,8 +18,10 @@ export const PROJECT_NAME_REGEXP_END = /(?:@([\w-]+)\/)?([\w-]+)$/
  * @param refAbsoluteFilePath 用于定位项目根目录的一个绝对路径，如果不传，默认使用 process.cwd
  */
 export function tryGetProjectRootDir(refAbsoluteFilePath?: string): string | undefined {
+  let refPath = refAbsoluteFilePath || process.cwd()
   try {
-    const pkg = findup.pkg(refAbsoluteFilePath)
+    // 移除后面 node_modules 目录
+    const pkg = findup.pkg(refPath.replace(/[\\\/]node_modules(\b|[\\\/].*)$/, ''))
     return path.dirname(pkg)
   } catch (e) {
     return
