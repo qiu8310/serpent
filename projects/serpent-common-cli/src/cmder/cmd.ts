@@ -96,8 +96,9 @@ export function cmd<Opts, Env>(
         getRootDir(refPath?: string) {
           const res = ctx.tryGetProjectRootDir(refPath)
           if (!res) {
+            let ref = refPath ? ` in ${refPath}` : ''
             throw new Error(
-              `Can't found project root directory, make sure you are under a directory which contains package.json file`
+              `Can't found project root directory${ref}, make sure you are under a directory which contains package.json file`
             )
           }
           return res
