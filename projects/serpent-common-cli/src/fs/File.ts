@@ -31,11 +31,41 @@ export class File {
   }
 
   /**
-   * 获取指定路径的文件内容
-   * @param filePath 相对于根目录的路径，也可以是绝对路径
+   * 获取指定路径的文件内容 （如果文件不存在会报错）
    */
   getContent(filePath: string) {
     return fs.readFileSync(this.abs(filePath))
+  }
+
+  /**
+   * 获取指定路径的文件内容 （如果文件不存会返回 undefined）
+   */
+  tryGetContent(filePath: string, defaultValue?: any) {
+    try {
+      return fs.readFileSync(this.abs(filePath))
+    } catch (e) {
+      return defaultValue
+    }
+  }
+
+  /**
+   * 获取指定路径的文件内容 （如果文件不存在或JSON解析失败会报错）
+   */
+  getJsonContent(filePath: string) {
+    let content = this.getContent(filePath).toString()
+    return JSON.parse(content)
+  }
+
+  /**
+   * 获取指定路径的文件内容 （如果文件不存在或JSON解析失败会返回 undefined）
+   */
+  tryGetJsonContent(filePath: string, defaultValue?: any) {
+    try {
+      let content = this.getContent(filePath).toString()
+      return JSON.parse(content)
+    } catch (e) {
+      return defaultValue
+    }
   }
 
   /**
@@ -46,6 +76,13 @@ export class File {
     const absPath = this.abs(filePath)
     mkdirp(path.dirname(absPath))
     fs.writeFileSync(absPath, content)
+  }
+
+  /**
+   * 设置指定路径的文件 JSON 内容
+   */
+  setJsonContent(filePath: string, json: any) {
+    this.setContent(filePath, JSON.stringify(json, null, 2))
   }
 
   /** 根目录路径 */
