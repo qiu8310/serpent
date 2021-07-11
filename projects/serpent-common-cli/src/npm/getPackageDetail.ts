@@ -49,6 +49,10 @@ export async function getPackageDetail(name: string, registry?: string) {
 
 /** 获取在线模块信息 */
 export async function getRemotePackageDetail(name: string, registry?: string): Promise<Detail> {
+  return _getRemotePackageDetail(name, registry)
+}
+
+async function _getRemotePackageDetail(name: string, registry?: string, retryCount = 0): Promise<Detail> {
   const pkgUrl = url.resolve(registry || getDurkaRegistry(), name)
 
   try {
@@ -58,8 +62,12 @@ export async function getRemotePackageDetail(name: string, registry?: string): P
     }
     return await res.json()
   } catch (e) {
-    if (e.errno === 'ENOTFOUND') {
-      e.offline = true
+    // if (e.errno === 'ENOTFOUND') {
+    //   e.offline = true
+    // }
+    // https://zhuanlan.zhihu.com/p/86953757
+    if (e.error === 'ECONNRESET' && retryCount <= 2) {
+      return await _getRemotePackageDetail(name, registry, retryCount + 1)
     }
     throw e
   }
