@@ -78,32 +78,38 @@ export function cmd<Opts, Env>(
 
     const ctx = createContext()
 
-    cmder.parse(args || process.argv.slice(2), function (res, instance) {
+    cmder.parse(args || process.argv.slice(2), async function (res, instance) {
       const { $command, _, userDefinedOptions, userDefinedEnv, userDefined, env, rawArgs, ...options } = res
-
-      run({
-        $command: parentRes?.$command,
-        args: _,
-        userDefinedOptions: userDefinedOptions as any,
-        userDefinedEnv: userDefinedEnv as any,
-        options: options as any,
-        rawArgs,
-        env,
-        help: () => instance.help(),
-        isWin,
-        table,
-        ...ctx,
-        getRootDir(refPath?: string) {
-          const res = ctx.tryGetProjectRootDir(refPath)
-          if (!res) {
-            let ref = refPath ? ` in ${refPath}` : ''
-            throw new Error(
-              `Can't found project root directory${ref}, make sure you are under a directory which contains package.json file`
-            )
-          }
-          return res
-        },
-      })
+      try {
+        await run({
+          $command: parentRes?.$command,
+          args: _,
+          userDefinedOptions: userDefinedOptions as any,
+          userDefinedEnv: userDefinedEnv as any,
+          options: options as any,
+          rawArgs,
+          env,
+          help: () => instance.help(),
+          isWin,
+          table,
+          ...ctx,
+          getRootDir(refPath?: string) {
+            const res = ctx.tryGetProjectRootDir(refPath)
+            if (!res) {
+              let ref = refPath ? ` in ${refPath}` : ''
+              throw new Error(
+                `Can't found project root directory${ref}, make sure you are under a directory which contains package.json file`
+              )
+            }
+            return res
+          },
+        })
+      } catch (e) {
+        ctx.logger.error(e.message)
+        console.error(e)
+        process.exitCode = 88
+        process.exit(process.exitCode)
+      }
     })
   }
 }

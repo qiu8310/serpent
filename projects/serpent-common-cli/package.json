@@ -48,12 +48,12 @@
     "semver": "^7.3.2"
   },
   "dependencies": {
-    "@types/inquirer": "^7.3.1",
     "execa": "^4.0.3",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.1",
+    "@types/inquirer": "^7.3.1"
   },
   "node": {
-    "axios": "接口请求库，子项目可能也需要，不打包",
+    "node-fetch": "接口请求库，子项目可能也需要，不打包",
     "execa": "需要 ts 定义",
     "semver": "仓库太大，按需加载"
   },

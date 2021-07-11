@@ -80,3 +80,5 @@ export function runCliWithDebug(exec: () => void, currentFile: string) {
     exec()
   }
 }
+
+export { execa }
