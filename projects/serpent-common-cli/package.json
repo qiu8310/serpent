@@ -38,27 +38,22 @@
   "devDependencies": {
     "@serpent/dev-kits": "^1.1.0",
     "@serpent/rollup-kits": "^1.1.6",
-    "@types/debug": "^4.1.5",
-    "@types/node-fetch": "^2.5.7",
-    "@types/semver": "^7.3.3",
-    "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
+    "@types/debug": "^4.1.7",
+    "@types/node-fetch": "^2.5.12",
+    "@types/semver": "^7.3.8",
+    "debug": "^4.3.2",
+    "dotenv": "^10.0.0",
     "inquirer": "^7.3.3",
     "mora-scripts": "^1.7.5",
-    "semver": "^7.3.2"
+    "semver": "^7.3.5"
   },
   "dependencies": {
-    "execa": "^4.0.3",
-    "node-fetch": "^2.6.1",
-    "@types/inquirer": "^7.3.1"
+    "@types/inquirer": "^7.3.3",
+    "execa": "^4.1.0"
   },
   "node": {
     "node-fetch": "接口请求库，子项目可能也需要，不打包",
-    "execa": "需要 ts 定义",
-    "semver": "仓库太大，按需加载"
-  },
-  "peerDependencies": {
-    "mora-scripts": "^1.7.5"
+    "execa": "需要 ts 定义"
   },
   "jest": {
     "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
