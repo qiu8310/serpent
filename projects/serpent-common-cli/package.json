@@ -44,15 +44,16 @@
     "debug": "^4.3.2",
     "dotenv": "^10.0.0",
     "inquirer": "^7.3.3",
-    "mora-scripts": "^1.7.5",
     "semver": "^7.3.5"
   },
   "dependencies": {
+    "mora-scripts": "^1.7.5",
     "@types/inquirer": "^7.3.3",
     "execa": "^4.1.0"
   },
   "node": {
     "node-fetch": "接口请求库，子项目可能也需要，不打包",
+    "mora-scripts": "需要 ts 定义，如 cli 组件的",
     "execa": "需要 ts 定义"
   },
   "jest": {
