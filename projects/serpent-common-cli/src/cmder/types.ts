@@ -1,4 +1,4 @@
-export interface CmderConf {
+export interface CmdConf {
   /**
    * 指定命令行的用法
    *
@@ -41,7 +41,7 @@ export interface CmderConf {
    */
   strict?: boolean
 }
-export interface CmderResponse {
+export interface CmdResponse {
   /**
    * 原始的未处理过的 args，默认是 process.argv.slice(2)
    */
@@ -80,5 +80,5 @@ export type IsEquals<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T e
 export function assertType<T, U extends T>() {}
 
 // 确保本地的配置和 mora-scripts 模块中的配置一样
-assertType<IsEquals<CmderConf, cli.Conf>, true>()
-assertType<IsEquals<CmderResponse, cli.Response>, true>()
+assertType<IsEquals<CmdConf, cli.Conf>, true>()
+assertType<IsEquals<CmdResponse, cli.Response>, true>()

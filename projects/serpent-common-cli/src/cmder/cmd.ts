@@ -4,7 +4,7 @@ import table from 'mora-scripts/libs/tty/table'
 import { spiltTrim2array } from './helper'
 import { opt } from './opt-env'
 import { createContext } from './createContext'
-import { CmderConf, CmderResponse } from './types'
+import { CmdConf, CmdResponse } from './types'
 
 export namespace cmd {
   export interface Context<Opts, Env> extends ReturnType<typeof createContext> {
@@ -29,7 +29,7 @@ export namespace cmd {
      */
     table(rows: string[][]): string
     /** 输出命令的帮助文案 */
-    help: (() => void) | ((returnString: true) => string)
+    help: (returnString?: boolean) => void | string
     /** 获取当前项目根目录（含 package.json 文件的目录） */
     getRootDir: (refPath?: string) => string
   }
@@ -64,10 +64,10 @@ export function cmd<Opts, Env>(
      * 其中的 "!" 表示是否要在 help 中显示，可以不添加
      */
     commands?: Record<string, Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)>
-  } & CmderConf,
+  } & CmdConf,
   run: (ctx: cmd.Context<Opts, Env>) => void
 ) {
-  return function (args?: string[], parentConf?: CmderConf, parentRes?: CmderResponse) {
+  return function (args?: string[], parentConf?: CmdConf, parentRes?: CmdResponse) {
     const { options = {}, env = {}, commands = {}, ...conf } = params
     const optionsParam: Record<string, opt.InternalReturn> = options as any
     const envParam: Record<string, opt.InternalReturn> = env as any
