@@ -4,6 +4,7 @@ import table from 'mora-scripts/libs/tty/table'
 import { spiltTrim2array } from './helper'
 import { opt } from './opt-env'
 import { createContext } from './createContext'
+import { CmderConf, CmderResponse } from './types'
 
 export namespace cmd {
   export interface Context<Opts, Env> extends ReturnType<typeof createContext> {
@@ -63,10 +64,10 @@ export function cmd<Opts, Env>(
      * 其中的 "!" 表示是否要在 help 中显示，可以不添加
      */
     commands?: Record<string, Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)>
-  } & cli.Conf,
+  } & CmderConf,
   run: (ctx: cmd.Context<Opts, Env>) => void
 ) {
-  return function (args?: string[], parentConf?: cli.Conf, parentRes?: cli.Response) {
+  return function (args?: string[], parentConf?: CmderConf, parentRes?: CmderResponse) {
     const { options = {}, env = {}, commands = {}, ...conf } = params
     const optionsParam: Record<string, opt.InternalReturn> = options as any
     const envParam: Record<string, opt.InternalReturn> = env as any

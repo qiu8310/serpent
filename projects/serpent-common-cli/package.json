@@ -36,6 +36,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "mora-scripts": "^1.8.0",
     "@serpent/dev-kits": "^1.1.0",
     "@serpent/rollup-kits": "^1.1.6",
     "@types/debug": "^4.1.7",
@@ -47,7 +48,6 @@
     "semver": "^7.3.5"
   },
   "dependencies": {
-    "mora-scripts": "^1.8.0",
     "@types/inquirer": "^7.3.3",
     "execa": "^4.1.0"
   },
