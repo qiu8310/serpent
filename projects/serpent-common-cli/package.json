@@ -47,7 +47,7 @@
     "semver": "^7.3.5"
   },
   "dependencies": {
-    "mora-scripts": "^1.7.5",
+    "mora-scripts": "^1.8.0",
     "@types/inquirer": "^7.3.3",
     "execa": "^4.1.0"
   },

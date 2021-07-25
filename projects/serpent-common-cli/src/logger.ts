@@ -22,7 +22,7 @@ export const logger = {
   error: (...args: any[]) => error(...args),
   warn: (...args: any[]) => warn(...args),
   clog: (...args: any[]) => clog(...args),
-  format: clog.format,
+  format: (...args: any[]) => clog.format(...args),
 }
 
 function prefix(msg: string, some: string) {

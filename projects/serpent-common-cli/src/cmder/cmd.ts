@@ -23,10 +23,12 @@ export namespace cmd {
     userDefinedEnv: Record<keyof Env, boolean>
     /** 是否是 window 操作系统 */
     isWin: boolean
-    /** 将一个二维组转化成 table，以便于显示在终端上 */
-    table(...args: Parameters<typeof table>): ReturnType<typeof table>
+    /**
+     * 将一个二维组转化成 table，以便于显示在终端上
+     */
+    table(rows: string[][]): string
     /** 输出命令的帮助文案 */
-    help(): void
+    help: (() => void) | ((returnString: true) => string)
     /** 获取当前项目根目录（含 package.json 文件的目录） */
     getRootDir: (refPath?: string) => string
   }
@@ -37,22 +39,28 @@ export function cmd<Opts, Env>(
     /**
      * **字符串的表示法：**
      * ```
-     * { foo: opt('string', '[groupName] <aliasA,aliasB> 选项描述 {{ defaultValue }}') }
+     * { foo: opt('string', '[groupName] !<aliasA,aliasB> 选项描述 {{ defaultValue }}') }
      * ```
+     *
+     * 其中的 ! 表示是否要在 help 中显示，可以不添加
      */
     options?: Opts
     /**
      * **字符串的表示法：**
      * ```
-     * { bar: opt('string', '[groupName] <aliasA,aliasB> 环境变量描述 {{ defaultValue }}') }
+     * { bar: opt('string', '[groupName] !<aliasA,aliasB> 环境变量描述 {{ defaultValue }}') }
      * ```
+     *
+     * 其中的 ! 表示是否要在 help 中显示，可以不添加
      */
     env?: Env
     /**
      * **command 字符串的表示法：**
      * ```
-     * { '<aliasA,aliasB> 命令描述': () => require(file) }
+     * { '!<aliasA,aliasB> 命令描述': () => require(file) }
      * ```
+     *
+     * 其中的 "!" 表示是否要在 help 中显示，可以不添加
      */
     commands?: Record<string, Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)>
   } & cli.Conf,
@@ -89,7 +97,7 @@ export function cmd<Opts, Env>(
           options: options as any,
           rawArgs,
           env,
-          help: () => instance.help(),
+          help: (returnString?: boolean) => instance.help(returnString),
           isWin,
           table,
           ...ctx,
@@ -115,22 +123,24 @@ export function cmd<Opts, Env>(
 }
 
 /**
- * @param strCmd 类似这种结构：`'<aliasA,aliasB> 命令描述': () => require(file) `
+ * @param strCmd 类似这种结构：`'!<aliasA,aliasB> 命令描述': () => require(file) `
  * @param modFn 文件路径或文件名称
  */
 function parseStrCmd2ObjCmd(strCmd: string, modFn: Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)) {
-  const aliasReg = /^\s*<([^>]+)>/
+  const aliasReg = /^\s*(!?)<([^>]+)>/
   const error = () => {
     throw new Error(`command config string "${strCmd}" did not includes any command name`)
   }
   if (!aliasReg.test(strCmd)) error()
-  const keys = spiltTrim2array(RegExp.$1)
+  const hideInHelp = RegExp.$1 === '!'
+  const keys = spiltTrim2array(RegExp.$2)
   if (!keys.length) error()
   const desc = strCmd.replace(aliasReg, '').trim()
 
   const commands: cli.Commands = {
     [keys.join(' | ')]: {
       desc,
+      hideInHelp,
       cmd: function (res) {
         let run = (fn: ReturnType<typeof cmd>) => fn(res._, { version: false, desc }, res) // 子命令默认不需要 version
         if (typeof modFn === 'function') {
