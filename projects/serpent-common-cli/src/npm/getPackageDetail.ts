@@ -1,6 +1,7 @@
-import fetch from 'node-fetch'
 import url from 'url'
 import path from 'path'
+import http from 'http'
+import https from 'https'
 import fs from 'fs'
 import { getDurkaInstallPrefix, getDurkaRegistry } from './common'
 import { existsDir, isProjectRootDir } from '../fs'
@@ -56,15 +57,21 @@ async function _getRemotePackageDetail(name: string, registry?: string, retryCou
   const pkgUrl = url.resolve(registry || getDurkaRegistry(), name)
 
   try {
-    const res = await fetch(pkgUrl, { timeout: 5000 })
+    const { timeout, data: res = {} } = await wait(fetch(pkgUrl), 5000)
+    if (timeout) {
+      throw new Error(`Request ${pkgUrl} timeout`)
+    }
+
     if (res.status === 404) {
       throw new Error(`Not found package "${name}" in ${pkgUrl}`)
     }
-    return await res.json()
+
+    if (res.status && res.status >= 400) {
+      throw new Error(`HTTP status error: ${res.status} ${res.message || ''}`)
+    }
+
+    return res.data
   } catch (e) {
-    // if (e.errno === 'ENOTFOUND') {
-    //   e.offline = true
-    // }
     // https://zhuanlan.zhihu.com/p/86953757
     if (e.error === 'ECONNRESET' && retryCount <= 2) {
       return await _getRemotePackageDetail(name, registry, retryCount + 1)
@@ -105,4 +112,63 @@ export async function getLocalPackageDetail(name: string) {
   }
 
   return detail
+}
+
+function fetch(url: string) {
+  return new Promise<{ status?: number; message?: string; data?: any }>((resolve, reject) => {
+    const isHTTPS = url.startsWith('https:')
+    let client: http.ClientRequest
+    if (isHTTPS) {
+      client = https.get(url, { timeout: 5000 }, fetchCallback)
+    } else {
+      client = http.get(url, { timeout: 5000 }, fetchCallback)
+    }
+    client.on('error', e => {
+      reject(e)
+    })
+    function fetchCallback(res: http.IncomingMessage) {
+      let _data = ''
+      let status = res.statusCode
+      let message = res.statusMessage
+
+      res.on('close', () => {
+        res.removeAllListeners()
+        let data: any
+        if (_data) {
+          try {
+            data = JSON.parse(_data)
+          } catch (e) {
+            data = _data
+          }
+        }
+        resolve({ data, status, message })
+      })
+      res.on('data', chunk => {
+        if (typeof chunk === 'string') _data += chunk
+        if (Buffer.isBuffer(chunk)) _data += chunk.toString()
+      })
+    }
+  })
+}
+
+/**
+ * 给异步函数设置一个超时时间，如果超过指定的时间还没返回，则直接 resolve 掉
+ */
+function wait<T>(promiseObj: Promise<T>, maxWaitTime: number): Promise<{ timeout: boolean; data?: T }> {
+  const main = promiseObj.then(res => {
+    return { timeout: false, data: res }
+  })
+
+  return Promise.race([
+    main,
+    sleep(maxWaitTime).then(() => {
+      return { timeout: true }
+    }),
+  ])
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(), ms)
+  })
 }

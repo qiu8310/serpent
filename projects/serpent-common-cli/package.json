@@ -39,7 +39,6 @@
     "@serpent/dev-kits": "^1.1.0",
     "@serpent/rollup-kits": "^1.1.6",
     "@types/debug": "^4.1.7",
-    "@types/node-fetch": "^2.5.12",
     "@types/semver": "^7.3.8",
     "debug": "^4.3.2",
     "dotenv": "^10.0.0",
@@ -51,8 +50,7 @@
     "@types/inquirer": "^7.3.3",
     "execa": "^4.1.0"
   },
-  "node": {
-    "node-fetch": "接口请求库，子项目可能也需要，不打包",
+  "note": {
     "mora-scripts": "需要 ts 定义，如 cli 组件的",
     "execa": "需要 ts 定义"
   },
