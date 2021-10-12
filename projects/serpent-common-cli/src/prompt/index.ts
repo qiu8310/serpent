@@ -1,20 +1,21 @@
-import { prompt as inquirerPrompt, DistinctQuestion, Question as Q } from 'inquirer'
-import { tryReadJsonFile, writeJsonSync } from './fs'
+import { prompt as inquirerPrompt } from 'inquirer'
+import { tryReadJsonFile, writeJsonSync } from '../fs'
+import { pt } from './types'
 
-export type Question = DistinctQuestion & {
+export type Question<T = pt.Answers> = pt.DistinctQuestion<T> & {
   name: string
   /** 是否将本次输入的结果保存起来，以供下次默认值使用 */
   save?: boolean
 }
-interface Options {
+interface Options<T = pt.Answers> {
   /** 指定要保存结果的文件路径 */
   savePath?: string
 
   /** 注入新的问题或对已有问题重新排序 */
-  resort?: (questions: Question[]) => (Question | string | [string, Partial<Omit<Question, 'name'>>?])[]
+  resort?: (questions: Question<T>[]) => (Question<T> | string | [string, Partial<Omit<Question<T>, 'name'>>?])[]
 }
 
-export async function prompt<T = any>(questions: Question[], opts: Options = {}): Promise<T> {
+export async function prompt<T = pt.Answers>(questions: Question<T>[], opts: Options<T> = {}): Promise<T> {
   const { resort, savePath } = opts
 
   if (resort) {
@@ -51,7 +52,10 @@ export async function prompt<T = any>(questions: Question[], opts: Options = {})
 /**
  * confirm 确认提示
  */
-export async function confirm(message: string, options?: Omit<Partial<Q>, 'name' | 'type' | 'message'>) {
+export async function confirm(
+  message: string,
+  options?: Omit<Partial<pt.QuestionMap['confirm']>, 'name' | 'type' | 'message'>
+) {
   const answer = await prompt([
     {
       ...(options as any),
@@ -69,8 +73,8 @@ export async function confirm(message: string, options?: Omit<Partial<Q>, 'name'
  */
 export async function select(
   message: string,
-  choices: string[],
-  options?: Omit<Partial<Q>, 'name' | 'type' | 'message'>
+  choices: Required<pt.QuestionMap['list']>['choices'],
+  options?: Omit<Partial<pt.QuestionMap['list']>, 'name' | 'type' | 'message'>
 ) {
   const answer = await prompt([
     {
@@ -86,7 +90,7 @@ export async function select(
 }
 
 /** 检查是否有重复的 name 属性 */
-function checkRepeat(questions: Question[]) {
+function checkRepeat<T>(questions: Question<T>[]) {
   const set = new Set<string>()
   questions.forEach(q => {
     if (set.has(q.name)) {
@@ -98,7 +102,7 @@ function checkRepeat(questions: Question[]) {
 }
 
 /** 获取填过的值 */
-function handleFetch(questions: Question[], savePath: string) {
+function handleFetch<T>(questions: Question<T>[], savePath: string) {
   const initAnswers = tryReadJsonFile(savePath)
   if (initAnswers && typeof initAnswers === 'object') {
     questions = questions.map(q => {
@@ -112,7 +116,7 @@ function handleFetch(questions: Question[], savePath: string) {
 }
 
 /** 保存填过的值 */
-function handleStore(questions: Question[], savePath: string, answers: any) {
+function handleStore<T>(questions: Question<T>[], savePath: string, answers: any) {
   writeJsonSync(
     savePath,
     questions.reduce((res, q) => {
