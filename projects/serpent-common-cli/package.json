@@ -1,6 +1,6 @@
 {
   "name": "@serpent/common-cli",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "description": "通用的 cli 相关的函数",
   "main": "lib/cjs/debug.js",
   "module": "lib/debug.js",
@@ -18,7 +18,8 @@
     "build": "npm run clean && rollup -c",
     "build:watch": "npm run build -- -w",
     "prepare": "npm run lint && npm run test && npm run build && npm run build:tsc",
-    "preversion": "npm run prepare"
+    "preversion": "npm run prepare",
+    "postversion": "npm publish"
   },
   "publishConfig": {
     "access": "public",
