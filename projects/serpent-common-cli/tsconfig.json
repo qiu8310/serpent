@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "CommonJS",
     "sourceMap": false,
-    "useUnknownInCatchVariables": false,
     "esModuleInterop": true,
     "lib": ["es2017", "DOM"],
     "target": "es2017",

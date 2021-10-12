@@ -44,15 +44,15 @@
     "dotenv": "^10.0.0",
     "inquirer": "^7.3.3",
     "mora-scripts": "^1.9.2",
-    "semver": "^7.3.5"
+    "semver": "^7.3.5",
+    "execa": "^4.1.0",
+    "typescript": "^3.9.10"
   },
   "dependencies": {
-    "@types/inquirer": "^7.3.3",
-    "execa": "^4.1.0"
+    "@types/inquirer": "^7.3.3"
   },
   "note": {
-    "mora-scripts": "需要 ts 定义，如 cli 组件的",
-    "execa": "需要 ts 定义"
+    "execa": "ts 定义手动写到 src/run/types 下了"
   },
   "jest": {
     "preset": "./node_modules/@serpent/dev-kits/jest.config.js",
@@ -77,6 +77,5 @@
     "lib",
     "coverage"
   ],
-  "prettier": "@serpent/dev-kits",
-  "gitHead": "6d07ca2e3193d8291fd1971a263c5bfa45579dfc"
+  "prettier": "@serpent/dev-kits"
 }

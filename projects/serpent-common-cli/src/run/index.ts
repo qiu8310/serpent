@@ -1,13 +1,14 @@
 import execa from 'execa'
 import info from 'mora-scripts/libs/sys/info'
-import { getBoolEnv } from './helper'
+import { getBoolEnv } from '../helper'
+import { runTypes } from './types'
 
 interface SilentOptions {
   /** 是否输出当前执行的命令，也可以通过环境变量 DURKA_SILENT_RUN 来控制 */
   silent?: boolean
 }
 
-interface ChildOptions<EncodingType = string> extends execa.Options<EncodingType>, SilentOptions {
+interface ChildOptions<EncodingType = string> extends runTypes.Options<EncodingType>, SilentOptions {
   /**
    * 是否开户 node 调试模式，即给 node 命令添加 `node --inspect-brk`
    *
@@ -28,8 +29,8 @@ interface OutputOptions extends Omit<ChildOptions, 'output'> {
   output: true
 }
 
-export function run(args: string[], options?: ChildOptions): execa.ExecaChildProcess
-export function run(args: string[], options?: ChildOptions<null>): execa.ExecaChildProcess<Buffer>
+export function run(args: string[], options?: ChildOptions): runTypes.ExecaChildProcess
+export function run(args: string[], options?: ChildOptions<null>): runTypes.ExecaChildProcess<Buffer>
 export function run(args: string[], options?: OutputOptions): Promise<string>
 export function run(args: string[], options: any = {}): any {
   const { debug, output, ...opts } = options
@@ -46,14 +47,14 @@ export function run(args: string[], options: any = {}): any {
   }
 }
 
-export function runOutput(args: string[], options: execa.Options & SilentOptions = {}) {
+export function runOutput(args: string[], options: runTypes.Options & SilentOptions = {}) {
   const { silent = true, ...opts } = options
   const [cmd, ...rest] = args
   if (!silent) log(cmd, rest)
   return execa(cmd, rest, { ...opts, stdio: 'pipe' }).then(d => d.stdout)
 }
 
-export function runNodeDebug(args: string[], options: execa.Options & SilentOptions = {}) {
+export function runNodeDebug(args: string[], options: runTypes.Options & SilentOptions = {}) {
   const { silent, ...opts } = options
   let [cmd, ...rest] = args
   if (cmd === 'node') {
@@ -80,5 +81,3 @@ export function runCliWithDebug(exec: () => void, currentFile: string) {
     exec()
   }
 }
-
-export { execa }
