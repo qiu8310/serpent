@@ -35,9 +35,9 @@ export function createPackage(
   nodeModulesDir: string,
   packageName: string,
   packageDetail: Record<string, any>,
-  callback: (write: (fileName: string, fileContents: string | string[]) => void, rootDir: string) => void
+  callback: (write: (fileName: string, fileContents: Buffer | string | string[]) => void, rootDir: string) => void
 ) {
-  const packageRoot = path.join(nodeModulesDir, packageName)
+  const packageRoot = path.join(nodeModulesDir, ...packageName.split('/'))
   writeFileSync(
     path.join(packageRoot, 'package.json'),
     JSON.stringify({ name: packageName, version: '1.0.0', main: './index.js', ...packageDetail }, null, 2)
