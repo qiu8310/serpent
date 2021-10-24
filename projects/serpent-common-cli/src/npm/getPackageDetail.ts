@@ -82,7 +82,7 @@ async function _getRemotePackageDetail(name: string, registry?: string, retryCou
 
 /** 获取本地模块信息 */
 export async function getLocalPackageDetail(name: string) {
-  const baseDir = path.join(getDurkaInstallPrefix(), name)
+  const baseDir = path.join(getDurkaInstallPrefix(), ...name.split('/'))
   const detail: Detail = { name, version: '', description: '', versions: {} }
   if (existsDir(baseDir)) {
     let localVersions = fs.readdirSync(baseDir)
