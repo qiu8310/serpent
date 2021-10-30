@@ -40,10 +40,10 @@ export async function getPackageDetail(name: string, registry?: string) {
   try {
     return await getRemotePackageDetail(name, registry)
   } catch (e) {
-    logger.warn(` fetch "${name}" error: ${e.message}`)
-    logger.warn(` fallback to offline mode`)
     const detail = await getLocalPackageDetail(name)
     if (!Object.keys(detail.versions).length) throw e // 本地也没有对应的模块
+    logger.warn(` fetch "${name}" error: ${e.message}`)
+    logger.warn(` fallback to offline mode`)
     return detail
   }
 }
