@@ -6,6 +6,7 @@ import { opt } from './opt-env'
 import { createContext } from './createContext'
 import { CmdConf, CmdResponse } from './types'
 import { getBoolEnv } from '../helper'
+import { logger } from '../logger'
 
 export namespace cmd {
   export interface Context<Opts, Env> extends ReturnType<typeof createContext> {
@@ -90,8 +91,9 @@ export function cmd<Opts, Env>(
 
     cmder.parse(args || process.argv.slice(2), async function (res, instance) {
       const { $command, _, userDefinedOptions, userDefinedEnv, userDefined, env, rawArgs, ...options } = res
-      try {
-        await run({
+
+      silent(() =>
+        run({
           $command: parentRes?.$command,
           args: _,
           userDefinedOptions: userDefinedOptions as any,
@@ -114,14 +116,7 @@ export function cmd<Opts, Env>(
             return res
           },
         })
-      } catch (e) {
-        ctx.logger.error(e.message)
-        if (getBoolEnv('DURKA_ERROR_DETAIL')) {
-          console.error(e)
-        }
-        process.exitCode = 88
-        process.exit(process.exitCode)
-      }
+      )
     })
   }
 }
@@ -146,11 +141,11 @@ function parseStrCmd2ObjCmd(strCmd: string, modFn: Promise<ReturnType<typeof cmd
       desc,
       hideInHelp,
       cmd: function (res) {
-        let run = (fn: ReturnType<typeof cmd>) => fn(res._, { version: false, desc }, res) // 子命令默认不需要 version
+        let run = async (fn: ReturnType<typeof cmd>) => fn(res._, { version: false, desc }, res) // 子命令默认不需要 version
         if (typeof modFn === 'function') {
-          run(modFn)
+          silent(() => run(modFn))
         } else {
-          modFn.then(run)
+          modFn.then(fn => silent(() => run(fn)))
         }
       },
     },
@@ -178,4 +173,17 @@ function initCmder(
     if (group) cmder[fnKey](group, obj)
     else cmder[fnKey](obj)
   })
+}
+
+async function silent(fn: () => any) {
+  try {
+    return await fn()
+  } catch (e) {
+    logger.error(e.message)
+    if (getBoolEnv('DURKA_ERROR_DETAIL')) {
+      console.error(e)
+    }
+    process.exitCode = 88
+    process.exit(process.exitCode)
+  }
 }
