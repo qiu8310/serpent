@@ -2,7 +2,7 @@ import path from 'path'
 import { ospath, findupPackage, writeFileSync, toOSPath } from '../fs'
 
 export function getDurkaRegistry() {
-  return process.env.DURKA_REGISTRY || 'https://registry.npm.taobao.org/'
+  return process.env.DURKA_REGISTRY || 'https://registry.npmmirror.com/'
 }
 
 export function getDurkaConfig() {

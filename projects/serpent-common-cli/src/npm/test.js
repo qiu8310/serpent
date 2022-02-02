@@ -38,6 +38,6 @@ function fetch(url) {
     }
   })
 }
-fetch('https://registry.npm.taobao.org/mora-common').then(d => {
+fetch('https://registry.npmmirror.com/mora-common').then(d => {
   console.log(d.data)
 })

@@ -5,6 +5,7 @@ import { spiltTrim2array } from './helper'
 import { opt } from './opt-env'
 import { createContext } from './createContext'
 import { CmdConf, CmdResponse } from './types'
+import { getBoolEnv } from '../helper'
 
 export namespace cmd {
   export interface Context<Opts, Env> extends ReturnType<typeof createContext> {
@@ -115,7 +116,9 @@ export function cmd<Opts, Env>(
         })
       } catch (e) {
         ctx.logger.error(e.message)
-        console.error(e)
+        if (getBoolEnv('DURKA_ERROR_DETAIL')) {
+          console.error(e)
+        }
         process.exitCode = 88
         process.exit(process.exitCode)
       }
