@@ -155,14 +155,25 @@ function fetch(url: string) {
  * 给异步函数设置一个超时时间，如果超过指定的时间还没返回，则直接 resolve 掉
  */
 function wait<T>(promiseObj: Promise<T>, maxWaitTime: number): Promise<{ timeout: boolean; data?: T }> {
-  const main = promiseObj.then(res => {
-    return { timeout: false, data: res }
-  })
+  let timeout = false
+
+  const main = promiseObj
+    .then(res => {
+      return { timeout: false, data: res }
+    })
+    .catch(e => {
+      if (!timeout) {
+        throw e
+      } else {
+        return { timeout }
+      }
+    })
 
   return Promise.race([
     main,
     sleep(maxWaitTime).then(() => {
-      return { timeout: true }
+      timeout = true
+      return { timeout }
     }),
   ])
 }
