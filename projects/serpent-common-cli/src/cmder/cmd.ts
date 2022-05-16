@@ -42,7 +42,7 @@ export function cmd<Opts, Env>(
     /**
      * **字符串的表示法：**
      * ```
-     * { foo: opt('string', '[groupName] !<aliasA,aliasB> 选项描述 {{ defaultValue }}') }
+     * { foo: opt('string', '[groupName] !<aliasA | aliasB> 选项描述 {{ defaultValue }}') }
      * ```
      *
      * 其中的 ! 表示是否要在 help 中显示，可以不添加
@@ -51,7 +51,7 @@ export function cmd<Opts, Env>(
     /**
      * **字符串的表示法：**
      * ```
-     * { bar: opt('string', '[groupName] !<aliasA,aliasB> 环境变量描述 {{ defaultValue }}') }
+     * { bar: opt('string', '[groupName] !<aliasA | aliasB> 环境变量描述 {{ defaultValue }}') }
      * ```
      *
      * 其中的 ! 表示是否要在 help 中显示，可以不添加
@@ -60,7 +60,7 @@ export function cmd<Opts, Env>(
     /**
      * **command 字符串的表示法：**
      * ```
-     * { '!<aliasA,aliasB> 命令描述': () => require(file) }
+     * { '!<aliasA | aliasB> 命令描述': () => require(file) }
      * ```
      *
      * 其中的 "!" 表示是否要在 help 中显示，可以不添加
@@ -122,7 +122,7 @@ export function cmd<Opts, Env>(
 }
 
 /**
- * @param strCmd 类似这种结构：`'!<aliasA,aliasB> 命令描述': () => require(file) `
+ * @param strCmd 类似这种结构：`'!<aliasA | aliasB> 命令描述': () => require(file) `
  * @param modFn 文件路径或文件名称
  */
 function parseStrCmd2ObjCmd(strCmd: string, modFn: Promise<ReturnType<typeof cmd>> | (() => ReturnType<typeof cmd>)) {
@@ -178,7 +178,7 @@ function initCmder(
 async function silent(fn: () => any) {
   try {
     return await fn()
-  } catch (e) {
+  } catch (e: any) {
     logger.error(e.message)
     if (getBoolEnv('DURKA_ERROR_DETAIL')) {
       console.error(e)
