@@ -178,7 +178,7 @@ function initCmder(
 async function silent(fn: () => any) {
   try {
     return await fn()
-  } catch (e: any) {
+  } catch (e) {
     logger.error(e.message)
     if (getBoolEnv('DURKA_ERROR_DETAIL')) {
       console.error(e)
