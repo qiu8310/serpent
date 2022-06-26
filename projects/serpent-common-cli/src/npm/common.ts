@@ -16,7 +16,7 @@ export function getDurkaConfig() {
      */
     framework?: LiteralUnion<'react' | 'vue'>
     /**
-     * 指定 esm 的依赖模块，便于在 cli 工具中做特殊处理，比如 jest 需要转化成 commonjs 才能用
+     * 指定 esm 的依赖模块，便于在 cli 工具中做特殊处理，比如 jest 处理文件时，需要将其转化成 commonjs 才能用
      */
     esmDependencies?: string[]
     [key: string]: any

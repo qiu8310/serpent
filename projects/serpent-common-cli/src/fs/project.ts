@@ -115,7 +115,7 @@ export function parseProjectInstallName(installName: string) {
 /**
  * 根据项目根目录，获取到 package.json 中指定的 bin 文件所在的绝对路径
  */
-export function tryGetProjectBinFile(rootDir: string) {
+export function tryGetProjectBinFile(rootDir: string, cmdName?: string) {
   let bin = ''
   let file = ''
 
@@ -127,9 +127,15 @@ export function tryGetProjectBinFile(rootDir: string) {
   if (bin && typeof bin === 'string') {
     file = path.resolve(rootDir, bin)
   } else if (typeof bin === 'object') {
-    const binKeys = Object.keys(bin)
-    if (binKeys.length === 1) {
-      file = path.resolve(rootDir, bin[binKeys[0]])
+    if (cmdName) {
+      if (bin[cmdName]) {
+        file = path.resolve(rootDir, bin[cmdName])
+      }
+    } else {
+      const binKeys = Object.keys(bin)
+      if (binKeys.length === 1) {
+        file = path.resolve(rootDir, bin[binKeys[0]])
+      }
     }
   }
 
