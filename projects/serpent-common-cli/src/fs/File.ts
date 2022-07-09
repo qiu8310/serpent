@@ -72,10 +72,10 @@ export class File {
    * 设置指定路径的文件内容
    * @param filePath 相对于根目录的路径，也可以是绝对路径
    */
-  setContent(filePath: string, content: string | Buffer) {
+  setContent(filePath: string, content: string | Buffer, options?: fs.WriteFileOptions) {
     const absPath = this.abs(filePath)
     mkdirp(path.dirname(absPath))
-    fs.writeFileSync(absPath, content)
+    fs.writeFileSync(absPath, content, options)
   }
 
   /**

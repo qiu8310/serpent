@@ -1,4 +1,5 @@
 export * from './common'
+export * from './durkaScript'
 export * from './getPackageDetail'
 export * from './getPackageVersions'
 export * from './npmInstall'
