@@ -2,6 +2,7 @@ import fs from 'fs'
 import mkdirp from 'mora-scripts/libs/fs/mkdirp'
 import path from 'path'
 import { toOSPath, toPosixPath } from './toOSPath'
+import { existsFile, existsDir } from './context'
 
 export class File {
   rootDir: string
@@ -28,6 +29,20 @@ export class File {
   path(customPath: string | undefined, defaultPath: string) {
     if (customPath) return path.resolve(customPath)
     return this.abs(defaultPath)
+  }
+
+  /**
+   * 指定路径上是否存在文件
+   */
+  existsFile(filePath: string) {
+    return existsFile(this.abs(filePath))
+  }
+
+  /**
+   * 指定路径上是否存在文件夹
+   */
+  existsDir(filePath: string) {
+    return existsDir(this.abs(filePath))
   }
 
   /**
