@@ -40,7 +40,7 @@ export class File {
   /**
    * 获取指定路径的文件内容 （如果文件不存会返回 undefined）
    */
-  tryGetContent(filePath: string, defaultValue?: any) {
+  tryGetContent(filePath: string, defaultValue?: string | Buffer) {
     try {
       return fs.readFileSync(this.abs(filePath))
     } catch (e) {
