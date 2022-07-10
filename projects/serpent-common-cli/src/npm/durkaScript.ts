@@ -10,9 +10,10 @@ export function installDurkaScript(options: {
   name: string
   subname: string
   content: string
+  devOnly?: boolean
   installToPackage?: boolean
 }) {
-  const { name, subname, content, installToPackage } = options
+  const { name, subname, content, devOnly, installToPackage } = options
 
   const root = tryGetProjectRootDir()
   if (!root) throw new Error(`Not a valid node project, can not install durka script.`)
@@ -38,10 +39,16 @@ export function installDurkaScript(options: {
     const update = () => writeFileSync(pkgFile, JSON.stringify(dp.data, null, 2))
 
     const prevValue: string | undefined = dp.get(dkKey)
-    const needAppendedValue = `durka runScript ${name}`
+
+    const appendCmd1 = `durka --devOnly runScript ${name}`
+    const appendCmd2 = `durka runScript ${name}`
+    const needAppendedValue = devOnly ? appendCmd1 : appendCmd2
+    const notNeedAppendValue = devOnly ? appendCmd2 : appendCmd1
     if (!prevValue) {
       dp.set(dkKey, needAppendedValue)
       update()
+    } else if (!prevValue.includes(needAppendedValue) && prevValue.includes(notNeedAppendValue)) {
+      throw new Error(`已经存在命令 ${notNeedAppendValue}，无法再添加命令 ${needAppendedValue}`)
     } else if (!prevValue.includes(needAppendedValue)) {
       dp.set(dkKey, `${prevValue} && ${needAppendedValue}`)
       update()
