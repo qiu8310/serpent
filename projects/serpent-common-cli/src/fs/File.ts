@@ -97,7 +97,7 @@ export class File {
    * 设置指定路径的文件 JSON 内容
    */
   setJsonContent(filePath: string, json: any) {
-    this.setContent(filePath, JSON.stringify(json, null, 2))
+    this.setContent(filePath, JSON.stringify(json, null, 2) + '\n\n')
   }
 
   /** 根目录路径 */

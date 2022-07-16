@@ -45,15 +45,22 @@ export function createPackage(
   callback: (write: (fileName: string, fileContents: Buffer | string | string[]) => void, rootDir: string) => void
 ) {
   const packageRoot = path.join(nodeModulesDir, ...packageName.split('/'))
+  const FilePathMap: Record<string, string> = {
+    'package.json': path.join(packageRoot, 'package.json'),
+  }
+
   writeFileSync(
-    path.join(packageRoot, 'package.json'),
+    FilePathMap['package.json'],
     JSON.stringify({ name: packageName, version: '1.0.0', main: './index.js', ...packageDetail }, null, 2)
   )
 
   callback((fileName, fileContents) => {
     const file = toOSPath(path.join(packageRoot, fileName))
-    const content = Array.isArray(fileContents) ? fileContents.join('\n') : fileContents
+    FilePathMap[fileName] = file
 
+    const content = Array.isArray(fileContents) ? fileContents.join('\n') : fileContents
     writeFileSync(file, content || '')
   }, packageRoot)
+
+  return FilePathMap
 }
